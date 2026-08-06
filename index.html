@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulasi Matematika Dasar Sekolah Dasar</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:'Comic Sans MS','Segoe UI',sans-serif;
+  background:linear-gradient(135deg,#ffd6e8 0%,#c2f0fc 50%,#fff9b1 100%);
+  min-height:100vh;color:#333;padding:15px;
+  display:flex;justify-content:center;align-items:flex-start;
+}
+.container{
+  max-width:620px;width:100%;margin:10px auto;
+  background:white;border:4px solid #ff69b4;border-radius:28px;
+  box-shadow:0 15px 40px rgba(255,105,180,.3);
+  position:relative;overflow:hidden;padding:24px;
+}
+.container::after{
+  content:'';position:absolute;top:0;left:0;right:0;bottom:0;
+  background:repeating-linear-gradient(45deg,#fff0f5 0,#fff0f5 1px,transparent 1px,transparent 18px);
+  pointer-events:none;opacity:.4;z-index:0;
+}
+h1{
+  text-align:center;font-size:24px;margin-bottom:2px;color:#e91e63;
+  font-family:'Comic Sans MS',cursive;font-weight:700;letter-spacing:1px;
+  text-shadow:2px 2px 4px rgba(233,30,99,.15);position:relative;z-index:2;
+  line-height:1.3;padding:0 4px;
+}
+h1 .hi{font-size:30px;display:block;white-space:nowrap}
+h1 .star{display:inline}
+h1 .kids{font-size:17px;color:#9c27b0;display:block;margin-top:4px}
+.sub{text-align:center;font-size:13px;color:#9c27b0;margin-bottom:16px;font-weight:600;position:relative;z-index:2}
+.tabs{display:flex;gap:5px;margin-bottom:14px;background:#fff0f5;padding:5px;border-radius:16px;position:relative;z-index:3}
+.tab{
+  flex:1;padding:11px 5px;border:none;border-radius:12px;
+  font-size:13px;font-weight:700;cursor:pointer;transition:all .25s;
+  background:white;box-shadow:0 3px 6px rgba(0,0,0,.1);color:#555
+}
+.tab.active{background:#ff69b4;color:#fff;font-weight:800;box-shadow:0 5px 15px rgba(255,105,180,.4);transform:translateY(-2px)}
+.input-row{display:flex;gap:8px;margin-bottom:12px;align-items:center;position:relative;z-index:3}
+.input-row input{
+  flex:1;min-width:0;padding:13px 10px;border:3px solid #ff69b4;border-radius:14px;
+  font-size:22px;background:#fff;text-align:center;font-family:'Comic Sans MS',cursive;
+  box-shadow:0 3px 8px rgba(255,105,180,.15);color:#333;transition:border-color .2s
+}
+.input-row input:focus{outline:none;border-color:#e91e63;box-shadow:0 0 0 4px rgba(233,30,99,.2)}
+.input-row label{font-size:22px;color:#e91e63;white-space:nowrap;font-weight:800}
+.btn-go{
+  width:100%;padding:16px;background:linear-gradient(135deg,#ff69b4,#e91e63);color:#fff;border:none;
+  border-radius:16px;font-size:20px;font-weight:800;cursor:pointer;transition:all .2s;
+  box-shadow:0 6px 18px rgba(233,30,99,.4);user-select:none;margin-bottom:14px;
+  font-family:'Comic Sans MS',cursive;position:relative;z-index:3;letter-spacing:1px
+}
+.btn-go:hover{transform:scale(1.05);box-shadow:0 8px 20px rgba(233,30,99,.5)}
+.btn-go:active{transform:scale(0.96)}
+.paper-head{
+  display:flex;justify-content:space-between;align-items:center;
+  font-size:12px;color:#e91e63;margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;
+  position:relative;z-index:2;font-weight:700;
+}
+.paper{
+  background:white;border:4px solid #ff69b4;border-radius:18px;padding:20px 16px;
+  min-height:200px;max-height:58vh;overflow-y:auto;margin-bottom:14px;
+  box-shadow:0 6px 15px rgba(255,105,180,.2),inset 0 6px 12px rgba(255,192,203,.3);
+  position:relative;z-index:2;
+}
+.step-block{margin-bottom:16px;padding-bottom:12px;border-bottom:2px dotted #ffb3d9}
+.step-block:last-child{border-bottom:none;margin-bottom:0}
+.step-sim{
+  font-family:'Courier New',monospace;font-size:24px;line-height:1.8;
+  white-space:pre;color:#333;font-weight:600;letter-spacing:2px;
+}
+.step-txt{font-size:14px;color:#1976d2;font-weight:700;margin-top:6px;line-height:1.4}
+.step-block.current .step-sim{animation:popIn .3s ease-out}
+@keyframes popIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.digit{display:inline-block;opacity:0;animation:fadeInDigit .25s ease-out forwards;color:#b8430e;font-weight:700}
+@keyframes fadeInDigit{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:translateY(0)}}
+.controls{display:flex;gap:10px;margin-bottom:10px;flex-wrap:wrap;position:relative;z-index:3}
+.controls button{
+  flex:1;min-width:90px;padding:14px 8px;border:none;border-radius:16px;
+  font-size:15px;font-weight:800;cursor:pointer;transition:all .2s;
+  background:#f1f8ff;color:#333;box-shadow:0 4px 10px rgba(0,0,0,.15);user-select:none
+}
+.controls button:hover:not(:disabled){background:#e3f2fd;transform:translateY(-2px);box-shadow:0 6px 14px rgba(0,0,0,.2)}
+.controls button:active:not(:disabled){transform:translateY(1px)}
+.controls .btn-play{background:linear-gradient(135deg,#81d4fa,#0288d1);color:#fff;font-weight:800}
+.controls .btn-play:hover:not(:disabled){background:linear-gradient(135deg,#4fc3f7,#0277bd)}
+.controls .btn-reset{background:linear-gradient(135deg,#ffb74d,#f57c00);color:#fff;font-weight:800}
+.controls .btn-reset:hover:not(:disabled){background:linear-gradient(135deg,#ffa726,#ef6c00)}
+.controls .btn-prev{background:linear-gradient(135deg,#a5d6a7,#388e3c);color:#fff;font-weight:800}
+.controls .btn-prev:hover:not(:disabled){background:linear-gradient(135deg,#81c784,#2e7d32)}
+.controls button:disabled{opacity:.4;cursor:not-allowed}
+.speed-row{
+  display:flex;align-items:center;gap:10px;margin-bottom:10px;
+  font-size:14px;color:#9c27b0;background:#fff0f5;padding:12px;border-radius:14px;
+  position:relative;z-index:3;font-weight:700;
+}
+.speed-row input[type=range]{flex:1;accent-color:#e91e63;cursor:pointer;height:8px}
+.speed-label{white-space:nowrap;font-weight:800;color:#e91e63;min-width:0;text-align:right;flex-shrink:1;max-width:140px;overflow:hidden;text-overflow:ellipsis;font-size:13px}
+.info{text-align:center;font-size:12px;color:#9c27b0;margin-top:10px;font-weight:600;position:relative;z-index:2}
+@media(max-width:480px){
+  body{padding:8px}
+  h1{font-size:18px}
+  h1 .hi{font-size:20px;white-space:nowrap}
+  .star{display:none}
+  h1 .kids{font-size:13px;margin-top:2px}
+  .tab{font-size:11px;padding:10px 2px}
+  .input-row{flex-wrap:wrap}
+  .input-row input{font-size:18px;padding:10px 8px;min-width:80px}
+  .btn-go{font-size:15px;padding:12px 16px}
+  .step-sim{font-size:18px}
+  .controls button{min-width:70px;font-size:13px;padding:12px 4px}
+  .speed-row{flex-direction:column;gap:8px}
+  .speed-label{width:100%;text-align:center;max-width:none;font-size:14px}
+}
+</style>
+</head>
+<body>
+<div class="container">
+<h1><span class="hi"><span class="star">✨</span> Belajar Hitung Yuk! <span class="star">✨</span></span><span class="kids">Kakak Chayra &amp; Adik Annira</span></h1>
+<p class="sub">Matematika jadi mudah dan seru — semua langkah ditulis pelan-pelan seperti di papan tulis</p>
+
+<div class="tabs">
+  <button class="tab active" data-op="tambah">➕ Tambah</button>
+  <button class="tab" data-op="kurang">➖ Kurang</button>
+  <button class="tab" data-op="kali">✖️ Kali</button>
+  <button class="tab" data-op="bagi">➗ Bagi</button>
+</div>
+
+<div class="input-row">
+  <input type="number" step="any" inputmode="decimal" id="num1" placeholder="Angka pertama" value="256">
+  <label id="opLabel">+</label>
+  <input type="number" step="any" inputmode="decimal" id="num2" placeholder="Angka kedua" value="178">
+</div>
+<button class="btn-go" id="btnGo">🚀 Ayo Hitung!</button>
+
+<div class="paper-head">
+  <span id="stageTitle">Belajar Menambah</span>
+  <span id="stepCount">Tahap 0/0</span>
+</div>
+<div class="paper" id="paper"></div>
+
+<div class="controls">
+  <button class="btn-prev" id="btnPrev" disabled>◀ Sebelumnya</button>
+  <button class="btn-play" id="btnPlay">▶ Main Sendiri</button>
+  <button class="btn-reset" id="btnReset">↺ Ulangi</button>
+</div>
+<div class="speed-row">
+  <span class="speed-label">Lambat/Cepat:</span>
+  <input type="range" id="speed" min="1" max="5" value="3">
+  <span class="speed-label" id="speedLabel">Normal</span>
+</div>
+<p class="info">Setiap langkah tetap ada di layar. Tidak ada yang hilang!</p>
+</div>
+
+<script>
+// ===== AUDIO =====
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+function playClick(){
+  try{
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.connect(gain); gain.connect(audioCtx.destination);
+    osc.frequency.value = 720; osc.type = 'sine';
+    gain.gain.setValueAtTime(0.18, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.12);
+    osc.start(audioCtx.currentTime); osc.stop(audioCtx.currentTime + 0.12);
+  }catch(e){}
+}
+function playSuccess(){
+  try{
+    const osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
+    osc.connect(gain); gain.connect(audioCtx.destination);
+    const now = audioCtx.currentTime;
+    osc.frequency.setValueAtTime(523, now);
+    osc.frequency.setValueAtTime(659, now+0.1);
+    osc.frequency.setValueAtTime(784, now+0.2);
+    gain.gain.setValueAtTime(0.3, now);
+    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
+    osc.start(now); osc.stop(now + 0.4);
+  }catch(e){}
+}
+function playWelcome(){
+  try{
+    const osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
+    osc.connect(gain); gain.connect(audioCtx.destination);
+    const now = audioCtx.currentTime;
+    osc.frequency.setValueAtTime(440, now);
+    osc.frequency.setValueAtTime(523, now+0.15);
+    osc.frequency.setValueAtTime(659, now+0.3);
+    gain.gain.setValueAtTime(0.25, now);
+    gain.gain.exponentialRampToValueAtTime(0.01, now+0.7);
+    osc.start(now); osc.stop(now+0.7);
+  }catch(e){}
+}
+
+// ===== HELPERS =====
+function esc(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function makeRow(W, ps){
+  const r = Array(W).fill(' ');
+  for(const p of ps) for(let k=0;k<p.s.length;k++){ const c = p.pos+k; if(c >= 0 && c < W) r[c] = p.s[k]; }
+  return r.join('').replace(/\s+$/,'');
+}
+const COLNAMES = ['satuan','puluhan','ratusan','ribuan','puluhan ribu','ratusan ribu','jutaan'];
+
+// ===== TAMBAH =====
+function buildTambah(a, b){
+  const s = [];
+  const sa = String(a), sb = String(b);
+  const dota = sa.indexOf('.'), dotb = sb.indexOf('.');
+  const intA = dota >= 0 ? sa.slice(0, dota) : sa;
+  const intB = dotb >= 0 ? sb.slice(0, dotb) : sb;
+  const decA = dota >= 0 ? sa.slice(dota+1) : '';
+  const decB = dotb >= 0 ? sb.slice(dotb+1) : '';
+  const maxDec = Math.max(decA.length, decB.length);
+  const decAp = decA.padEnd(maxDec, '0');
+  const decBp = decB.padEnd(maxDec, '0');
+  // Compute result by converting to integers, adding, then converting back
+  const intRes = (BigInt(intA || 0) * BigInt(Math.pow(10, maxDec)) + BigInt(decAp || 0)) +
+                 (BigInt(intB || 0) * BigInt(Math.pow(10, maxDec)) + BigInt(decBp || 0));
+  const resStr = intRes.toString().padStart(maxDec + 1, '0');
+  const resSplit = resStr.length - maxDec;
+  const resInt = resStr.slice(0, resSplit) || '0';
+  const resDec = resStr.slice(resSplit);
+  const result = maxDec > 0 ? resInt + '.' + resDec : resInt;
+
+  const intLen = Math.max(intA.length, intB.length, resInt.length);
+  const intAp = intA.padStart(intLen, ' ');
+  const intBp = intB.padStart(intLen, ' ');
+  const resIntP = resInt.padStart(intLen, ' ');
+
+  const topRow = '  ' + intAp.split('').join(' ') + (maxDec > 0 ? ' . ' + decAp.split('').join(' ') : '');
+  const botRow = '+ ' + intBp.split('').join(' ') + (maxDec > 0 ? ' . ' + decBp.split('').join(' ') : '');
+  const barRow = '─'.repeat(botRow.length);
+  const resRow = '  ' + resIntP.split('').join(' ') + (maxDec > 0 ? ' . ' + resDec.split('').join(' ') : '');
+
+  s.push({sim: a+' + '+b+' = ?', txt:'Penjumlahan '+a+' + '+b+'. Susun ke bawah, sejajarkan koma (titik desimal).'});
+  s.push({sim: topRow+'\n'+botRow+'\n'+barRow, txt:'Sejajarkan koma. Jika tidak ada koma, anggap bilangan bulat.'});
+  s.push({sim: topRow+'\n'+botRow+'\n'+barRow+'\n'+resRow, txt:'✓ Hasil: '+a+' + '+b+' = '+result});
+  return s;
+}
+
+// ===== KURANG =====
+function buildKurang(a, b){
+  const s = [];
+  const sa = String(a), sb = String(b);
+  const dota = sa.indexOf('.'), dotb = sb.indexOf('.');
+  const intA = dota >= 0 ? sa.slice(0, dota) : sa;
+  const intB = dotb >= 0 ? sb.slice(0, dotb) : sb;
+  const decA = dota >= 0 ? sa.slice(dota+1) : '';
+  const decB = dotb >= 0 ? sb.slice(dotb+1) : '';
+  const maxDec = Math.max(decA.length, decB.length);
+  const decAp = decA.padEnd(maxDec, '0');
+  const decBp = decB.padEnd(maxDec, '0');
+  // Compute result
+  const intRes = (BigInt(intA || 0) * BigInt(Math.pow(10, maxDec)) + BigInt(decAp || 0)) -
+                 (BigInt(intB || 0) * BigInt(Math.pow(10, maxDec)) + BigInt(decBp || 0));
+  const resStr = intRes.toString();
+  const isNeg = resStr[0] === '-';
+  const absStr = isNeg ? resStr.slice(1) : resStr;
+  const padded = absStr.padStart(maxDec + 1, '0');
+  const resSplit = padded.length - maxDec;
+  const resInt = padded.slice(0, resSplit) || '0';
+  const resDec = padded.slice(resSplit);
+  const result = (isNeg ? '-' : '') + (maxDec > 0 ? resInt + '.' + resDec : resInt);
+
+  const intLen = Math.max(intA.length, intB.length, resInt.length);
+  const intAp = intA.padStart(intLen, ' ');
+  const intBp = intB.padStart(intLen, ' ');
+  const resIntP = resInt.padStart(intLen, ' ');
+
+  const topRow = '  ' + intAp.split('').join(' ') + (maxDec > 0 ? ' . ' + decAp.split('').join(' ') : '');
+  const botRow = '- ' + intBp.split('').join(' ') + (maxDec > 0 ? ' . ' + decBp.split('').join(' ') : '');
+  const barRow = '─'.repeat(botRow.length);
+  const resRow = '  ' + resIntP.split('').join(' ') + (maxDec > 0 ? ' . ' + resDec.split('').join(' ') : '');
+
+  s.push({sim: a+' - '+b+' = ?', txt:'Pengurangan '+a+' - '+b+'. Susun ke bawah, sejajarkan koma.'});
+  s.push({sim: topRow+'\n'+botRow+'\n'+barRow, txt:'Sejajarkan koma. Jika tidak ada, anggap bilangan bulat.'});
+  s.push({sim: topRow+'\n'+botRow+'\n'+barRow+'\n'+resRow, txt:'✓ Hasil: '+a+' - '+b+' = '+result});
+  return s;
+}
+
+// ===== KALI =====
+function buildKali(a, b){
+  const s = [];
+  const sa = String(a), sb = String(b);
+  const decA = sa.includes('.') ? sa.length - 1 - sa.indexOf('.') : 0;
+  const decB = sb.includes('.') ? sb.length - 1 - sb.indexOf('.') : 0;
+  const totalDec = decA + decB;
+
+  const strA = sa.replace('.', '');
+  const strB = sb.replace('.', '');
+  const intA = parseInt(strA, 10) || 0;
+  const intB = parseInt(strB, 10) || 0;
+
+  const lenA = strA.length;
+  const lenB = strB.length;
+  const maxProdLen = lenA + lenB;
+  const rightCol = 4 + 2 * maxProdLen;
+  const W = rightCol + 4;
+
+  const posA = rightCol - 2*(lenA - 1);
+  const top = makeRow(W, [{pos: posA, s: strA.split('').join(' ')}]);
+  
+  const posB = rightCol - 2*(lenB - 1);
+  const bot = makeRow(W, [{pos: posB - 2, s: '×'}, {pos: posB, s: strB.split('').join(' ')}]);
+  
+  const barLen = Math.max(lenA, lenB + 1);
+  const barPos = rightCol - 2*(barLen - 1);
+  const bar = makeRow(W, [{pos: barPos, s: '─'.repeat(2*barLen - 1)}]);
+
+  s.push({sim: a+' × '+b+' = ?', txt:'Perkalian '+a+' × '+b+'.'+(totalDec > 0 ? ' Abaikan koma sementara, kalikan sebagai '+intA+' × '+intB+'.' : '')});
+  s.push({sim: [top, bot, bar].join('\n'), txt:'Susun: '+intA+' di atas, '+intB+' di bawah.'});
+
+  const parts = [];
+  for(let i = strB.length-1; i >= 0; i--){
+    const d = +strB[i];
+    const shift = strB.length-1-i;
+    const part = intA * d;
+    parts.push({part, shift, d});
+    const rows = [top, bot, bar];
+    for(const p of parts){
+      const pLen = String(p.part).length;
+      const pPos = rightCol - 2*(pLen + p.shift - 1);
+      rows.push(makeRow(W, [{pos: pPos, s: String(p.part).split('').join(' ')}]));
+    }
+    const txt = shift > 0
+      ? 'Kalikan digit berikutnya: '+intA+' × '+d+' = '+part+'. Digeser '+shift+' tempat ke kiri.'
+      : 'Kalikan digit satuan: '+intA+' × '+d+' = '+part+'. Tulis di baris pertama hasil.';
+    s.push({sim: rows.join('\n'), txt: txt});
+  }
+
+  if(parts.length > 1){
+    let total = 0;
+    for(const p of parts) total += p.part * Math.pow(10, p.shift);
+    const rows = [top, bot, bar];
+    for(const p of parts){
+      const pLen = String(p.part).length;
+      const pPos = rightCol - 2*(pLen + p.shift - 1);
+      rows.push(makeRow(W, [{pos: pPos, s: String(p.part).split('').join(' ')}]));
+    }
+    const tLen = String(total).length;
+    const tBarLen = Math.max(tLen, String(parts[parts.length-1].part).length + parts[parts.length-1].shift);
+    const tBarPos = rightCol - 2*(tBarLen - 1);
+    rows.push(makeRow(W, [{pos: tBarPos, s: '─'.repeat(2*tBarLen - 1)}]));
+    
+    const tPos = rightCol - 2*(tLen - 1);
+    rows.push(makeRow(W, [{pos: tPos, s: String(total).split('').join(' ')}]));
+    
+    let finalStr = String(total);
+    if(totalDec > 0){
+      finalStr = finalStr.padStart(totalDec + 1, '0');
+      finalStr = finalStr.slice(0, finalStr.length - totalDec) + '.' + finalStr.slice(finalStr.length - totalDec);
+    }
+    
+    s.push({sim: rows.join('\n'), txt:'Jumlahkan hasil perkalian = '+total+'.'});
+    s.push({sim: rows.join('\n'), txt:'✓ Hasil akhir: '+(totalDec > 0 ? 'Kembalikan '+totalDec+' tempat desimal: '+finalStr : a+' × '+b+' = '+total)+'.'});
+  } else {
+    let total = parts.length === 1 ? parts[0].part : 0;
+    let finalStr = String(total);
+    if(totalDec > 0){
+      finalStr = finalStr.padStart(totalDec + 1, '0');
+      finalStr = finalStr.slice(0, finalStr.length - totalDec) + '.' + finalStr.slice(finalStr.length - totalDec);
+    }
+    const tLen = String(total).length;
+    const tPos = rightCol - 2*(tLen - 1);
+    s.push({sim: [top, bot, bar, makeRow(W, [{pos: tPos, s: String(total).split('').join(' ')}])].join('\n'), txt:'✓ Hasil akhir: '+(totalDec > 0 ? 'Kembalikan '+totalDec+' tempat desimal: '+finalStr : a+' × '+b+' = '+total)+'.'});
+  }
+  return s;
+}
+
+// ===== BAGI (POROGAPIT INDONESIA) =====
+function buildBagi(dividend, divisor){
+  const s = [];
+  const decA = String(dividend).includes('.') ? String(dividend).length - 1 - String(dividend).indexOf('.') : 0;
+  const decB = String(divisor).includes('.') ? String(divisor).length - 1 - String(divisor).indexOf('.') : 0;
+  const shift = Math.max(decA, decB);
+  
+  if (shift > 0) {
+    const mult = Math.pow(10, shift);
+    dividend = Math.round(dividend * mult);
+    divisor = Math.round(divisor * mult);
+    s.push({sim: ` \n `, txt: `Karena ada desimal, kalikan kedua angka dengan ${mult} menjadi ${dividend} ÷ ${divisor}.`});
+  }
+
+  const n = String(dividend).length;
+  const MAX_DEC = 5;
+  const intDigits = String(dividend).split('').map(Number);
+  const steps = [];
+  let sisa = 0, j = 0, decCount = 0;
+  while(true){
+    if(j < intDigits.length){
+      sisa = sisa*10 + intDigits[j];
+    } else {
+      if(decCount >= MAX_DEC) break;
+      decCount++;
+      sisa = sisa*10;
+    }
+    const q = Math.floor(sisa/divisor);
+    const r = sisa%divisor;
+    steps.push({j, sisaStr:String(sisa), q, prod:q*divisor, r, dec: j >= intDigits.length});
+    sisa = r;
+    j++;
+    if(j >= intDigits.length && r === 0) break;
+  }
+
+  const divStr = String(divisor);
+  const divLen = divStr.length;
+  const basePos = divLen + 3;
+  const off = c => basePos + 2*c;
+
+  const qRow = (nSlots, decSoFar, upto) => {
+    const W = basePos + 2*(nSlots + decSoFar) + 3;
+    const qc = Array(W).fill(' ');
+    for(let c = 0; c < nSlots; c++) qc[off(c)] = c <= upto ? steps[c].q : '_';
+    if(decSoFar > 0){
+      qc[off(nSlots)] = ',';
+      for(let k = 1; k <= decSoFar; k++) qc[off(nSlots+k)] = steps[nSlots-1+k].q;
+    }
+    return qc.join('');
+  };
+
+  const renderAll = (upto) => {
+    const decSoFar = Math.max(0, upto - n + 1);
+    const ds = n + decSoFar;
+    const W = basePos + 2*ds + 3;
+    const lines = [
+      qRow(n, decSoFar, upto),
+      makeRow(W, [{pos:basePos-2, s:'┌'+'─'.repeat(2*ds+1)}]),
+      makeRow(W, [{pos:0, s:divStr}, {pos:basePos-2, s:'│'}, {pos:basePos, s:[...intDigits, ...Array(decSoFar).fill(0)].join(' ')}])
+    ];
+    for(let u = 0; u <= upto; u++){
+      const su = steps[u];
+      const L = su.sisaStr.length;
+      const left = off(su.j) - 2*(L-1);
+      lines.push(makeRow(W, [{pos:left, s:su.sisaStr.split('').join(' ')}]));
+      const prodStr = String(su.prod);
+      lines.push(makeRow(W, [{pos:off(su.j) - 2*(prodStr.length-1), s:prodStr.split('').join(' ')}]));
+      lines.push(makeRow(W, [{pos:left, s:'─'.repeat(2*L-1)}]));
+      const rStr = String(su.r);
+      lines.push(makeRow(W, [{pos:off(su.j) - 2*(rStr.length-1), s:rStr.split('').join(' ')}]));
+    }
+    return lines.join('\n');
+  };
+
+  s.push({sim: renderAll(-1), txt:'Bentuk porogapit Indonesia: pembagi '+divisor+' di kiri, garis tegak │, bilangan yang dibagi '+dividend+' di kanan. Siapkan '+n+' tempat hasil di atas atap.'});
+
+  for(let t = 0; t < steps.length; t++){
+    const st = steps[t];
+    const bisa = st.sisa >= divisor;
+    const intro = st.dec
+      ? 'Karena masih ada sisa, tulis koma di hasil lalu turunkan angka 0: '
+      : (t === 0 ? 'Digit pertama: ' : 'Turunkan digit berikutnya: ');
+    const txtA = bisa
+      ? st.sisaStr+' ÷ '+divisor+' = '+st.q+'. Tulis '+st.q+(st.dec ? ' setelah koma' : ' di hasil')+'.'
+      : 'Tidak bisa dibagi '+divisor+'. Tulis 0'+(st.dec ? ' setelah koma' : ' di hasil')+'.';
+    const txtB = st.q+' × '+divisor+' = '+st.prod+'. '+st.sisaStr+' − '+st.prod+' = '+st.r+'.';
+    const decSoFar = Math.max(0, st.j - n + 1);
+    const txtC = st.dec
+      ? ' Sekarang sudah '+decSoFar+' angka di belakang koma.'
+      : (t < steps.length-1 ? ' Sisa '+st.r+', lanjut ke digit berikutnya.' : ' Sisa '+st.r+'.');
+    s.push({sim: renderAll(t), txt: intro + st.sisaStr + '. ' + txtA + ' ' + txtB + txtC});
+  }
+
+  const intQ = steps.slice(0, n).map(x => x.q).join('').replace(/^0+/, '') || '0';
+  const decQ = steps.slice(n).map(x => x.q).join('');
+  const finalQ = decQ ? intQ + ',' + decQ : intQ;
+  const decTotal = steps.length - n;
+  const last = steps.length - 1;
+  s.push({sim: renderAll(last), txt:'✓ Hasil akhir = '+finalQ+(decQ ? ' (tepat sampai '+decTotal+' angka di belakang koma)' : ' (tepat, tanpa sisa!)')+'.'});
+  return s;
+}
+
+// ===== STATE =====
+let operasi = 'tambah', steps = [], stepIdx = 0, autoTimer = null, isAutoMode = false;
+
+const speedNames = ['Paling Cepat','Cepat','Biasa','Lambat','Paling Lambat'];
+document.getElementById('speed').addEventListener('change', e => {
+  document.getElementById('speedLabel').textContent = speedNames[e.target.value - 1];
+});
+
+function genSteps(){
+  const n1 = parseFloat(document.getElementById('num1').value);
+  const n2 = parseFloat(document.getElementById('num2').value);
+  if(isNaN(n1) || isNaN(n2)){ alert('Tulis angka dulu ya!'); return; }
+  const a = Math.abs(n1), b = Math.abs(n2);
+
+  if(operasi === 'tambah') steps = buildTambah(a, b);
+  else if(operasi === 'kurang') steps = buildKurang(Math.max(a,b), Math.min(a,b));
+  else if(operasi === 'kali') steps = buildKali(a, b);
+  else if(operasi === 'bagi') steps = buildBagi(a, Math.max(b,1));
+
+  stepIdx = 0; isAutoMode = false;
+  document.getElementById('btnPrev').disabled = true;
+  document.getElementById('btnPlay').textContent = '▶ Main Sendiri';
+  stopAuto();
+  renderPaper();
+}
+
+function renderPaper(){
+  const paper = document.getElementById('paper');
+  paper.innerHTML = '';
+  
+  for(let i = 0; i <= stepIdx && i < steps.length; i++){
+    const st = steps[i];
+    const div = document.createElement('div');
+    div.className = 'step-block' + (i === stepIdx ? ' current' : '');
+    const simText = esc(st.sim);
+    div.innerHTML = `<div class="step-sim">${animateDigits(simText)}</div><div class="step-txt">${esc(st.txt)}</div>`;
+    paper.appendChild(div);
+  }
+  
+  document.getElementById('stepCount').textContent = 'Tahap '+(stepIdx+1)+'/'+steps.length;
+  document.getElementById('btnPrev').disabled = stepIdx === 0;
+  if(stepIdx >= steps.length-1){
+    document.getElementById('btnPlay').textContent = '✓ Selesai';
+  }else if(!isAutoMode){
+    document.getElementById('btnPlay').textContent = '▶ Main Sendiri';
+  }
+  
+  paper.scrollTop = paper.scrollHeight;
+}
+
+function animateDigits(text){
+  let digitCount = 0, charIdx = 0;
+  return text.replace(/\d/g, m => `<span class="digit" style="animation-delay:${digitCount++ * 0.08}s">${m}</span>`);
+}
+
+function nextStep(){ if(stepIdx < steps.length-1){stepIdx++; renderPaper(); stopAuto(); playClick();} else if(stepIdx === steps.length-1) playSuccess(); }
+function prevStep(){ if(stepIdx > 0){stepIdx--; renderPaper(); stopAuto(); playClick();} }
+function resetSim(){ stepIdx = 0; renderPaper(); stopAuto(); isAutoMode = false; playClick(); }
+function stopAuto(){ if(autoTimer){clearInterval(autoTimer); autoTimer = null;} }
+
+function autoPlay(){
+  isAutoMode = true;
+  if(stepIdx >= steps.length-1){ isAutoMode = false; return; }
+  stopAuto();
+  const speed = parseInt(document.getElementById('speed').value);
+  const ms = [800, 1200, 1800, 2500, 3500][speed-1];
+  document.getElementById('btnPlay').textContent = '⏸ Sedang Jalan';
+  autoTimer = setInterval(() => {
+    if(stepIdx >= steps.length-1){
+      stopAuto(); isAutoMode = false;
+      document.getElementById('btnPlay').textContent = '✓ Selesai';
+      return;
+    }
+    stepIdx++; renderPaper(); playClick();
+  }, ms);
+}
+
+function togglePlay(){
+  if(isAutoMode){ stopAuto(); isAutoMode = false; document.getElementById('btnPlay').textContent = '▶ Otomatis'; }
+  else if(stepIdx >= steps.length-1){ resetSim(); }
+  else{ autoPlay(); }
+}
+
+document.getElementById('btnGo').addEventListener('click', () => { genSteps(); playClick(); });
+document.getElementById('btnPlay').addEventListener('click', togglePlay);
+document.getElementById('btnPrev').addEventListener('click', prevStep);
+document.getElementById('btnReset').addEventListener('click', resetSim);
+
+document.querySelectorAll('.tab').forEach(t => {
+  t.addEventListener('click', function(){
+    document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+    operasi = this.dataset.op;
+    const labels = {tambah:'+', kurang:'-', kali:'×', bagi:'÷'};
+    const titles = {tambah:'Belajar Menambah', kurang:'Belajar Mengurangi', kali:'Belajar Mengali', bagi:'Belajar Membagi (Porogapit)'};
+    document.getElementById('opLabel').textContent = labels[operasi];
+    document.getElementById('stageTitle').textContent = titles[operasi];
+    document.getElementById('num1').value = {tambah:256, kurang:543, kali:34, bagi:1449}[operasi];
+    document.getElementById('num2').value = {tambah:178, kurang:287, kali:12, bagi:7}[operasi];
+    stopAuto(); isAutoMode = false; steps = []; stepIdx = 0; renderPaper(); playClick();
+  });
+});
+
+document.getElementById('num1').addEventListener('keypress', e => {if(e.key === 'Enter'){genSteps(); playClick();}});
+document.getElementById('num2').addEventListener('keypress', e => {if(e.key === 'Enter'){genSteps(); playClick();}});
+
+genSteps();
+setTimeout(() => playWelcome(), 600);
+</script>
+</body>
+</html>
