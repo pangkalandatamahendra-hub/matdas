@@ -3,158 +3,271 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Simulasi Matematika Dasar Sekolah Dasar</title>
+<title>Belajar Hitung Yuk!</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
+/* Reset & Base */
 *{margin:0;padding:0;box-sizing:border-box}
 body{
-  font-family:'Comic Sans MS','Segoe UI',sans-serif;
-  background:linear-gradient(135deg,#ffd6e8 0%,#c2f0fc 50%,#fff9b1 100%);
-  min-height:100vh;color:#333;padding:15px;
-  display:flex;justify-content:center;align-items:flex-start;
+  font-family:'Quicksand',sans-serif;
+  background:#a8e6cf;
+  background-image: radial-gradient(circle at 50% 0%, #dcedc1 0%, #a8e6cf 50%, #ffd3b6 100%);
+  min-height:100vh;
+  color:#333;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  overflow-x:hidden;
 }
-.container{
-  max-width:620px;width:100%;margin:10px auto;
-  background:white;border:4px solid #ff69b4;border-radius:28px;
-  box-shadow:0 15px 40px rgba(255,105,180,.3);
-  position:relative;overflow:hidden;padding:24px;
+
+/* Floating Animations */
+@keyframes floatUp {
+  0% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-15px) rotate(3deg); }
+  100% { transform: translateY(0) rotate(0deg); }
 }
-.container::after{
-  content:'';position:absolute;top:0;left:0;right:0;bottom:0;
-  background:repeating-linear-gradient(45deg,#fff0f5 0,#fff0f5 1px,transparent 1px,transparent 18px);
-  pointer-events:none;opacity:.4;z-index:0;
+@keyframes cloudMove {
+  0% { transform: translateX(-10vw); opacity: 0; }
+  20% { opacity: 0.8; }
+  80% { opacity: 0.8; }
+  100% { transform: translateX(110vw); opacity: 0; }
 }
-h1{
-  text-align:center;font-size:24px;margin-bottom:2px;color:#e91e63;
-  font-family:'Comic Sans MS',cursive;font-weight:700;letter-spacing:1px;
-  text-shadow:2px 2px 4px rgba(233,30,99,.15);position:relative;z-index:2;
-  line-height:1.3;padding:0 4px;
+
+/* Decor */
+.bg-decor { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+.cloud { position: absolute; background: white; border-radius: 50px; opacity: 0.6; filter: blur(2px); animation: cloudMove linear infinite; }
+.cloud::before, .cloud::after { content: ''; position: absolute; background: white; border-radius: 50%; }
+.cloud1 { width: 120px; height: 40px; top: 10%; left: -20%; animation-duration: 45s; }
+.cloud1::before { width: 60px; height: 60px; top: -30px; left: 15px; }
+.cloud1::after { width: 40px; height: 40px; top: -15px; left: 65px; }
+.cloud2 { width: 160px; height: 50px; top: 25%; left: -30%; animation-duration: 35s; animation-delay: -10s; }
+.cloud2::before { width: 80px; height: 80px; top: -40px; left: 20px; }
+.cloud2::after { width: 50px; height: 50px; top: -20px; left: 85px; }
+
+/* Header / Hero */
+header {
+  text-align:center;
+  margin: 30px 10px 20px;
+  position:relative;
+  z-index: 10;
+  animation: floatUp 6s ease-in-out infinite;
 }
-h1 .hi{font-size:30px;display:block;white-space:nowrap}
-h1 .star{display:inline}
-h1 .kids{font-size:17px;color:#9c27b0;display:block;margin-top:4px}
-.sub{text-align:center;font-size:13px;color:#9c27b0;margin-bottom:16px;font-weight:600;position:relative;z-index:2}
-.tabs{display:flex;gap:5px;margin-bottom:14px;background:#fff0f5;padding:5px;border-radius:16px;position:relative;z-index:3}
+h1 {
+  font-family: 'Fredoka One', cursive;
+  font-size: 48px;
+  color: #ff8b94;
+  text-shadow: 3px 3px 0 #fff, 5px 5px 0 rgba(0,0,0,0.1);
+  letter-spacing: 2px;
+  line-height: 1.1;
+  margin-bottom: 5px;
+}
+h1 .star { color: #ffeb3b; text-shadow: none; font-size: 38px; }
+.kids {
+  display:block;
+  font-size:22px;
+  color:#438676;
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 700;
+  margin-top: 5px;
+}
+.sub {
+  font-size:16px;
+  color:#555;
+  font-weight:600;
+  margin-top: 10px;
+  background: rgba(255,255,255,0.6);
+  display: inline-block;
+  padding: 8px 16px;
+  border-radius: 20px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+/* Main Container */
+main {
+  width: 100%;
+  max-width: 650px;
+  padding: 0 15px;
+  position: relative;
+  z-index: 10;
+  margin-bottom: 50px;
+}
+.board {
+  background: white;
+  border: 6px solid #ffaaa5;
+  border-radius: 35px;
+  box-shadow: 0 15px 35px rgba(255,139,148,0.3), 0 8px 0 #ff8b94;
+  padding: 25px;
+  position: relative;
+}
+
+/* Tabs */
+.tabs{ display:flex; gap:10px; margin-bottom:20px; background:#f9f9f9; padding:8px; border-radius:22px; box-shadow: inset 0 3px 6px rgba(0,0,0,0.05); }
 .tab{
-  flex:1;padding:11px 5px;border:none;border-radius:12px;
-  font-size:13px;font-weight:700;cursor:pointer;transition:all .25s;
-  background:white;box-shadow:0 3px 6px rgba(0,0,0,.1);color:#555
+  flex:1; padding:12px 5px; border:none; border-radius:16px;
+  font-size:16px; font-weight:700; cursor:pointer; transition:all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background:white; color:#777; box-shadow:0 4px 6px rgba(0,0,0,0.05);
+  font-family: 'Quicksand', sans-serif;
 }
-.tab.active{background:#ff69b4;color:#fff;font-weight:800;box-shadow:0 5px 15px rgba(255,105,180,.4);transform:translateY(-2px)}
-.input-row{display:flex;gap:8px;margin-bottom:12px;align-items:center;position:relative;z-index:3}
+.tab:hover { transform: translateY(-3px); box-shadow: 0 6px 12px rgba(0,0,0,0.1); }
+.tab.active{
+  background: #ff8b94; color:#fff; font-size:17px;
+  box-shadow: 0 6px 15px rgba(255,139,148,0.4), 0 4px 0 #e6737c;
+  transform: translateY(-2px);
+}
+.tab.active:active { transform: translateY(2px); box-shadow: 0 0 0 #e6737c; }
+
+/* Inputs */
+.input-row{ display:flex; gap:12px; margin-bottom:15px; align-items:center; justify-content:center; }
 .input-row input{
-  flex:1;min-width:0;padding:13px 10px;border:3px solid #ff69b4;border-radius:14px;
-  font-size:22px;background:#fff;text-align:center;font-family:'Comic Sans MS',cursive;
-  box-shadow:0 3px 8px rgba(255,105,180,.15);color:#333;transition:border-color .2s
+  flex:1; max-width: 200px; padding:15px 10px; border:4px solid #ffaaa5; border-radius:20px;
+  font-size:26px; font-weight:700; background:#fff; text-align:center;
+  font-family: 'Fredoka One', cursive; color:#444; transition:all .2s;
+  box-shadow: inset 0 3px 6px rgba(0,0,0,0.05);
 }
-.input-row input:focus{outline:none;border-color:#e91e63;box-shadow:0 0 0 4px rgba(233,30,99,.2)}
-.input-row label{font-size:22px;color:#e91e63;white-space:nowrap;font-weight:800}
+.input-row input:focus{ outline:none; border-color:#ff8b94; transform: scale(1.02); box-shadow: 0 0 15px rgba(255,139,148,0.4); }
+.input-row label{ font-size:30px; color:#ff8b94; font-weight:900; font-family:'Fredoka One',cursive; }
+
+/* Button Go */
 .btn-go{
-  width:100%;padding:16px;background:linear-gradient(135deg,#ff69b4,#e91e63);color:#fff;border:none;
-  border-radius:16px;font-size:20px;font-weight:800;cursor:pointer;transition:all .2s;
-  box-shadow:0 6px 18px rgba(233,30,99,.4);user-select:none;margin-bottom:14px;
-  font-family:'Comic Sans MS',cursive;position:relative;z-index:3;letter-spacing:1px
+  width:100%; padding:18px; border:none; border-radius:22px;
+  background: #ffd3b6; background-image: linear-gradient(180deg, #ffebcb, #ffd3b6);
+  color: #d16b3f; font-size:24px; font-family:'Fredoka One',cursive; cursor:pointer;
+  transition:all .2s; box-shadow: 0 8px 0 #e5a47e, 0 15px 20px rgba(229,164,126,0.4);
+  letter-spacing:1px; margin-bottom:20px;
 }
-.btn-go:hover{transform:scale(1.05);box-shadow:0 8px 20px rgba(233,30,99,.5)}
-.btn-go:active{transform:scale(0.96)}
-.paper-head{
-  display:flex;justify-content:space-between;align-items:center;
-  font-size:12px;color:#e91e63;margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;
-  position:relative;z-index:2;font-weight:700;
-}
+.btn-go:hover{ transform:translateY(-3px); box-shadow: 0 11px 0 #e5a47e, 0 15px 25px rgba(229,164,126,0.5); }
+.btn-go:active{ transform:translateY(5px); box-shadow: 0 3px 0 #e5a47e, 0 5px 10px rgba(229,164,126,0.4); }
+
+/* Paper (Simulation Area) */
+.paper-head{ display:flex; justify-content:space-between; align-items:center; font-size:14px; color:#ff8b94; margin-bottom:10px; font-weight:700; text-transform:uppercase; letter-spacing:1px; }
 .paper{
-  background:white;border:4px solid #ff69b4;border-radius:18px;padding:20px 16px;
-  min-height:200px;max-height:58vh;overflow-y:auto;margin-bottom:14px;
-  box-shadow:0 6px 15px rgba(255,105,180,.2),inset 0 6px 12px rgba(255,192,203,.3);
-  position:relative;z-index:2;
+  background: #fffdf5; border:4px solid #ffaaa5; border-radius:22px; padding:20px;
+  min-height:220px; max-height:55vh; overflow-y:auto; margin-bottom:15px;
+  box-shadow: inset 0 5px 15px rgba(0,0,0,0.03);
+  position: relative;
 }
-.step-block{margin-bottom:16px;padding-bottom:12px;border-bottom:2px dotted #ffb3d9}
-.step-block:last-child{border-bottom:none;margin-bottom:0}
+/* Watermark/Lines on paper */
+.paper::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+  background: repeating-linear-gradient(180deg, transparent, transparent 39px, #e8f4f8 39px, #e8f4f8 40px);
+  pointer-events: none; z-index: 0;
+}
+.step-block{ margin-bottom:18px; padding-bottom:15px; border-bottom:2px dashed #ffaaa5; position: relative; z-index: 2; }
+.step-block:last-child{ border-bottom:none; margin-bottom:0; }
 .step-sim{
-  font-family:'Courier New',monospace;font-size:24px;line-height:1.8;
-  white-space:pre;color:#333;font-weight:600;letter-spacing:2px;
+  font-family:'Courier New',Courier,monospace; font-size:26px; line-height:1.6;
+  white-space:pre; color:#333; font-weight:700; letter-spacing:1px;
 }
-.step-txt{font-size:14px;color:#1976d2;font-weight:700;margin-top:6px;line-height:1.4}
-.step-block.current .step-sim{animation:popIn .3s ease-out}
-@keyframes popIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
-.digit{display:inline-block;opacity:0;animation:fadeInDigit .25s ease-out forwards;color:#b8430e;font-weight:700}
-@keyframes fadeInDigit{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:translateY(0)}}
-.controls{display:flex;gap:10px;margin-bottom:10px;flex-wrap:wrap;position:relative;z-index:3}
+.step-txt{
+  font-size:15px; color:#118ab2; font-weight:700; margin-top:8px; line-height:1.4;
+  background: rgba(17,138,178,0.1); padding: 8px 12px; border-radius: 12px;
+}
+.step-block.current .step-sim{ animation:popIn .4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+@keyframes popIn{ from{opacity:0;transform:scale(0.9) translateY(10px)} to{opacity:1;transform:scale(1) translateY(0)} }
+.digit{ display:inline-block; opacity:0; animation:fadeInDigit .3s ease-out forwards; color:#e05263; font-weight:800; }
+@keyframes fadeInDigit{ from{opacity:0;transform:translateY(5px)} to{opacity:1;transform:translateY(0)} }
+
+/* Controls */
+.controls{ display:flex; gap:12px; margin-bottom:12px; flex-wrap:wrap; }
 .controls button{
-  flex:1;min-width:90px;padding:14px 8px;border:none;border-radius:16px;
-  font-size:15px;font-weight:800;cursor:pointer;transition:all .2s;
-  background:#f1f8ff;color:#333;box-shadow:0 4px 10px rgba(0,0,0,.15);user-select:none
+  flex:1; min-width:90px; padding:15px 5px; border:none; border-radius:18px;
+  font-size:16px; font-weight:700; cursor:pointer; transition:all .2s;
+  font-family:'Quicksand',sans-serif;
 }
-.controls button:hover:not(:disabled){background:#e3f2fd;transform:translateY(-2px);box-shadow:0 6px 14px rgba(0,0,0,.2)}
-.controls button:active:not(:disabled){transform:translateY(1px)}
-.controls .btn-play{background:linear-gradient(135deg,#81d4fa,#0288d1);color:#fff;font-weight:800}
-.controls .btn-play:hover:not(:disabled){background:linear-gradient(135deg,#4fc3f7,#0277bd)}
-.controls .btn-reset{background:linear-gradient(135deg,#ffb74d,#f57c00);color:#fff;font-weight:800}
-.controls .btn-reset:hover:not(:disabled){background:linear-gradient(135deg,#ffa726,#ef6c00)}
-.controls .btn-prev{background:linear-gradient(135deg,#a5d6a7,#388e3c);color:#fff;font-weight:800}
-.controls .btn-prev:hover:not(:disabled){background:linear-gradient(135deg,#81c784,#2e7d32)}
-.controls button:disabled{opacity:.4;cursor:not-allowed}
+.btn-prev{ background:#a8e6cf; color:#2d6a4f; box-shadow:0 6px 0 #7cb39c; }
+.btn-prev:hover:not(:disabled){ transform:translateY(-2px); box-shadow:0 8px 0 #7cb39c; }
+.btn-prev:active:not(:disabled){ transform:translateY(4px); box-shadow:0 2px 0 #7cb39c; }
+
+.btn-play{ background:#06d6a0; color:#fff; box-shadow:0 6px 0 #05a87e; font-size:17px!important; }
+.btn-play:hover:not(:disabled){ transform:translateY(-2px); box-shadow:0 8px 0 #05a87e; }
+.btn-play:active:not(:disabled){ transform:translateY(4px); box-shadow:0 2px 0 #05a87e; }
+
+.btn-reset{ background:#ffd166; color:#a37200; box-shadow:0 6px 0 #d9ad49; }
+.btn-reset:hover:not(:disabled){ transform:translateY(-2px); box-shadow:0 8px 0 #d9ad49; }
+.btn-reset:active:not(:disabled){ transform:translateY(4px); box-shadow:0 2px 0 #d9ad49; }
+.controls button:disabled{ opacity:.5; cursor:not-allowed; transform:none!important; box-shadow:none!important; }
+
+/* Speed Row */
 .speed-row{
-  display:flex;align-items:center;gap:10px;margin-bottom:10px;
-  font-size:14px;color:#9c27b0;background:#fff0f5;padding:12px;border-radius:14px;
-  position:relative;z-index:3;font-weight:700;
+  display:flex; align-items:center; gap:12px;
+  font-size:14px; color:#ff8b94; background:#fff2f3; padding:12px 18px; border-radius:18px;
+  font-weight:700; border: 2px solid #ffaaa5;
 }
-.speed-row input[type=range]{flex:1;accent-color:#e91e63;cursor:pointer;height:8px}
-.speed-label{white-space:nowrap;font-weight:800;color:#e91e63;min-width:0;text-align:right;flex-shrink:1;max-width:140px;overflow:hidden;text-overflow:ellipsis;font-size:13px}
-.info{text-align:center;font-size:12px;color:#9c27b0;margin-top:10px;font-weight:600;position:relative;z-index:2}
+.speed-row input[type=range]{ flex:1; accent-color:#ff8b94; cursor:pointer; height:10px; border-radius:5px; }
+.speed-label{ white-space:nowrap; min-width:60px; }
+
+/* Footer */
+footer { text-align:center; padding: 20px; color: #555; font-weight: 600; font-size: 14px; opacity: 0.8; }
+.info { background: white; padding: 8px 16px; border-radius: 20px; display: inline-block; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+
+/* Responsive */
 @media(max-width:480px){
-  body{padding:8px}
-  h1{font-size:18px}
-  h1 .hi{font-size:20px;white-space:nowrap}
-  .star{display:none}
-  h1 .kids{font-size:13px;margin-top:2px}
-  .tab{font-size:11px;padding:10px 2px}
-  .input-row{flex-wrap:wrap}
-  .input-row input{font-size:18px;padding:10px 8px;min-width:80px}
-  .btn-go{font-size:15px;padding:12px 16px}
-  .step-sim{font-size:18px}
-  .controls button{min-width:70px;font-size:13px;padding:12px 4px}
-  .speed-row{flex-direction:column;gap:8px}
-  .speed-label{width:100%;text-align:center;max-width:none;font-size:14px}
+  h1{font-size:32px;}
+  .star{font-size:24px;}
+  .kids{font-size:16px;}
+  .sub{font-size:12px; padding:6px 12px;}
+  .board{padding:15px; border-width: 4px;}
+  .tab{font-size:13px; padding:10px 2px;}
+  .input-row input{font-size:22px; padding:12px 5px;}
+  .btn-go{font-size:20px; padding:15px;}
+  .step-sim{font-size:20px;}
+  .controls button{font-size:14px; padding:12px 4px;}
 }
 </style>
 </head>
 <body>
-<div class="container">
-<h1><span class="hi"><span class="star">✨</span> Belajar Hitung Yuk! <span class="star">✨</span></span><span class="kids">Kakak Chayra &amp; Adik Annira</span></h1>
-<p class="sub">Matematika jadi mudah dan seru — semua langkah ditulis pelan-pelan seperti di papan tulis</p>
 
-<div class="tabs">
-  <button class="tab active" data-op="tambah">➕ Tambah</button>
-  <button class="tab" data-op="kurang">➖ Kurang</button>
-  <button class="tab" data-op="kali">✖️ Kali</button>
-  <button class="tab" data-op="bagi">➗ Bagi</button>
+<div class="bg-decor">
+  <div class="cloud cloud1"></div>
+  <div class="cloud cloud2"></div>
 </div>
 
-<div class="input-row">
-  <input type="number" step="any" inputmode="decimal" id="num1" placeholder="Angka pertama" value="256">
-  <label id="opLabel">+</label>
-  <input type="number" step="any" inputmode="decimal" id="num2" placeholder="Angka kedua" value="178">
-</div>
-<button class="btn-go" id="btnGo">🚀 Ayo Hitung!</button>
+<header>
+  <h1><span class="star">✨</span> Belajar Hitung <span class="star">✨</span><span class="kids">Kakak Chayra & Adik Annira</span></h1>
+  <p class="sub">Matematika jadi mudah dan seru! 🎈</p>
+</header>
 
-<div class="paper-head">
-  <span id="stageTitle">Belajar Menambah</span>
-  <span id="stepCount">Tahap 0/0</span>
-</div>
-<div class="paper" id="paper"></div>
+<main>
+<div class="board">
+  <div class="tabs">
+    <button class="tab active" data-op="tambah">➕ Tambah</button>
+    <button class="tab" data-op="kurang">➖ Kurang</button>
+    <button class="tab" data-op="kali">✖️ Kali</button>
+    <button class="tab" data-op="bagi">➗ Bagi</button>
+  </div>
 
-<div class="controls">
-  <button class="btn-prev" id="btnPrev" disabled>◀ Sebelumnya</button>
-  <button class="btn-play" id="btnPlay">▶ Main Sendiri</button>
-  <button class="btn-reset" id="btnReset">↺ Ulangi</button>
+  <div class="input-row">
+    <input type="number" step="any" inputmode="decimal" id="num1" placeholder="Angka 1" value="256">
+    <label id="opLabel">+</label>
+    <input type="number" step="any" inputmode="decimal" id="num2" placeholder="Angka 2" value="178">
+  </div>
+  
+  <button class="btn-go" id="btnGo">🚀 Ayo Hitung!</button>
+
+  <div class="paper-head">
+    <span id="stageTitle">Belajar Menambah</span>
+    <span id="stepCount">Tahap 0/0</span>
+  </div>
+  
+  <div class="paper" id="paper"></div>
+
+  <div class="controls">
+    <button class="btn-prev" id="btnPrev" disabled>◀ Kembali</button>
+    <button class="btn-play" id="btnPlay">▶ Main Sendiri</button>
+    <button class="btn-reset" id="btnReset">↺ Ulangi</button>
+  </div>
+  
+  <div class="speed-row">
+    <span class="speed-label">Kecepatan:</span>
+    <input type="range" id="speed" min="1" max="5" value="3">
+    <span class="speed-label" id="speedLabel">Normal</span>
+  </div>
 </div>
-<div class="speed-row">
-  <span class="speed-label">Lambat/Cepat:</span>
-  <input type="range" id="speed" min="1" max="5" value="3">
-  <span class="speed-label" id="speedLabel">Normal</span>
-</div>
-<p class="info">Setiap langkah tetap ada di layar. Tidak ada yang hilang!</p>
-</div>
+</main>
+
+<footer>
+  <p class="info">Setiap langkah simulasi akan tampil di layar dan tidak hilang!</p>
+</footer>
 
 <script>
 // ===== AUDIO =====
