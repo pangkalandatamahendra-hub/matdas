@@ -170,6 +170,13 @@ main {
 @keyframes popIn { from{opacity:0;transform:scale(0.9) translateY(10px)} to{opacity:1;transform:scale(1) translateY(0)} }
 .digit { display: inline-block; opacity: 0; animation: fadeInDigit .3s ease-out forwards; color: #d90429; font-weight: 900; text-shadow: 1px 1px 0px rgba(255, 200, 200, 0.5); }
 @keyframes fadeInDigit { from{opacity:0;transform:translateY(5px)} to{opacity:1;transform:translateY(0)} }
+.highlight-box {
+  box-shadow: 0 0 0 2px #118ab2;
+  background: rgba(17,138,178,0.2);
+  border-radius: 4px;
+  z-index: 10;
+  position: relative;
+}
 
 /* Controls */
 .controls{ display:flex; gap:12px; margin-bottom:12px; flex-wrap:wrap; }
@@ -348,7 +355,7 @@ function buildTambah(a, b){
       else disp += str[i] + ' ';
       if(maxDec > 0 && i === str.length - maxDec - 1) disp += '. ';
     }
-    return disp.replace(/\s+$/, '');
+    return disp;
   };
   
   let carries = Array(strA.length).fill(' ');
@@ -363,13 +370,15 @@ function buildTambah(a, b){
     const bDisp = getDisplayRow(strB);
     const rDisp = getDisplayRow(results.join(''));
     
+    const baseDispLen = getDisplayRow(strA).length;
+    
     let res = [];
-    if(cDisp.trim() !== '') res.push(makeRow(W, [{pos: rightCol - cDisp.length, s: cDisp}]));
-    res.push(makeRow(W, [{pos: rightCol - tDisp.length, s: tDisp}]));
-    res.push(makeRow(W, [{pos: rightCol - bDisp.length - 2, s: '+'}, {pos: rightCol - bDisp.length, s: bDisp}]));
-    const barLen = Math.max(tDisp.length, bDisp.length) + 2;
-    res.push(makeRow(W, [{pos: rightCol - barLen, s: '─'.repeat(barLen)}]));
-    if(rDisp.trim() !== '') res.push(makeRow(W, [{pos: rightCol - rDisp.length, s: rDisp}]));
+    if(cDisp.trim() !== '') res.push(makeRow(W, [{pos: rightCol - baseDispLen, s: cDisp}]));
+    res.push(makeRow(W, [{pos: rightCol - baseDispLen, s: tDisp}]));
+    res.push(makeRow(W, [{pos: rightCol - baseDispLen - 2, s: '+'}, {pos: rightCol - baseDispLen, s: bDisp}]));
+    const barLen = tDisp.trimEnd().length + 2;
+    res.push(makeRow(W, [{pos: rightCol - baseDispLen - 2, s: '─'.repeat(barLen)}]));
+    if(rDisp.trim() !== '') res.push(makeRow(W, [{pos: rightCol - baseDispLen, s: rDisp}]));
     return res.join('\n');
   };
   
@@ -448,21 +457,26 @@ function buildKurang(a, b){
   }
   s.push({sim: a+' - '+b+' = ?', txt: introTxt});
   
-  const getDisplayRow = (arr) => {
+  const getDisplayRow = (arr, isTopStr = false) => {
     let disp = '';
     for(let i=0; i<arr.length; i++) {
       let char = arr[i];
       if (char === ' ' || char === null || char === false) disp += '  ';
       else {
-        if (String(char).length > 1) {
-            disp += String(char); // taking 2 spaces
+        let charStr = String(char);
+        if (isTopStr && modified[i] && charStr !== ' ') {
+            disp += charStr + '\u0336 '; 
         } else {
-            disp += String(char) + ' ';
+            if (charStr.length > 1) {
+                disp += charStr; 
+            } else {
+                disp += charStr + ' ';
+            }
         }
       }
       if(maxDec > 0 && i === arr.length - maxDec - 1) disp += '. ';
     }
-    return disp.replace(/\s+$/, '');
+    return disp;
   };
   
   const baseSim = () => {
@@ -471,17 +485,19 @@ function buildKurang(a, b){
       if(modified[i]) borrowArr[i] = topDigits[i].toString();
     }
     const cDisp = getDisplayRow(borrowArr);
-    const tDisp = getDisplayRow(strA.split(''));
+    const tDisp = getDisplayRow(strA.split(''), true);
     const bDisp = getDisplayRow(strB.split(''));
     const rDisp = getDisplayRow(results);
     
+    const baseDispLen = getDisplayRow(strA.split('')).length;
+    
     let res = [];
-    if(cDisp.trim() !== '') res.push(makeRow(W, [{pos: rightCol - cDisp.length, s: cDisp}]));
-    res.push(makeRow(W, [{pos: rightCol - tDisp.length, s: tDisp}]));
-    res.push(makeRow(W, [{pos: rightCol - bDisp.length - 2, s: '-'}, {pos: rightCol - bDisp.length, s: bDisp}]));
-    const barLen = Math.max(tDisp.length, bDisp.length) + 2;
-    res.push(makeRow(W, [{pos: rightCol - barLen, s: '─'.repeat(barLen)}]));
-    if(rDisp.trim() !== '') res.push(makeRow(W, [{pos: rightCol - rDisp.length, s: rDisp}]));
+    if(cDisp.trim() !== '') res.push(makeRow(W, [{pos: rightCol - baseDispLen, s: cDisp}]));
+    res.push(makeRow(W, [{pos: rightCol - baseDispLen, s: tDisp}]));
+    res.push(makeRow(W, [{pos: rightCol - baseDispLen - 2, s: '-'}, {pos: rightCol - baseDispLen, s: bDisp}]));
+    const barLen = getDisplayRow(strA.split('')).trimEnd().length + 2;
+    res.push(makeRow(W, [{pos: rightCol - baseDispLen - 2, s: '─'.repeat(barLen)}]));
+    if(rDisp.trim() !== '') res.push(makeRow(W, [{pos: rightCol - baseDispLen, s: rDisp}]));
     return res.join('\n');
   };
   
@@ -574,7 +590,12 @@ function buildKali(a, b){
     const shift = strB.length-1-i;
     const part = intA * d;
     parts.push({part, shift, d});
-    const rows = [top, bot, bar];
+    
+    let arrB = strB.split('');
+    arrB[i] = '\u200B' + arrB[i];
+    let stepBot = makeRow(W, [{pos: posB - 2, s: '×'}, {pos: posB, s: arrB.join(' ')}]);
+    
+    const rows = [top, stepBot, bar];
     for(const p of parts){
       const pLen = String(p.part).length;
       const pPos = rightCol - 2*(pLen + p.shift - 1);
@@ -778,8 +799,12 @@ function renderPaper(){
 }
 
 function animateDigits(text){
-  let digitCount = 0, charIdx = 0;
-  return text.replace(/\d/g, m => `<span class="digit" style="animation-delay:${digitCount++ * 0.08}s">${m}</span>`);
+  let digitCount = 0;
+  return text.replace(/\u200B?(\d)/g, (m, d) => {
+    let isHighlight = m.startsWith('\u200B');
+    let cls = isHighlight ? "digit highlight-box" : "digit";
+    return `<span class="${cls}" style="animation-delay:${digitCount++ * 0.08}s">${d}</span>`;
+  });
 }
 
 function nextStep(){ if(stepIdx < steps.length-1){stepIdx++; renderPaper(); stopAuto(); playClick();} else if(stepIdx === steps.length-1) playSuccess(); }
