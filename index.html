@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Belajar Hitung Yuk!</title>
+<link rel="icon" href="data:,">
 <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 /* Reset & Base */
@@ -329,70 +330,206 @@ function buildTambah(a, b){
   const decA = dota >= 0 ? sa.slice(dota+1) : '';
   const decB = dotb >= 0 ? sb.slice(dotb+1) : '';
   const maxDec = Math.max(decA.length, decB.length);
-  const decAp = decA.padEnd(maxDec, '0');
-  const decBp = decB.padEnd(maxDec, '0');
-  // Compute result by converting to integers, adding, then converting back
-  const intRes = (BigInt(intA || 0) * BigInt(Math.pow(10, maxDec)) + BigInt(decAp || 0)) +
-                 (BigInt(intB || 0) * BigInt(Math.pow(10, maxDec)) + BigInt(decBp || 0));
-  const resStr = intRes.toString().padStart(maxDec + 1, '0');
-  const resSplit = resStr.length - maxDec;
-  const resInt = resStr.slice(0, resSplit) || '0';
-  const resDec = resStr.slice(resSplit);
-  const result = maxDec > 0 ? resInt + '.' + resDec : resInt;
-
-  const intLen = Math.max(intA.length, intB.length, resInt.length);
-  const intAp = intA.padStart(intLen, ' ');
-  const intBp = intB.padStart(intLen, ' ');
-  const resIntP = resInt.padStart(intLen, ' ');
-
-  const topRow = '  ' + intAp.split('').join(' ') + (maxDec > 0 ? ' . ' + decAp.split('').join(' ') : '');
-  const botRow = '+ ' + intBp.split('').join(' ') + (maxDec > 0 ? ' . ' + decBp.split('').join(' ') : '');
-  const barRow = '─'.repeat(botRow.length);
-  const resRow = '  ' + resIntP.split('').join(' ') + (maxDec > 0 ? ' . ' + resDec.split('').join(' ') : '');
-
+  const totalLen = Math.max(intA.length, intB.length) + maxDec;
+  
+  let strA = intA.padStart(Math.max(intA.length, intB.length), ' ') + decA.padEnd(maxDec, '0');
+  let strB = intB.padStart(Math.max(intA.length, intB.length), ' ') + decB.padEnd(maxDec, '0');
+  
+  const rightCol = 6 + 2 * totalLen + (maxDec > 0 ? 3 : 0);
+  const W = rightCol + 4;
+  
+  const getDisplayRow = (str) => {
+    let disp = '';
+    for(let i=0; i<str.length; i++) {
+      if(str[i] === ' ') disp += '  ';
+      else disp += str[i] + ' ';
+      if(maxDec > 0 && i === str.length - maxDec - 1) disp += '. ';
+    }
+    return disp.replace(/\s+$/, '');
+  };
+  
+  let carries = Array(strA.length).fill(' ');
+  let results = Array(strA.length).fill(' ');
+  let c = 0;
+  
   s.push({sim: a+' + '+b+' = ?', txt:'Penjumlahan '+a+' + '+b+'. Susun ke bawah, sejajarkan koma (titik desimal).'});
-  s.push({sim: topRow+'\n'+botRow+'\n'+barRow, txt:'Sejajarkan koma. Jika tidak ada koma, anggap bilangan bulat.'});
-  s.push({sim: topRow+'\n'+botRow+'\n'+barRow+'\n'+resRow, txt:'✓ Hasil: '+a+' + '+b+' = '+result});
+  
+  const baseSim = () => {
+    const cDisp = getDisplayRow(carries.join(''));
+    const tDisp = getDisplayRow(strA);
+    const bDisp = getDisplayRow(strB);
+    const rDisp = getDisplayRow(results.join(''));
+    
+    let res = [];
+    if(cDisp.trim() !== '') res.push(makeRow(W, [{pos: rightCol - cDisp.length, s: cDisp}]));
+    res.push(makeRow(W, [{pos: rightCol - tDisp.length, s: tDisp}]));
+    res.push(makeRow(W, [{pos: rightCol - bDisp.length - 2, s: '+'}, {pos: rightCol - bDisp.length, s: bDisp}]));
+    const barLen = Math.max(tDisp.length, bDisp.length) + 2;
+    res.push(makeRow(W, [{pos: rightCol - barLen, s: '─'.repeat(barLen)}]));
+    if(rDisp.trim() !== '') res.push(makeRow(W, [{pos: rightCol - rDisp.length, s: rDisp}]));
+    return res.join('\n');
+  };
+  
+  s.push({sim: baseSim(), txt:'Mulai dari kolom paling kanan.'});
+  
+  for(let i = strA.length - 1; i >= 0; i--){
+    if(strA[i] === ' ' && strB[i] === ' ' && c === 0) break;
+    const digitA = strA[i] === ' ' ? 0 : parseInt(strA[i]);
+    const digitB = strB[i] === ' ' ? 0 : parseInt(strB[i]);
+    const sum = digitA + digitB + c;
+    const rDigit = sum % 10;
+    const nextC = Math.floor(sum / 10);
+    
+    results[i] = rDigit.toString();
+    
+    let txt = `Tambahkan kolom: ${digitA} + ${digitB}`;
+    if (c > 0) txt += ` + ${c} (simpanan)`;
+    txt += ` = ${sum}. `;
+    
+    if (nextC > 0) {
+      if (i > 0) {
+        carries[i-1] = nextC.toString();
+        txt += `Tulis ${rDigit}, simpan ${nextC} di kolom berikutnya.`;
+      } else {
+        results.unshift(nextC.toString());
+        carries.unshift(' ');
+        strA = ' ' + strA;
+        strB = ' ' + strB;
+        txt += `Tulis ${sum}.`;
+      }
+    } else {
+      txt += `Tulis ${rDigit}.`;
+    }
+    
+    c = nextC;
+    s.push({sim: baseSim(), txt: txt});
+  }
+  
+  let finalRes = results.join('').trim();
+  if (maxDec > 0) {
+    finalRes = finalRes.slice(0, finalRes.length - maxDec) + '.' + finalRes.slice(finalRes.length - maxDec);
+    if (finalRes.startsWith('.')) finalRes = '0' + finalRes;
+  }
+  s.push({sim: baseSim(), txt:'✓ Hasil akhir: '+a+' + '+b+' = '+finalRes});
   return s;
 }
 
 // ===== KURANG =====
 function buildKurang(a, b){
   const s = [];
-  const sa = String(a), sb = String(b);
+  let isNeg = parseFloat(a) < parseFloat(b);
+  let sa = isNeg ? String(b) : String(a);
+  let sb = isNeg ? String(a) : String(b);
+  
   const dota = sa.indexOf('.'), dotb = sb.indexOf('.');
   const intA = dota >= 0 ? sa.slice(0, dota) : sa;
   const intB = dotb >= 0 ? sb.slice(0, dotb) : sb;
   const decA = dota >= 0 ? sa.slice(dota+1) : '';
   const decB = dotb >= 0 ? sb.slice(dotb+1) : '';
   const maxDec = Math.max(decA.length, decB.length);
-  const decAp = decA.padEnd(maxDec, '0');
-  const decBp = decB.padEnd(maxDec, '0');
-  // Compute result
-  const intRes = (BigInt(intA || 0) * BigInt(Math.pow(10, maxDec)) + BigInt(decAp || 0)) -
-                 (BigInt(intB || 0) * BigInt(Math.pow(10, maxDec)) + BigInt(decBp || 0));
-  const resStr = intRes.toString();
-  const isNeg = resStr[0] === '-';
-  const absStr = isNeg ? resStr.slice(1) : resStr;
-  const padded = absStr.padStart(maxDec + 1, '0');
-  const resSplit = padded.length - maxDec;
-  const resInt = padded.slice(0, resSplit) || '0';
-  const resDec = padded.slice(resSplit);
-  const result = (isNeg ? '-' : '') + (maxDec > 0 ? resInt + '.' + resDec : resInt);
-
-  const intLen = Math.max(intA.length, intB.length, resInt.length);
-  const intAp = intA.padStart(intLen, ' ');
-  const intBp = intB.padStart(intLen, ' ');
-  const resIntP = resInt.padStart(intLen, ' ');
-
-  const topRow = '  ' + intAp.split('').join(' ') + (maxDec > 0 ? ' . ' + decAp.split('').join(' ') : '');
-  const botRow = '- ' + intBp.split('').join(' ') + (maxDec > 0 ? ' . ' + decBp.split('').join(' ') : '');
-  const barRow = '─'.repeat(botRow.length);
-  const resRow = '  ' + resIntP.split('').join(' ') + (maxDec > 0 ? ' . ' + resDec.split('').join(' ') : '');
-
-  s.push({sim: a+' - '+b+' = ?', txt:'Pengurangan '+a+' - '+b+'. Susun ke bawah, sejajarkan koma.'});
-  s.push({sim: topRow+'\n'+botRow+'\n'+barRow, txt:'Sejajarkan koma. Jika tidak ada, anggap bilangan bulat.'});
-  s.push({sim: topRow+'\n'+botRow+'\n'+barRow+'\n'+resRow, txt:'✓ Hasil: '+a+' - '+b+' = '+result});
+  const totalLen = Math.max(intA.length, intB.length) + maxDec;
+  
+  let strA = intA.padStart(Math.max(intA.length, intB.length), ' ') + decA.padEnd(maxDec, '0');
+  let strB = intB.padStart(Math.max(intA.length, intB.length), ' ') + decB.padEnd(maxDec, '0');
+  
+  const rightCol = 6 + 2 * totalLen + (maxDec > 0 ? 3 : 0);
+  const W = rightCol + 4;
+  
+  let topDigits = strA.split('').map(c => c === ' ' ? 0 : parseInt(c));
+  let modified = Array(strA.length).fill(false);
+  let results = Array(strA.length).fill(' ');
+  
+  let introTxt = 'Pengurangan '+a+' - '+b+'. Susun ke bawah, sejajarkan koma.';
+  if(isNeg){
+    introTxt += ' Karena '+a+' lebih kecil dari '+b+', hasil akan negatif. Kita hitung '+b+' - '+a+' lalu tambahkan minus.';
+  }
+  s.push({sim: a+' - '+b+' = ?', txt: introTxt});
+  
+  const getDisplayRow = (arr) => {
+    let disp = '';
+    for(let i=0; i<arr.length; i++) {
+      let char = arr[i];
+      if (char === ' ' || char === null || char === false) disp += '  ';
+      else {
+        if (String(char).length > 1) {
+            disp += String(char); // taking 2 spaces
+        } else {
+            disp += String(char) + ' ';
+        }
+      }
+      if(maxDec > 0 && i === arr.length - maxDec - 1) disp += '. ';
+    }
+    return disp.replace(/\s+$/, '');
+  };
+  
+  const baseSim = () => {
+    let borrowArr = Array(strA.length).fill(' ');
+    for(let i=0; i<strA.length; i++){
+      if(modified[i]) borrowArr[i] = topDigits[i].toString();
+    }
+    const cDisp = getDisplayRow(borrowArr);
+    const tDisp = getDisplayRow(strA.split(''));
+    const bDisp = getDisplayRow(strB.split(''));
+    const rDisp = getDisplayRow(results);
+    
+    let res = [];
+    if(cDisp.trim() !== '') res.push(makeRow(W, [{pos: rightCol - cDisp.length, s: cDisp}]));
+    res.push(makeRow(W, [{pos: rightCol - tDisp.length, s: tDisp}]));
+    res.push(makeRow(W, [{pos: rightCol - bDisp.length - 2, s: '-'}, {pos: rightCol - bDisp.length, s: bDisp}]));
+    const barLen = Math.max(tDisp.length, bDisp.length) + 2;
+    res.push(makeRow(W, [{pos: rightCol - barLen, s: '─'.repeat(barLen)}]));
+    if(rDisp.trim() !== '') res.push(makeRow(W, [{pos: rightCol - rDisp.length, s: rDisp}]));
+    return res.join('\n');
+  };
+  
+  s.push({sim: baseSim(), txt:'Mulai dari kolom paling kanan.'});
+  
+  for(let i = strA.length - 1; i >= 0; i--){
+    if(strA[i] === ' ' && strB[i] === ' ' && results[i] === ' ') break;
+    let valA = topDigits[i];
+    const valB = strB[i] === ' ' ? 0 : parseInt(strB[i]);
+    
+    if (valA < valB) {
+      let bIdx = i - 1;
+      while(bIdx >= 0 && topDigits[bIdx] === 0) bIdx--;
+      if (bIdx >= 0) {
+        for(let j = bIdx; j < i; j++){
+          if (j === bIdx) {
+            topDigits[j] -= 1;
+            modified[j] = true;
+          } else {
+            topDigits[j] = 9;
+            modified[j] = true;
+          }
+        }
+        valA += 10;
+        topDigits[i] = valA;
+        modified[i] = true;
+        s.push({sim: baseSim(), txt: `Angka ${topDigits[i]-10} lebih kecil dari ${valB}. Pinjam 1 dari sebelah kiri, menjadi ${valA}.`});
+      }
+    }
+    
+    const diff = valA - valB;
+    results[i] = diff.toString();
+    
+    let txt = `Kurangkan kolom: ${valA} - ${valB} = ${diff}. Tulis ${diff}.`;
+    s.push({sim: baseSim(), txt: txt});
+  }
+  
+  let finalRes = results.join('').trim();
+  while(finalRes.length > 1 && finalRes.startsWith('0')) {
+    finalRes = finalRes.slice(1);
+  }
+  if (maxDec > 0) {
+    if (finalRes.length <= maxDec) {
+      finalRes = finalRes.padStart(maxDec + 1, '0');
+    }
+    finalRes = finalRes.slice(0, finalRes.length - maxDec) + '.' + finalRes.slice(finalRes.length - maxDec);
+    if (finalRes.startsWith('.')) finalRes = '0' + finalRes;
+  }
+  if (isNeg && finalRes !== '0') finalRes = '-' + finalRes;
+  
+  s.push({sim: baseSim(), txt:'✓ Hasil akhir: '+a+' - '+b+' = '+finalRes});
   return s;
 }
 
@@ -694,7 +831,15 @@ document.getElementById('num1').addEventListener('keypress', e => {if(e.key === 
 document.getElementById('num2').addEventListener('keypress', e => {if(e.key === 'Enter'){genSteps(); playClick();}});
 
 genSteps();
-setTimeout(() => playWelcome(), 600);
+// Hapus auto playWelcome karena modern browser memblokir autoplay audio tanpa interaksi user
+// setTimeout(() => playWelcome(), 600); 
+
+// Resume AudioContext saat user berinteraksi pertama kali (klik di mana saja)
+document.body.addEventListener('click', () => {
+  if (audioCtx.state === 'suspended') {
+    audioCtx.resume();
+  }
+}, { once: true });
 </script>
 </body>
 </html>
