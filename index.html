@@ -465,7 +465,7 @@ function buildKurang(a, b){
       else {
         let charStr = String(char);
         if (isTopStr && modified[i] && charStr !== ' ') {
-            disp += charStr + '\u0336 '; 
+            disp += charStr + '\u0338 '; 
         } else {
             if (charStr.length > 1) {
                 disp += charStr; 
@@ -591,11 +591,14 @@ function buildKali(a, b){
     const part = intA * d;
     parts.push({part, shift, d});
     
+    let arrA = strA.split('').map(ch => '\u200B' + ch);
+    let stepTop = makeRow(W, [{pos: posA, s: arrA.join(' ')}]);
+    
     let arrB = strB.split('');
     arrB[i] = '\u200B' + arrB[i];
     let stepBot = makeRow(W, [{pos: posB - 2, s: '×'}, {pos: posB, s: arrB.join(' ')}]);
     
-    const rows = [top, stepBot, bar];
+    const rows = [stepTop, stepBot, bar];
     for(const p of parts){
       const pLen = String(p.part).length;
       const pPos = rightCol - 2*(pLen + p.shift - 1);
