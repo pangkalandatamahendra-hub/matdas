@@ -105,6 +105,10 @@ main {
   position: relative;
   z-index: 10;
   margin-bottom: 35px;
+}/* TV / Keyboard Navigation Accessibility */
+:focus-visible {
+  outline: 4px solid #118ab2 !important;
+  outline-offset: 4px !important;
 }
 
 /* Classroom Board Card */
@@ -434,7 +438,7 @@ footer { text-align:center; padding: 18px; color: #555; font-weight: 600; font-s
     <!-- Left: Sensei & Speech Bubble -->
     <div class="sensei-col">
       <div class="speech-bubble" id="teacherSpeech">Halo! Aku Sensei! Yuk kita mulai belajar berhitung!</div>
-      <div class="teacher" id="teacherAvatar" title="Klik aku untuk mengulang penjelasan suara!">
+      <div class="teacher" id="teacherAvatar" tabindex="0" role="button" title="Klik aku untuk mengulang penjelasan suara!">
         <!-- Cute Chibi Anime Teacher SVG -->
         <svg width="170" height="225" viewBox="0 0 170 225" xmlns="http://www.w3.org/2000/svg">
           <defs>
@@ -1648,11 +1652,18 @@ document.getElementById('btnVoice').addEventListener('click', function() {
 });
 
 // Sensei Avatar Click to repeat current step speech
-document.getElementById('teacherAvatar').addEventListener('click', () => {
+const teacherAvatar = document.getElementById('teacherAvatar');
+teacherAvatar.addEventListener('click', () => {
   if (steps.length > 0 && stepIdx >= 0 && stepIdx < steps.length) {
     speakText(steps[stepIdx].txt);
   } else {
     speakText(t('greet'));
+  }
+});
+teacherAvatar.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter' || e.key === ' ') {
+    e.preventDefault();
+    teacherAvatar.click();
   }
 });
 
@@ -1712,6 +1723,7 @@ updateUI();
 // AudioContext & SpeechSynthesis unlocking
 document.body.addEventListener('click', unlockAudio);
 document.body.addEventListener('touchstart', unlockAudio);
+document.body.addEventListener('keydown', unlockAudio);
 </script>
 </body>
 </html>
