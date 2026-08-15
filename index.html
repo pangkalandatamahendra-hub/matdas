@@ -2,10 +2,10 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Belajar Hitung Yuk!</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Belajar Hitung Bersama Sensei!</title>
 <link rel="icon" href="data:,">
-<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
 /* Reset & Base */
 *{margin:0;padding:0;box-sizing:border-box}
@@ -19,12 +19,13 @@ body{
   flex-direction:column;
   align-items:center;
   overflow-x:hidden;
+  padding: 0 10px;
 }
 
 /* Floating Animations */
 @keyframes floatUp {
   0% { transform: translateY(0) rotate(0deg); }
-  50% { transform: translateY(-15px) rotate(3deg); }
+  50% { transform: translateY(-8px) rotate(2deg); }
   100% { transform: translateY(0) rotate(0deg); }
 }
 @keyframes cloudMove {
@@ -34,142 +35,249 @@ body{
   100% { transform: translateX(110vw); opacity: 0; }
 }
 
-/* Decor */
+/* Background Decor */
 .bg-decor { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
 .cloud { position: absolute; background: white; border-radius: 50px; opacity: 0.6; filter: blur(2px); animation: cloudMove linear infinite; }
 .cloud::before, .cloud::after { content: ''; position: absolute; background: white; border-radius: 50%; }
-.cloud1 { width: 120px; height: 40px; top: 10%; left: -20%; animation-duration: 45s; }
+.cloud1 { width: 120px; height: 40px; top: 8%; left: -20%; animation-duration: 45s; }
 .cloud1::before { width: 60px; height: 60px; top: -30px; left: 15px; }
 .cloud1::after { width: 40px; height: 40px; top: -15px; left: 65px; }
-.cloud2 { width: 160px; height: 50px; top: 25%; left: -30%; animation-duration: 35s; animation-delay: -10s; }
+.cloud2 { width: 160px; height: 50px; top: 22%; left: -30%; animation-duration: 35s; animation-delay: -10s; }
 .cloud2::before { width: 80px; height: 80px; top: -40px; left: 20px; }
 .cloud2::after { width: 50px; height: 50px; top: -20px; left: 85px; }
 
 /* Header / Hero */
 header {
   text-align:center;
-  margin: 30px 10px 20px;
+  margin: 18px 10px 12px;
   position:relative;
   z-index: 10;
   animation: floatUp 6s ease-in-out infinite;
 }
 h1 {
   font-family: 'Fredoka One', cursive;
-  font-size: 48px;
+  font-size: 38px;
   color: #ff8b94;
-  text-shadow: 3px 3px 0 #fff, 5px 5px 0 rgba(0,0,0,0.1);
-  letter-spacing: 2px;
-  line-height: 1.1;
-  margin-bottom: 5px;
+  text-shadow: 3px 3px 0 #fff, 4px 4px 0 rgba(0,0,0,0.08);
+  letter-spacing: 1.5px;
+  line-height: 1.15;
+  margin-bottom: 4px;
 }
-h1 .star { color: #ffeb3b; text-shadow: none; font-size: 38px; }
+h1 .star { color: #ffeb3b; text-shadow: none; font-size: 30px; }
 .kids {
   display:block;
-  font-size:22px;
-  color:#438676;
+  font-size:19px;
+  color:#2e7d6b;
   font-family: 'Quicksand', sans-serif;
-  font-weight: 700;
-  margin-top: 5px;
+  font-weight: 800;
+  margin-top: 3px;
 }
 .sub {
-  font-size:16px;
+  font-size:14px;
   color:#555;
-  font-weight:600;
-  margin-top: 10px;
-  background: rgba(255,255,255,0.6);
+  font-weight:700;
+  margin-top: 6px;
+  background: rgba(255,255,255,0.75);
   display: inline-block;
-  padding: 8px 16px;
+  padding: 5px 16px;
   border-radius: 20px;
   box-shadow: 0 4px 6px rgba(0,0,0,0.05);
 }
 
+/* Lang Selector */
+.lang-selector { margin-bottom: 12px; display: flex; justify-content: center; gap: 8px; z-index: 20; position: relative; flex-wrap: wrap; }
+.lang-btn {
+  background: white; border: 3px solid #ffaaa5; border-radius: 18px; padding: 6px 16px;
+  font-family: 'Quicksand', sans-serif; font-weight: 800; cursor: pointer; transition: all 0.2s;
+  color: #555; font-size:14px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+.lang-btn.active {
+  background: #ff8b94; color: white; border-color: #e6737c;
+  box-shadow: 0 4px 12px rgba(255,139,148,0.4); transform: translateY(-2px);
+}
+.lang-btn:hover { transform: translateY(-2px); }
+.lang-btn:active { transform: translateY(1px); }
+
 /* Main Container */
 main {
   width: 100%;
-  max-width: 650px;
-  padding: 0 15px;
+  max-width: 960px;
   position: relative;
   z-index: 10;
-  margin-bottom: 50px;
+  margin-bottom: 35px;
 }
+
+/* Classroom Board Card */
 .board {
   background: white;
   border: 6px solid #ffaaa5;
-  border-radius: 35px;
+  border-radius: 32px;
   box-shadow: 0 15px 35px rgba(255,139,148,0.3), 0 8px 0 #ff8b94;
-  padding: 25px;
+  padding: 22px;
   position: relative;
+  width: 100%;
 }
 
 /* Tabs */
-.tabs{ display:flex; gap:10px; margin-bottom:20px; background:#f9f9f9; padding:8px; border-radius:22px; box-shadow: inset 0 3px 6px rgba(0,0,0,0.05); }
+.tabs{ display:flex; gap:8px; margin-bottom:16px; background:#f9f9f9; padding:6px; border-radius:20px; box-shadow: inset 0 3px 6px rgba(0,0,0,0.05); }
 .tab{
-  flex:1; padding:12px 5px; border:none; border-radius:16px;
-  font-size:16px; font-weight:700; cursor:pointer; transition:all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  background:white; color:#777; box-shadow:0 4px 6px rgba(0,0,0,0.05);
+  flex:1; padding:12px 4px; border:none; border-radius:15px;
+  font-size:15px; font-weight:800; cursor:pointer; transition:all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  background:white; color:#777; box-shadow:0 3px 6px rgba(0,0,0,0.05);
   font-family: 'Quicksand', sans-serif;
+  text-align:center;
 }
-.tab:hover { transform: translateY(-3px); box-shadow: 0 6px 12px rgba(0,0,0,0.1); }
+.tab:hover { transform: translateY(-2px); box-shadow: 0 5px 10px rgba(0,0,0,0.1); }
 .tab.active{
-  background: #ff8b94; color:#fff; font-size:17px;
-  box-shadow: 0 6px 15px rgba(255,139,148,0.4), 0 4px 0 #e6737c;
+  background: #ff8b94; color:#fff; font-size:16px;
+  box-shadow: 0 6px 14px rgba(255,139,148,0.4), 0 3px 0 #e6737c;
   transform: translateY(-2px);
 }
-.tab.active:active { transform: translateY(2px); box-shadow: 0 0 0 #e6737c; }
+.tab.active:active { transform: translateY(1px); box-shadow: 0 0 0 #e6737c; }
 
 /* Inputs */
-.input-row{ display:flex; gap:12px; margin-bottom:15px; align-items:center; justify-content:center; }
+.input-row{ display:flex; gap:10px; margin-bottom:14px; align-items:center; justify-content:center; }
 .input-row input{
-  flex:1; max-width: 200px; padding:15px 10px; border:4px solid #ffaaa5; border-radius:20px;
-  font-size:26px; font-weight:700; background:#fff; text-align:center;
+  flex:1; max-width: 190px; padding:12px 10px; border:4px solid #ffaaa5; border-radius:18px;
+  font-size:24px; font-weight:800; background:#fff; text-align:center;
   font-family: 'Fredoka One', cursive; color:#444; transition:all .2s;
   box-shadow: inset 0 3px 6px rgba(0,0,0,0.05);
+  min-width: 0;
 }
-.input-row input:focus{ outline:none; border-color:#ff8b94; transform: scale(1.02); box-shadow: 0 0 15px rgba(255,139,148,0.4); }
-.input-row label{ font-size:30px; color:#ff8b94; font-weight:900; font-family:'Fredoka One',cursive; }
+.input-row input:focus{ outline:none; border-color:#ff8b94; transform: scale(1.02); box-shadow: 0 0 15px rgba(255,139,148,0.35); }
+.input-row label{ font-size:28px; color:#ff8b94; font-weight:900; font-family:'Fredoka One',cursive; flex-shrink: 0; }
 
-/* Button Go */
+/* Main Action Button (Top) */
 .btn-go{
-  width:100%; padding:18px; border:none; border-radius:22px;
+  width:100%; padding:15px; border:none; border-radius:20px;
   background: #ffd3b6; background-image: linear-gradient(180deg, #ffebcb, #ffd3b6);
-  color: #d16b3f; font-size:24px; font-family:'Fredoka One',cursive; cursor:pointer;
-  transition:all .2s; box-shadow: 0 8px 0 #e5a47e, 0 15px 20px rgba(229,164,126,0.4);
-  letter-spacing:1px; margin-bottom:20px;
+  color: #d16b3f; font-size:22px; font-family:'Fredoka One',cursive; cursor:pointer;
+  transition:all .2s; box-shadow: 0 7px 0 #e5a47e, 0 12px 18px rgba(229,164,126,0.4);
+  letter-spacing:1px; margin-bottom:18px;
 }
-.btn-go:hover{ transform:translateY(-3px); box-shadow: 0 11px 0 #e5a47e, 0 15px 25px rgba(229,164,126,0.5); }
-.btn-go:active{ transform:translateY(5px); box-shadow: 0 3px 0 #e5a47e, 0 5px 10px rgba(229,164,126,0.4); }
+.btn-go:hover{ transform:translateY(-3px); box-shadow: 0 10px 0 #e5a47e, 0 14px 22px rgba(229,164,126,0.5); }
+.btn-go:active{ transform:translateY(4px); box-shadow: 0 3px 0 #e5a47e, 0 5px 10px rgba(229,164,126,0.4); }
 
-/* Paper (Simulation Area) */
-.paper-head{ display:flex; justify-content:space-between; align-items:center; font-size:14px; color:#ff8b94; margin-bottom:10px; font-weight:700; text-transform:uppercase; letter-spacing:1px; }
-.paper{
-  background: #fffdf5; border:4px solid #ffaaa5; border-radius:22px; padding:20px;
-  min-height:220px; max-height:55vh; overflow-y:auto; margin-bottom:15px;
-  box-shadow: inset 0 5px 15px rgba(0,0,0,0.03);
+/* CLASSROOM STAGE: Sensei on the LEFT, Blackboard on the RIGHT (Always Beside Each Other!) */
+.classroom-stage {
+  display: flex;
+  gap: 16px;
+  align-items: flex-end;
+  margin-bottom: 16px;
+  width: 100%;
+}
+
+/* Left Column: Sensei & Speech Bubble */
+.sensei-col {
+  width: 190px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   position: relative;
 }
-/* Watermark/Lines on paper */
+
+/* Speech Bubble pointing down to Sensei */
+.speech-bubble {
+  background: white;
+  border: 4px solid #118ab2;
+  border-radius: 20px;
+  padding: 12px 14px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #0f4c5c;
+  position: relative;
+  margin-bottom: 14px;
+  box-shadow: 0 6px 18px rgba(17,138,178,0.18);
+  animation: popIn 0.3s ease-out;
+  text-align: center;
+  font-family: 'Quicksand', sans-serif;
+  line-height: 1.45;
+  width: 100%;
+}
+.speech-bubble::after {
+  content: ''; position: absolute; bottom: -13px; left: 50%; transform: translateX(-50%);
+  border-width: 13px 10px 0; border-style: solid; border-color: #118ab2 transparent transparent transparent;
+}
+.speech-bubble::before {
+  content: ''; position: absolute; bottom: -7px; left: 50%; transform: translateX(-50%);
+  border-width: 8px 7px 0; border-style: solid; border-color: white transparent transparent transparent; z-index: 1;
+}
+
+/* Sensei Avatar Animation */
+.teacher {
+  cursor: pointer;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  filter: drop-shadow(0 8px 12px rgba(0,0,0,0.12));
+}
+.teacher:hover { transform: scale(1.05); }
+
+/* Animated Mouth and Pointer Stick */
+.teacher.talking #mouth {
+  transform-origin: 90px 124px;
+  animation: animeMouth 0.2s infinite alternate;
+}
+.teacher.talking .arm-pointer {
+  transform-origin: 120px 145px;
+  animation: animePoint 0.5s infinite alternate ease-in-out;
+}
+.teacher.talking .hair-ribbon {
+  transform-origin: 50px 70px;
+  animation: ribbonFlutter 0.6s infinite alternate ease-in-out;
+}
+
+@keyframes animeMouth {
+  0% { transform: scaleY(1) scaleX(1); }
+  50% { transform: scaleY(2.2) scaleX(1.15) translateY(1px); }
+  100% { transform: scaleY(1.4) scaleX(0.9); }
+}
+@keyframes animePoint {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(-14deg) translateY(-2px); }
+}
+@keyframes ribbonFlutter {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(8deg); }
+}
+
+/* Right Column: Blackboard / Simulation Paper */
+.blackboard-col {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.paper-head{ display:flex; justify-content:space-between; align-items:center; font-size:14px; color:#ff8b94; margin-bottom:8px; font-weight:800; text-transform:uppercase; letter-spacing:0.5px; }
+.paper{
+  background: #fffdf5; border:4px solid #ffaaa5; border-radius:20px; padding:18px;
+  min-height:220px; max-height:52vh; overflow-y:auto; overflow-x:auto; margin-bottom:0;
+  box-shadow: inset 0 5px 15px rgba(0,0,0,0.03);
+  position: relative;
+  -webkit-overflow-scrolling: touch;
+}
 .paper::before {
   content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
   background: repeating-linear-gradient(180deg, transparent, transparent 39px, #e8f4f8 39px, #e8f4f8 40px);
   pointer-events: none; z-index: 0;
 }
-.step-block { margin-bottom: 25px; padding-bottom: 20px; border-bottom: 2px dashed #ffcccb; position: relative; z-index: 2; opacity: 0.5; transition: opacity 0.3s; }
+.step-block { margin-bottom: 20px; padding-bottom: 16px; border-bottom: 2px dashed #ffcccb; position: relative; z-index: 2; opacity: 0.5; transition: opacity 0.3s; }
 .step-block:last-child { border-bottom: none; margin-bottom: 0; }
 .step-block.current { opacity: 1; }
 .step-sim {
   font-family: 'SF Mono', ui-monospace, 'Cascadia Code', 'Fira Code', monospace;
-  font-size: 28px; line-height: 1.8; letter-spacing: 4px;
+  font-size: 24px; line-height: 1.8; letter-spacing: 3px;
   white-space: pre; color: #2b2d42; font-weight: 800;
 }
 .step-txt {
-  font-size: 16px; color: #0b525b; font-weight: 700; margin-top: 15px; line-height: 1.5;
-  background: #e0fbfc; padding: 12px 18px; border-radius: 12px;
-  border-left: 5px solid #118ab2; box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  font-size: 14px; color: #0b525b; font-weight: 700; margin-top: 12px; line-height: 1.5;
+  background: #e0fbfc; padding: 10px 14px; border-radius: 12px;
+  border-left: 5px solid #118ab2; box-shadow: 0 3px 6px rgba(0,0,0,0.04);
 }
-.step-block.current .step-sim { animation: popIn .4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-@keyframes popIn { from{opacity:0;transform:scale(0.9) translateY(10px)} to{opacity:1;transform:scale(1) translateY(0)} }
+.step-block.current .step-sim { animation: popIn .35s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+@keyframes popIn { from{opacity:0;transform:scale(0.92) translateY(8px)} to{opacity:1;transform:scale(1) translateY(0)} }
 .digit { display: inline-block; opacity: 0; animation: fadeInDigit .3s ease-out forwards; color: #d90429; font-weight: 900; text-shadow: 1px 1px 0px rgba(255, 200, 200, 0.5); }
-@keyframes fadeInDigit { from{opacity:0;transform:translateY(5px)} to{opacity:1;transform:translateY(0)} }
+@keyframes fadeInDigit { from{opacity:0;transform:translateY(4px)} to{opacity:1;transform:translateY(0)} }
 .highlight-top, .highlight-bot { position: relative; z-index: 5; }
 .highlight-top::before {
   content: ''; position: absolute;
@@ -192,51 +300,93 @@ main {
   pointer-events: none; z-index: 10;
 }
 
-/* Controls */
-.controls{ display:flex; gap:12px; margin-bottom:12px; flex-wrap:wrap; }
+/* Bottom Step Controls: Clear & Unambiguous */
+.controls{ display:flex; gap:8px; margin-top:14px; margin-bottom:12px; flex-wrap:wrap; }
 .controls button{
-  flex:1; min-width:90px; padding:15px 5px; border:none; border-radius:18px;
-  font-size:16px; font-weight:700; cursor:pointer; transition:all .2s;
-  font-family:'Quicksand',sans-serif;
+  flex:1; min-width:80px; padding:12px 4px; border:none; border-radius:15px;
+  font-size:14px; font-weight:800; cursor:pointer; transition:all .2s;
+  font-family:'Quicksand',sans-serif; text-align:center;
 }
-.btn-prev{ background:#a8e6cf; color:#2d6a4f; box-shadow:0 6px 0 #7cb39c; }
-.btn-prev:hover:not(:disabled){ transform:translateY(-2px); box-shadow:0 8px 0 #7cb39c; }
-.btn-prev:active:not(:disabled){ transform:translateY(4px); box-shadow:0 2px 0 #7cb39c; }
+.btn-prev{ background:#a8e6cf; color:#2d6a4f; box-shadow:0 5px 0 #7cb39c; }
+.btn-prev:hover:not(:disabled){ transform:translateY(-2px); box-shadow:0 7px 0 #7cb39c; }
+.btn-prev:active:not(:disabled){ transform:translateY(3px); box-shadow:0 2px 0 #7cb39c; }
 
-.btn-play{ background:#06d6a0; color:#fff; box-shadow:0 6px 0 #05a87e; font-size:17px!important; }
-.btn-play:hover:not(:disabled){ transform:translateY(-2px); box-shadow:0 8px 0 #05a87e; }
-.btn-play:active:not(:disabled){ transform:translateY(4px); box-shadow:0 2px 0 #05a87e; }
+.btn-next{ background:#70e000; color:#004b23; box-shadow:0 5px 0 #38b000; font-size:15px!important; }
+.btn-next:hover:not(:disabled){ transform:translateY(-2px); box-shadow:0 7px 0 #38b000; }
+.btn-next:active:not(:disabled){ transform:translateY(3px); box-shadow:0 2px 0 #38b000; }
 
-.btn-reset{ background:#ffd166; color:#a37200; box-shadow:0 6px 0 #d9ad49; }
-.btn-reset:hover:not(:disabled){ transform:translateY(-2px); box-shadow:0 8px 0 #d9ad49; }
-.btn-reset:active:not(:disabled){ transform:translateY(4px); box-shadow:0 2px 0 #d9ad49; }
-.controls button:disabled{ opacity:.5; cursor:not-allowed; transform:none!important; box-shadow:none!important; }
+.btn-auto{ background:#06d6a0; color:#fff; box-shadow:0 5px 0 #05a87e; font-size:14px!important; }
+.btn-auto:hover:not(:disabled){ transform:translateY(-2px); box-shadow:0 7px 0 #05a87e; }
+.btn-auto:active:not(:disabled){ transform:translateY(3px); box-shadow:0 2px 0 #05a87e; }
+.btn-auto.playing{ background:#ff5d8f; color:#fff; box-shadow:0 5px 0 #d90429; }
+
+.btn-reset{ background:#ffd166; color:#a37200; box-shadow:0 5px 0 #d9ad49; }
+.btn-reset:hover:not(:disabled){ transform:translateY(-2px); box-shadow:0 7px 0 #d9ad49; }
+.btn-reset:active:not(:disabled){ transform:translateY(3px); box-shadow:0 2px 0 #d9ad49; }
+
+.btn-voice{ background:#9b5de5; color:#fff; box-shadow:0 5px 0 #7b4bc4; }
+.btn-voice:hover{ transform:translateY(-2px); box-shadow:0 7px 0 #7b4bc4; }
+.btn-voice:active{ transform:translateY(3px); box-shadow:0 2px 0 #7b4bc4; }
+.btn-voice.off { background: #e5e5e5; color: #888; box-shadow:0 5px 0 #ccc; }
+
+.controls button:disabled{ opacity:.45; cursor:not-allowed; transform:none!important; box-shadow:none!important; }
 
 /* Speed Row */
 .speed-row{
-  display:flex; align-items:center; gap:12px;
-  font-size:14px; color:#ff8b94; background:#fff2f3; padding:12px 18px; border-radius:18px;
-  font-weight:700; border: 2px solid #ffaaa5;
+  display:flex; align-items:center; gap:10px;
+  font-size:13px; color:#ff8b94; background:#fff2f3; padding:10px 16px; border-radius:16px;
+  font-weight:800; border: 2px solid #ffaaa5;
 }
-.speed-row input[type=range]{ flex:1; accent-color:#ff8b94; cursor:pointer; height:10px; border-radius:5px; }
-.speed-label{ white-space:nowrap; min-width:60px; }
+.speed-row input[type=range]{ flex:1; accent-color:#ff8b94; cursor:pointer; height:8px; border-radius:4px; }
+.speed-label{ white-space:nowrap; min-width:55px; }
 
 /* Footer */
-footer { text-align:center; padding: 20px; color: #555; font-weight: 600; font-size: 14px; opacity: 0.8; }
+footer { text-align:center; padding: 18px; color: #555; font-weight: 600; font-size: 13px; opacity: 0.85; }
 .info { background: white; padding: 8px 16px; border-radius: 20px; display: inline-block; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
 
-/* Responsive */
-@media(max-width:480px){
-  h1{font-size:32px;}
-  .star{font-size:24px;}
-  .kids{font-size:16px;}
-  .sub{font-size:12px; padding:6px 12px;}
-  .board{padding:15px; border-width: 4px;}
-  .tab{font-size:13px; padding:10px 2px;}
-  .input-row input{font-size:22px; padding:12px 5px;}
-  .btn-go{font-size:20px; padding:15px;}
-  .step-sim{font-size:20px;}
-  .controls button{font-size:14px; padding:12px 4px;}
+/* RESPONSIVE DESIGN: Sensei ALWAYS Beside Blackboard on All Screen Sizes */
+@media(max-width: 768px){
+  .classroom-stage { gap: 12px; }
+  .sensei-col { width: 135px; }
+  .teacher svg { width: 125px; height: 165px; }
+  .speech-bubble { font-size: 13px; padding: 10px; }
+  .board { padding: 16px; }
+  .step-sim { font-size: 21px; letter-spacing: 2px; }
+}
+
+@media(max-width: 520px){
+  header { margin: 12px 5px 8px; }
+  h1 { font-size: 26px; }
+  h1 .star { font-size: 20px; }
+  .kids { font-size: 14px; }
+  .sub { font-size: 12px; padding: 4px 10px; }
+  .lang-btn { font-size: 13px; padding: 5px 12px; }
+  .board { padding: 12px; border-width: 4px; border-radius: 22px; }
+  .tabs { gap: 4px; padding: 4px; }
+  .tab { font-size: 12px; padding: 9px 2px; border-radius: 12px; }
+  .tab.active { font-size: 12px; }
+  .input-row input { font-size: 19px; padding: 9px 4px; border-width: 3px; }
+  .input-row label { font-size: 20px; }
+  .btn-go { font-size: 17px; padding: 12px; border-radius: 16px; margin-bottom: 12px; }
+  
+  /* Sensei stays on the left of blackboard */
+  .classroom-stage { gap: 8px; align-items: flex-end; }
+  .sensei-col { width: 95px; }
+  .teacher svg { width: 90px; height: 120px; }
+  .speech-bubble {
+    font-size: 11.5px; padding: 8px 6px; border-width: 3px; border-radius: 14px;
+    margin-bottom: 8px; line-height: 1.35;
+  }
+  .speech-bubble::after { bottom: -9px; border-width: 9px 7px 0; }
+  .speech-bubble::before { bottom: -5px; border-width: 6px 5px 0; }
+  
+  .paper { min-height: 180px; max-height: 48vh; padding: 10px 8px; border-width: 3px; border-radius: 16px; }
+  .step-sim { font-size: 17px; letter-spacing: 1.5px; line-height: 1.6; }
+  .step-txt { font-size: 12.5px; padding: 8px 10px; margin-top: 8px; }
+  
+  .controls { gap: 5px; margin-top: 10px; }
+  .controls button { font-size: 12px; padding: 10px 2px; min-width: calc(50% - 5px); border-radius: 12px; }
+  .btn-voice { min-width: 100%!important; }
 }
 </style>
 </head>
@@ -248,12 +398,19 @@ footer { text-align:center; padding: 20px; color: #555; font-weight: 600; font-s
 </div>
 
 <header>
-  <h1><span class="star">✨</span> Belajar Hitung <span class="star">✨</span><span class="kids">Kakak Chayra & Adik Annira</span></h1>
-  <p class="sub">Matematika jadi mudah dan seru! 🎈</p>
+  <div class="lang-selector">
+    <button class="lang-btn active" data-lang="id">🇮🇩 Indonesia</button>
+    <button class="lang-btn" data-lang="en">🇬🇧 English</button>
+    <button class="lang-btn" data-lang="jv">ꦗꦮ Jawa</button>
+  </div>
+  <h1><span class="star">✨</span> <span id="titleText">Belajar Hitung</span> <span class="star">✨</span><span class="kids">Kakak Chayra & Adik Annira</span></h1>
+  <p class="sub" id="subTitle">Matematika jadi mudah dan seru bersama Sensei! 🎈</p>
 </header>
 
 <main>
 <div class="board">
+
+  <!-- Math Operation Tabs -->
   <div class="tabs">
     <button class="tab active" data-op="tambah">➕ Tambah</button>
     <button class="tab" data-op="kurang">➖ Kurang</button>
@@ -261,41 +418,573 @@ footer { text-align:center; padding: 20px; color: #555; font-weight: 600; font-s
     <button class="tab" data-op="bagi">➗ Bagi</button>
   </div>
 
+  <!-- Number Inputs -->
   <div class="input-row">
     <input type="number" step="any" inputmode="decimal" id="num1" placeholder="Angka 1" value="256">
     <label id="opLabel">+</label>
     <input type="number" step="any" inputmode="decimal" id="num2" placeholder="Angka 2" value="178">
   </div>
   
-  <button class="btn-go" id="btnGo">🚀 Ayo Hitung!</button>
+  <!-- Primary Action Button (Top) -->
+  <button class="btn-go" id="btnGo">🚀 Mulai Hitung</button>
 
-  <div class="paper-head">
-    <span id="stageTitle">Belajar Menambah</span>
-    <span id="stepCount">Tahap 0/0</span>
+  <!-- CLASSROOM STAGE: Sensei on the LEFT, Blackboard on the RIGHT -->
+  <div class="classroom-stage">
+    
+    <!-- Left: Sensei & Speech Bubble -->
+    <div class="sensei-col">
+      <div class="speech-bubble" id="teacherSpeech">Halo! Aku Sensei! Yuk kita mulai belajar berhitung!</div>
+      <div class="teacher" id="teacherAvatar" title="Klik aku untuk mengulang penjelasan suara!">
+        <!-- Cute Chibi Anime Teacher SVG -->
+        <svg width="170" height="225" viewBox="0 0 170 225" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="hairGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#b07d62"/>
+              <stop offset="100%" stop-color="#6f4e37"/>
+            </linearGradient>
+            <linearGradient id="eyeGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#4361ee"/>
+              <stop offset="100%" stop-color="#1e1b4b"/>
+            </linearGradient>
+            <linearGradient id="blazerGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#ff8b94"/>
+              <stop offset="100%" stop-color="#e6737c"/>
+            </linearGradient>
+            <linearGradient id="starGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#fff3b0"/>
+              <stop offset="100%" stop-color="#ffd166"/>
+            </linearGradient>
+          </defs>
+
+          <!-- Back Hair / Ponytails -->
+          <g class="hair-ribbon">
+            <path d="M35,65 C15,75 5,110 20,135 C28,125 35,100 40,85 Z" fill="url(#hairGrad)"/>
+            <circle cx="34" cy="74" r="8" fill="#ff4d6d"/>
+            <circle cx="34" cy="74" r="3" fill="#fff"/>
+          </g>
+          <g>
+            <path d="M135,65 C155,75 165,110 150,135 C142,125 135,100 130,85 Z" fill="url(#hairGrad)"/>
+            <circle cx="136" cy="74" r="8" fill="#ff4d6d"/>
+            <circle cx="136" cy="74" r="3" fill="#fff"/>
+          </g>
+
+          <!-- Body & Outfit -->
+          <path d="M60,195 L60,220 A5,5 0 0,0 75,220 L75,195 Z" fill="#fff"/>
+          <path d="M95,195 L95,220 A5,5 0 0,0 110,220 L110,195 Z" fill="#fff"/>
+          <ellipse cx="67" cy="220" rx="9" ry="5" fill="#6f4e37"/>
+          <ellipse cx="103" cy="220" rx="9" ry="5" fill="#6f4e37"/>
+          <path d="M50,170 L120,170 L130,200 L40,200 Z" fill="#3a5a40"/>
+
+          <!-- Blazer / Torso -->
+          <path d="M45,130 Q85,120 125,130 L122,175 L48,175 Z" fill="url(#blazerGrad)"/>
+          <polygon points="85,130 65,130 85,155" fill="#fff"/>
+          <polygon points="85,130 105,130 85,155" fill="#fff"/>
+          <polygon points="75,140 95,140 85,148" fill="#d90429"/>
+          <polygon points="75,156 95,156 85,148" fill="#d90429"/>
+          <circle cx="85" cy="148" r="3.5" fill="#ffb703"/>
+
+          <!-- Left Arm (Holding Math Book) -->
+          <path d="M48,135 Q30,150 42,175" fill="none" stroke="url(#blazerGrad)" stroke-width="14" stroke-linecap="round"/>
+          <rect x="22" y="160" width="26" height="34" rx="4" fill="#3a86ff" transform="rotate(12 35 175)"/>
+          <rect x="24" y="162" width="22" height="30" rx="2" fill="#e0fbfc" transform="rotate(12 35 175)"/>
+          <text x="28" y="182" font-family="'Fredoka One', cursive" font-size="14" fill="#ff006e" transform="rotate(12 35 175)">1+2</text>
+          <circle cx="44" cy="172" r="6" fill="#ffe5d9"/>
+
+          <!-- Anime Head & Face -->
+          <path d="M45,85 C45,45 125,45 125,85 C125,125 45,125 45,85 Z" fill="#ffe5d9"/>
+          <ellipse cx="58" cy="98" rx="8" ry="4" fill="#ffb4a2" opacity="0.8"/>
+          <ellipse cx="112" cy="98" rx="8" ry="4" fill="#ffb4a2" opacity="0.8"/>
+
+          <!-- Big Cute Anime Eyes -->
+          <ellipse cx="62" cy="85" rx="10" ry="13" fill="url(#eyeGrad)"/>
+          <ellipse cx="60" cy="81" rx="4.5" ry="6" fill="#fff"/>
+          <circle cx="65" cy="91" r="2.2" fill="#fff"/>
+          <path d="M52,72 Q63,68 74,74" fill="none" stroke="#2b2d42" stroke-width="2.5" stroke-linecap="round"/>
+          
+          <ellipse cx="108" cy="85" rx="10" ry="13" fill="url(#eyeGrad)"/>
+          <ellipse cx="106" cy="81" rx="4.5" ry="6" fill="#fff"/>
+          <circle cx="111" cy="91" r="2.2" fill="#fff"/>
+          <path d="M96,74 Q107,68 118,72" fill="none" stroke="#2b2d42" stroke-width="2.5" stroke-linecap="round"/>
+
+          <!-- Cute Teacher Glasses -->
+          <rect x="49" y="74" width="26" height="22" rx="7" fill="rgba(255,255,255,0.2)" stroke="#e63946" stroke-width="2.8"/>
+          <rect x="95" y="74" width="26" height="22" rx="7" fill="rgba(255,255,255,0.2)" stroke="#e63946" stroke-width="2.8"/>
+          <line x1="75" y1="84" x2="95" y2="84" stroke="#e63946" stroke-width="2.8"/>
+
+          <!-- Nose & Animated Cute Mouth -->
+          <circle cx="85" cy="96" r="1.5" fill="#f4a261"/>
+          <path id="mouth" d="M78,105 Q85,112 92,105" fill="#ff5d8f" stroke="#d90429" stroke-width="2" stroke-linecap="round"/>
+
+          <!-- Front Hair & Bangs -->
+          <path d="M42,75 C42,35 128,35 128,75 C120,62 108,60 98,68 C90,58 78,58 70,68 C62,60 50,62 42,75 Z" fill="url(#hairGrad)"/>
+          <path d="M55,62 Q85,45 115,62" fill="none" stroke="#ffe5d9" stroke-width="2.5" opacity="0.6"/>
+
+          <!-- Right Arm with Star Pointer Stick (Pointing toward the Board) -->
+          <g class="arm-pointer">
+            <path d="M122,135 Q145,145 152,125" fill="none" stroke="url(#blazerGrad)" stroke-width="14" stroke-linecap="round"/>
+            <circle cx="152" cy="123" r="6.5" fill="#ffe5d9"/>
+            <line x1="150" y1="125" x2="195" y2="70" stroke="#8d5b4c" stroke-width="4.5" stroke-linecap="round"/>
+            <polygon points="195,55 199,66 211,66 201,73 205,84 195,77 185,84 189,73 179,66 191,66" fill="url(#starGrad)" stroke="#f77f00" stroke-width="1.5"/>
+            <circle cx="195" cy="70" r="3" fill="#fff"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Right: Blackboard / Simulation Paper -->
+    <div class="blackboard-col">
+      <div class="paper-head">
+        <span id="stageTitle">Belajar Menambah</span>
+        <span id="stepCount">Tahap 0/0</span>
+      </div>
+      <div class="paper" id="paper"></div>
+    </div>
+
   </div>
-  
-  <div class="paper" id="paper"></div>
 
+  <!-- Clear, Unambiguous Step Controls -->
   <div class="controls">
-    <button class="btn-prev" id="btnPrev" disabled>◀ Kembali</button>
-    <button class="btn-play" id="btnPlay">▶ Main Sendiri</button>
-    <button class="btn-reset" id="btnReset">↺ Ulangi</button>
+    <button class="btn-prev" id="btnPrev" disabled>◀ Mundur</button>
+    <button class="btn-next" id="btnNext" disabled>Lanjut ▶</button>
+    <button class="btn-auto" id="btnAuto">▶ Putar Otomatis</button>
+    <button class="btn-reset" id="btnReset">↺ Mulai Ulang</button>
+    <button class="btn-voice" id="btnVoice">🔊 Suara: ON</button>
   </div>
   
   <div class="speed-row">
-    <span class="speed-label">Kecepatan:</span>
+    <span class="speed-label" id="speedText">Jeda Suara:</span>
     <input type="range" id="speed" min="1" max="5" value="3">
-    <span class="speed-label" id="speedLabel">Normal</span>
+    <span class="speed-label" id="speedLabel">Biasa</span>
   </div>
+
 </div>
 </main>
 
 <footer>
-  <p class="info">Setiap langkah simulasi akan tampil di layar dan tidak hilang!</p>
+  <p class="info">Setiap langkah simulasi dipandu oleh Sensei langkah demi langkah!</p>
 </footer>
 
 <script>
-// ===== AUDIO =====
+// ===== TRANSLATIONS & KIDS-FRIENDLY STRINGS =====
+const i18n = {
+  id: {
+    title: "Belajar Hitung",
+    subtitle: "Matematika jadi mudah dan seru bersama Sensei! 🎈",
+    tambah: "➕ Tambah", kurang: "➖ Kurang", kali: "✖️ Kali", bagi: "➗ Bagi",
+    
+    // Clear action buttons
+    mulaiHitung: "🚀 Mulai Hitung",
+    mundur: "◀ Mundur",
+    lanjut: "Lanjut ▶",
+    putarOtomatis: "▶ Putar Otomatis",
+    jeda: "⏸ Jeda",
+    mulaiUlang: "↺ Mulai Ulang",
+    selesai: "✓ Selesai",
+    
+    kecepatan: "Jeda Suara:",
+    speed: ['Paling Cepat', 'Cepat', 'Biasa', 'Lambat', 'Paling Lambat'],
+    stageTambah: "Belajar Menambah", stageKurang: "Belajar Mengurangi", stageKali: "Belajar Mengali", stageBagi: "Belajar Membagi (Porogapit)",
+    tahap: "Tahap",
+    alertAngka: "Tulis angka dulu ya sayang!",
+    suaraOn: "🔊 Suara: ON", suaraOff: "🔇 Suara: OFF",
+    greet: "Halo! Aku Sensei! Yuk kita mulai belajar berhitung bersama! Tekan Mulai Hitung di atas ya!",
+    
+    tambahIntro: "Wah, kita mau belajar pertambahan {a} + {b} nih. Kita susun ke bawah ya, lurusin komanya! Semangat!",
+    tambahMulai: "Kita mulai ngitung dari kolom yang paling kanan ya dek!",
+    tambahStep: "Kita tambah ya: {da} + {db}{cStr} = {sum}. {tStr}",
+    tambahCarry: " + {c} dari celengan",
+    tambahTulisC: "Tulis {r}, dan simpan {nc} ke tetangga sebelahnya!",
+    tambahTulisB: "Langsung aja tulis {sum} ya pinter!",
+    tambahTulisA: "Tulis {r} di bawah ya.",
+    tambahHasil: "Yey selesai! Hasilnya {a} + {b} = {res}. Pinter banget!",
+    
+    kurangIntro: "Sekarang pengurangan {a} - {b}. Susun ke bawah dan lurusin komanya ya!",
+    kurangIntroNeg: "Pengurangan {a} - {b}. Karena {a} lebih kecil, hasilnya pasti minus atau negatif. Kita hitung {b} - {a} lalu beri minus di depannya. Gampang kan!",
+    kurangMulai: "Ayo kita mulai kurangi dari kanan!",
+    kurangPinjam: "Waduh, angka {vA0} lebih kecil dari {vB}! Kita pinjam 1 dari tetangga ya, jadi {vA} deh.",
+    kurangStep: "Sekarang kurangkan: {vA} - {vB} = {diff}. Tulis {diff} di bawah ya.",
+    kurangHasil: "Wah jagoan! Hasilnya {a} - {b} = {res}. Tos dulu!",
+    
+    kaliIntro: "Waktunya perkalian {a} × {b}. {dStr}",
+    kaliAbaikanKoma: "Komanya kita simpan dulu ya, kita hitung {ia} × {ib} aja.",
+    kaliSusun: "Susun angkanya: {ia} di atas, {ib} di bawah.",
+    kaliStepA: "Sekarang kalikan: {ia} × {d} = {part}. Geser {s} langkah ke kiri ya!",
+    kaliStepB: "Kalikan digit belakangnya: {ia} × {d} = {part}. Tulis paling bawah ya.",
+    kaliJumlah: "Nah, sekarang kita jumlahkan semuanya = {tot}.",
+    kaliHasil: "Yuhuu beres! {dStr}",
+    kaliKembalikan: "Jangan lupa komanya dikembalikan {td} tempat ya: {fs}.",
+    kaliAkhir: "{a} × {b} = {tot}.",
+    
+    bagiDesimal: "Wah ada komanya nih, kita kalikan {m} semua biar gampang jadi {da} ÷ {db} ya!",
+    bagiBentuk: "Ini bentuk rumah porogapitnya. {d} nunggu di luar, {n} masuk di dalam rumah. Kita siapkan {c} kursi di atas atap buat hasilnya ya!",
+    bagiTurun: "Lalu turunkan angka selanjutnya: {sisa}. ",
+    bagiKoma: "Masih ada sisa nih. Tambahkan koma di atas, lalu beri bonus angka nol: {sisa}. ",
+    bagiMulai: "Angka pertama kita: {sisa}. ",
+    bagiBisa: "{sisa} ÷ {d} = {q}. Tulis angka {q} {pos} ya!",
+    bagiTakBisa: "Wah, {sisa} belum bisa dibagi {d}. Tulis 0 {pos} ya.",
+    bagiPosAtas: "di atap", bagiPosKoma: "setelah koma",
+    bagiKurang: "Lalu {q} × {d} = {p}. Terus kurangi {sisa} − {p} = {r}.",
+    bagiSisaLanjut: "Sisanya {r}, yuk lanjut angka berikutnya!",
+    bagiSisaHabis: "Sisanya {r} doang.",
+    bagiSisaKoma: "Sekarang sudah ada {dc} angka di belakang koma.",
+    bagiHasil: "Hebaaaat! Hasil akhirnya = {q}. {ket}",
+    bagiKetKoma: "(tepat {dc} angka di belakang koma ya!)",
+    bagiKetHabis: "(pas banget nih, tanpa sisa!)"
+  },
+  en: {
+    title: "Math is Fun",
+    subtitle: "Math is easy and fun with Sensei! 🎈",
+    tambah: "➕ Add", kurang: "➖ Subtract", kali: "✖️ Multiply", bagi: "➗ Divide",
+    
+    mulaiHitung: "🚀 Start Calculating",
+    mundur: "◀ Back",
+    lanjut: "Next ▶",
+    putarOtomatis: "▶ Auto Play",
+    jeda: "⏸ Pause",
+    mulaiUlang: "↺ Restart",
+    selesai: "✓ Done",
+    
+    kecepatan: "Voice Pause:",
+    speed: ['Fastest', 'Fast', 'Normal', 'Slow', 'Slowest'],
+    stageTambah: "Learning Addition", stageKurang: "Learning Subtraction", stageKali: "Learning Multiplication", stageBagi: "Learning Long Division",
+    tahap: "Step",
+    alertAngka: "Please enter numbers first, sweetie!",
+    suaraOn: "🔊 Voice: ON", suaraOff: "🔇 Voice: OFF",
+    greet: "Hello! I am Sensei! Let's start learning math together! Press Start Calculating above!",
+    
+    tambahIntro: "Wow, let's add {a} + {b}! We'll stack them up and line up the decimal dots. You can do it!",
+    tambahMulai: "Let's start adding from the rightmost column!",
+    tambahStep: "Let's add: {da} + {db}{cStr} = {sum}. {tStr}",
+    tambahCarry: " + {c} (carried over)",
+    tambahTulisC: "Write {r}, and carry {nc} to the next neighbor!",
+    tambahTulisB: "Just write {sum}, good job!",
+    tambahTulisA: "Write {r} at the bottom.",
+    tambahHasil: "Yay done! The result is {a} + {b} = {res}. You are so smart!",
+    
+    kurangIntro: "Now let's subtract {a} - {b}. Stack them up and line up the dots!",
+    kurangIntroNeg: "Subtracting {a} - {b}. Since {a} is smaller, the result will be a negative number! Let's calculate {b} - {a} and put a minus in front. Easy peasy!",
+    kurangMulai: "Let's start subtracting from the right side!",
+    kurangPinjam: "Oh no, {vA0} is smaller than {vB}! Let's borrow 1 from our neighbor, so it becomes {vA}.",
+    kurangStep: "Now subtract: {vA} - {vB} = {diff}. Write down {diff}.",
+    kurangHasil: "Awesome! The result is {a} - {b} = {res}. High five!",
+    
+    kaliIntro: "Time for multiplication: {a} × {b}. {dStr}",
+    kaliAbaikanKoma: "Let's hide the decimal dots for a moment and calculate {ia} × {ib}.",
+    kaliSusun: "Stack them up: {ia} on top, {ib} at the bottom.",
+    kaliStepA: "Now multiply: {ia} × {d} = {part}. Shift it {s} steps to the left!",
+    kaliStepB: "Multiply the last digit: {ia} × {d} = {part}. Write it down.",
+    kaliJumlah: "Now, let's add them all up = {tot}.",
+    kaliHasil: "Woohoo done! {dStr}",
+    kaliKembalikan: "Don't forget to put back the {td} decimal places: {fs}.",
+    kaliAkhir: "{a} × {b} = {tot}.",
+    
+    bagiDesimal: "Oh there are decimals! Let's multiply both by {m} to make it {da} ÷ {db}!",
+    bagiBentuk: "Here is the division house. {d} waits outside, {n} goes inside. Let's put {c} chairs on the roof for the answer!",
+    bagiTurun: "Bring down the next digit: {sisa}. ",
+    bagiKoma: "We have a remainder. Put a decimal dot on top, and add a bonus 0: {sisa}. ",
+    bagiMulai: "Our first number is: {sisa}. ",
+    bagiBisa: "{sisa} ÷ {d} = {q}. Write {q} {pos}!",
+    bagiTakBisa: "Hmm, {sisa} can't be divided by {d} yet. Write 0 {pos}.",
+    bagiPosAtas: "on the roof", bagiPosKoma: "after the dot",
+    bagiKurang: "Then {q} × {d} = {p}. Let's subtract {sisa} − {p} = {r}.",
+    bagiSisaLanjut: "The remainder is {r}, let's move to the next digit!",
+    bagiSisaHabis: "The remainder is just {r}.",
+    bagiSisaKoma: "Now we have {dc} numbers after the dot.",
+    bagiHasil: "Great job! The final result is = {q}. {ket}",
+    bagiKetKoma: "(exactly {dc} digits after the dot!)",
+    bagiKetHabis: "(perfect fit, no remainder!)"
+  },
+  jv: {
+    title: "Sinau Ngetung",
+    subtitle: "Matematika dadi gampang lan seru bareng Sensei! 🎈",
+    tambah: "➕ Tambah", kurang: "➖ Suda", kali: "✖️ Ping", bagi: "➗ Poro",
+    
+    mulaiHitung: "🚀 Ayo Ngetung",
+    mundur: "◀ Mbalik",
+    lanjut: "Lanjut ▶",
+    putarOtomatis: "▶ Putar Otomatis",
+    jeda: "⏸ Jeda",
+    mulaiUlang: "↺ Baleni",
+    selesai: "✓ Rampung",
+    
+    kecepatan: "Jeda Swara:",
+    speed: ['Paling Cepet', 'Cepet', 'Biasa', 'Alon', 'Paling Alon'],
+    stageTambah: "Sinau Tambah-tambahan", stageKurang: "Sinau Suda-sudaan", stageKali: "Sinau Ping-pingan", stageBagi: "Sinau Porogapit",
+    tahap: "Langkah",
+    alertAngka: "Tulis angkane disik yo le!",
+    suaraOn: "🔊 Swara: ON", suaraOff: "🔇 Swara: OFF",
+    greet: "Sugeng rawuh! Aku Sensei! Ayo sinau ngetung bareng-bareng! Pencet Ayo Ngetung nang nduwur yo!",
+    
+    tambahIntro: "Wah, ayo sinau tambah-tambahan {a} + {b}. Disusun mengisor yo, komane diluruske! Ayo semangat!",
+    tambahMulai: "Mulai ngetung seko kolom paling tengen dewe yo!",
+    tambahStep: "Ayo ditumpuk: {da} + {db}{cStr} = {sum}. {tStr}",
+    tambahCarry: " + {c} (celengan)",
+    tambahTulisC: "Tulis {r}, trus simpen {nc} nang tanggane sebelahnya!",
+    tambahTulisB: "Langsung wae tulis {sum} yo cah pinter!",
+    tambahTulisA: "Tulis {r} nang ngisor yo.",
+    tambahHasil: "Hore wis rampung! Hasile {a} + {b} = {res}. Pinter tenan!",
+    
+    kurangIntro: "Saiki suda-sudaan {a} - {b}. Disusun mengisor lan diluruske komane yo!",
+    kurangIntroNeg: "Suda-sudaan {a} - {b}. Amargo {a} luwih cilik, hasile mesthi minus utowo negatif. Diwalik wae ngetunge {b} - {a} trus diwenehi minus nang ngarepe. Gampang to!",
+    kurangMulai: "Ayo disuda seko tengen dewe!",
+    kurangPinjam: "Waduh, angka {vA0} luwih cilik seko {vB}! Nyilih 1 seko tanggane yo, dadi {vA}.",
+    kurangStep: "Saiki disuda: {vA} - {vB} = {diff}. Tulis {diff} nang ngisor.",
+    kurangHasil: "Wah jagoan! Hasile {a} - {b} = {res}. Mantep!",
+    
+    kaliIntro: "Wayahe ping-pingan {a} × {b}. {dStr}",
+    kaliAbaikanKoma: "Komane disimpen disik yo, diitung {ia} × {ib} wae.",
+    kaliSusun: "Disusun: {ia} nang nduwur, {ib} nang ngisor.",
+    kaliStepA: "Saiki diping: {ia} × {d} = {part}. Digeser {s} langkah ngiwo yo!",
+    kaliStepB: "Diping angka mburine: {ia} × {d} = {part}. Tulis paling ngisor.",
+    kaliJumlah: "Nah, saiki kabeh dijumlahke = {tot}.",
+    kaliHasil: "Yuhuu rampung! {dStr}",
+    kaliKembalikan: "Ojo lali komane dibaleni {td} panggonan yo: {fs}.",
+    kaliAkhir: "{a} × {b} = {tot}.",
+    
+    bagiDesimal: "Wah ono komane, diping {m} kabeh ben dadi gampang {da} ÷ {db} yo!",
+    bagiBentuk: "Iki omah porogapite. {d} nunggu nang njobo, {n} mlebu omah. Disiapke {c} kursi nang atap kanggo hasile yo!",
+    bagiTurun: "Trus medunke angka selanjute: {sisa}. ",
+    bagiKoma: "Sik turah iki. Wenehi koma nang nduwur, trus tambah bonus nol: {sisa}. ",
+    bagiMulai: "Angka pertamane: {sisa}. ",
+    bagiBisa: "{sisa} ÷ {d} = {q}. Tulis angka {q} {pos} yo!",
+    bagiTakBisa: "Wah, {sisa} durung isoh dibagi {d}. Tulis 0 {pos} yo.",
+    bagiPosAtas: "nang atap", bagiPosKoma: "sakwise koma",
+    bagiKurang: "Lanjute {q} × {d} = {p}. Trus dikurangi {sisa} − {p} = {r}.",
+    bagiSisaLanjut: "Sisa {r}, ayo lanjut angka bacute!",
+    bagiSisaHabis: "Turahe gur {r}.",
+    bagiSisaKoma: "Saiki wis ono {dc} angka lho nang mburine koma.",
+    bagiHasil: "Hebaaaat! Hasile = {q}. {ket}",
+    bagiKetKoma: "(pas {dc} angka nang mburine koma yo!)",
+    bagiKetHabis: "(pas tenan iki, ra ono turahane!)"
+  }
+};
+
+let currentLang = 'id';
+let isVoiceEnabled = true;
+let availableVoices = [];
+let activeUtterance = null; // Prevent Garbage Collection killing speech!
+
+function t(key, vars = {}) {
+  let text = (i18n[currentLang] && i18n[currentLang][key]) || (i18n['id'] && i18n['id'][key]) || key;
+  for(let k in vars){ text = text.replace(new RegExp('{'+k+'}','g'), vars[k]); }
+  return text;
+}
+
+// ===== BULLETPROOF VOICE ENGINE =====
+function loadVoices() {
+  if (!('speechSynthesis' in window)) return;
+  try {
+    const v = window.speechSynthesis.getVoices();
+    if (v && v.length > 0) {
+      availableVoices = v;
+    }
+  } catch(e){}
+}
+
+loadVoices();
+if ('speechSynthesis' in window) {
+  window.speechSynthesis.onvoiceschanged = () => {
+    loadVoices();
+  };
+}
+
+function unlockAudio() {
+  try {
+    if (audioCtx.state === 'suspended') {
+      audioCtx.resume();
+    }
+    if ('speechSynthesis' in window) {
+      if (window.speechSynthesis.paused) {
+        window.speechSynthesis.resume();
+      }
+      loadVoices();
+    }
+  } catch(e){}
+}
+
+function getBestVoice(targetLang) {
+  if (!availableVoices || availableVoices.length === 0) {
+    loadVoices();
+  }
+  if (!availableVoices || availableVoices.length === 0) return null;
+  
+  if (targetLang === 'en') {
+    return availableVoices.find(v => v.lang === 'en-US' || v.lang === 'en_US') ||
+           availableVoices.find(v => v.lang.startsWith('en')) ||
+           availableVoices.find(v => v.name.toLowerCase().includes('english') || v.name.toLowerCase().includes('samantha') || v.name.toLowerCase().includes('google us') || v.name.toLowerCase().includes('victoria')) ||
+           null;
+  }
+  
+  if (targetLang === 'jv') {
+    return availableVoices.find(v => v.lang === 'jv-ID' || v.lang === 'jv_ID' || v.lang.startsWith('jv')) ||
+           availableVoices.find(v => v.lang === 'id-ID' || v.lang === 'id_ID' || v.lang.startsWith('id')) ||
+           availableVoices.find(v => v.name.toLowerCase().includes('indonesia') || v.name.toLowerCase().includes('damayanti') || v.name.toLowerCase().includes('gadis')) ||
+           null;
+  }
+  
+  // Indonesian (id)
+  return availableVoices.find(v => v.lang === 'id-ID' || v.lang === 'id_ID' || v.lang.startsWith('id')) ||
+         availableVoices.find(v => v.name.toLowerCase().includes('indonesia') || v.name.toLowerCase().includes('damayanti') || v.name.toLowerCase().includes('gadis')) ||
+         null;
+}
+
+function cleanTextForSpeech(rawText, langCode) {
+  let text = rawText;
+  
+  // Remove emojis & decorative symbols
+  text = text.replace(/[✨🎈🚀🦉🎉👍➕➖✖️➗✓]/g, '');
+  text = text.replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/gu, '');
+  text = text.replace(/\{|\}|\[|\]/g, '');
+  
+  if (langCode === 'en') {
+    text = text.replace(/\+/g, ' plus ');
+    text = text.replace(/−|-/g, ' minus ');
+    text = text.replace(/×|\*/g, ' times ');
+    text = text.replace(/÷|\//g, ' divided by ');
+    text = text.replace(/=/g, ' equals ');
+  } else if (langCode === 'jv') {
+    text = text.replace(/\+/g, ' ditambah ');
+    text = text.replace(/−|-/g, ' disuda ');
+    text = text.replace(/×|\*/g, ' diping ');
+    text = text.replace(/÷|\//g, ' diporo ');
+    text = text.replace(/=/g, ' podo karo ');
+  } else {
+    // Indonesian
+    text = text.replace(/\+/g, ' tambah ');
+    text = text.replace(/−|-/g, ' kurang ');
+    text = text.replace(/×|\*/g, ' dikali ');
+    text = text.replace(/÷|\//g, ' dibagi ');
+    text = text.replace(/=/g, ' sama dengan ');
+  }
+  
+  return text.replace(/\s+/g, ' ').trim();
+}
+
+function setTeacherTalking(talking) {
+  const tchr = document.getElementById('teacherAvatar');
+  if (!tchr) return;
+  if (talking) {
+    tchr.classList.add('talking');
+  } else {
+    tchr.classList.remove('talking');
+  }
+}
+
+let speechAnimTimer = null;
+let autoStepTimer = null;
+let speakDebounceTimer = null;
+
+// Voice-driven auto-play synchronization
+function handleSpeechFinished() {
+  if (!isAutoMode) return;
+  
+  if (stepIdx >= steps.length - 1) {
+    isAutoMode = false;
+    updateUI();
+    playSuccess();
+    return;
+  }
+  
+  // Pause interval after speech finishes before moving to next step
+  const speed = parseInt(document.getElementById('speed').value);
+  const pauseIntervals = [400, 750, 1100, 1600, 2400];
+  const pauseMs = pauseIntervals[speed - 1] || 1100;
+  
+  if (autoStepTimer) clearTimeout(autoStepTimer);
+  autoStepTimer = setTimeout(() => {
+    if (!isAutoMode) return;
+    stepIdx++;
+    renderPaper(true);
+    playClick();
+  }, pauseMs);
+}
+
+function speakText(text, explicitLang) {
+  if (speechAnimTimer) clearTimeout(speechAnimTimer);
+  if (autoStepTimer) clearTimeout(autoStepTimer);
+  
+  const targetLang = explicitLang || currentLang;
+  const spoken = cleanTextForSpeech(text, targetLang);
+  if (!spoken) {
+    handleSpeechFinished();
+    return;
+  }
+  
+  // If voice is disabled in UI or Web Speech not supported
+  if (!isVoiceEnabled || !('speechSynthesis' in window)) {
+    setTeacherTalking(true);
+    const readingTime = Math.max(1200, spoken.length * 60);
+    speechAnimTimer = setTimeout(() => {
+      setTeacherTalking(false);
+      handleSpeechFinished();
+    }, readingTime);
+    return;
+  }
+  
+  unlockAudio();
+  
+  try {
+    // Unpause if stalled
+    if (window.speechSynthesis.paused) {
+      window.speechSynthesis.resume();
+    }
+    window.speechSynthesis.cancel();
+    
+    const utterance = new SpeechSynthesisUtterance(spoken);
+    activeUtterance = utterance; // Prevent Garbage Collection!
+    
+    // Assign language locale (always valid)
+    const langMap = { 'id': 'id-ID', 'en': 'en-US', 'jv': 'id-ID' };
+    utterance.lang = langMap[targetLang] || 'id-ID';
+    
+    const voice = getBestVoice(targetLang);
+    if (voice) {
+      utterance.voice = voice;
+    }
+    
+    utterance.volume = 1.0;
+    utterance.rate = 0.95;
+    utterance.pitch = (targetLang === 'en') ? 1.1 : 1.15;
+    
+    utterance.onstart = () => {
+      setTeacherTalking(true);
+    };
+    
+    utterance.onend = () => {
+      setTeacherTalking(false);
+      activeUtterance = null;
+      handleSpeechFinished();
+    };
+    
+    utterance.onerror = (e) => {
+      console.warn('Speech synthesis event:', e);
+      setTeacherTalking(false);
+      activeUtterance = null;
+      handleSpeechFinished();
+    };
+    
+    // Fallback timer to ensure animations and auto-play don't get stuck
+    const maxSpeakTime = Math.max(2000, (spoken.length / 5) * 1000);
+    speechAnimTimer = setTimeout(() => {
+      setTeacherTalking(false);
+    }, maxSpeakTime);
+    
+    // Speak immediately within the user interaction frame
+    window.speechSynthesis.speak(utterance);
+    
+    // Extra resume call for Chrome quirk
+    if (window.speechSynthesis.paused) {
+      window.speechSynthesis.resume();
+    }
+    
+  } catch(err) {
+    console.warn('Speech execution fallback:', err);
+    setTeacherTalking(false);
+    handleSpeechFinished();
+  }
+}
+
+// ===== AUDIO EFFECTS (SOUND FX) =====
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 function playClick(){
   try{
@@ -321,19 +1010,6 @@ function playSuccess(){
     osc.start(now); osc.stop(now + 0.4);
   }catch(e){}
 }
-function playWelcome(){
-  try{
-    const osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
-    osc.connect(gain); gain.connect(audioCtx.destination);
-    const now = audioCtx.currentTime;
-    osc.frequency.setValueAtTime(440, now);
-    osc.frequency.setValueAtTime(523, now+0.15);
-    osc.frequency.setValueAtTime(659, now+0.3);
-    gain.gain.setValueAtTime(0.25, now);
-    gain.gain.exponentialRampToValueAtTime(0.01, now+0.7);
-    osc.start(now); osc.stop(now+0.7);
-  }catch(e){}
-}
 
 // ===== HELPERS =====
 function esc(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
@@ -342,7 +1018,6 @@ function makeRow(W, ps){
   for(const p of ps) for(let k=0;k<p.s.length;k++){ const c = p.pos+k; if(c >= 0 && c < W) r[c] = p.s[k]; }
   return r.join('').replace(/\s+$/,'');
 }
-const COLNAMES = ['satuan','puluhan','ratusan','ribuan','puluhan ribu','ratusan ribu','jutaan'];
 
 // ===== TAMBAH =====
 function buildTambah(a, b){
@@ -350,7 +1025,7 @@ function buildTambah(a, b){
   const sa = String(a), sb = String(b);
   const dota = sa.indexOf('.'), dotb = sb.indexOf('.');
   const intA = dota >= 0 ? sa.slice(0, dota) : sa;
-  const intB = dotb >= 0 ? sb.slice(0, dotb) : sb;
+  const intB = dotb >= 0 ? sb.slice(dotb+1) : sb;
   const decA = dota >= 0 ? sa.slice(dota+1) : '';
   const decB = dotb >= 0 ? sb.slice(dotb+1) : '';
   const maxDec = Math.max(decA.length, decB.length);
@@ -376,7 +1051,7 @@ function buildTambah(a, b){
   let results = Array(strA.length).fill(' ');
   let c = 0;
   
-  s.push({sim: a+' + '+b+' = ?', txt:'Penjumlahan '+a+' + '+b+'. Susun ke bawah, sejajarkan koma (titik desimal).'});
+  s.push({sim: a+' + '+b+' = ?', txt: t('tambahIntro', {a,b}) });
   
   const baseSim = () => {
     const cDisp = getDisplayRow(carries.join(''));
@@ -396,7 +1071,7 @@ function buildTambah(a, b){
     return res.join('\n');
   };
   
-  s.push({sim: baseSim(), txt:'Mulai dari kolom paling kanan.'});
+  s.push({sim: baseSim(), txt: t('tambahMulai') });
   
   for(let i = strA.length - 1; i >= 0; i--){
     if(strA[i] === ' ' && strB[i] === ' ' && c === 0) break;
@@ -408,24 +1083,24 @@ function buildTambah(a, b){
     
     results[i] = rDigit.toString();
     
-    let txt = `Tambahkan kolom: ${digitA} + ${digitB}`;
-    if (c > 0) txt += ` + ${c} (simpanan)`;
-    txt += ` = ${sum}. `;
+    let cStr = c > 0 ? t('tambahCarry', {c}) : '';
+    let tStr = '';
     
     if (nextC > 0) {
       if (i > 0) {
         carries[i-1] = nextC.toString();
-        txt += `Tulis ${rDigit}, simpan ${nextC} di kolom berikutnya.`;
+        tStr = t('tambahTulisC', {r:rDigit, nc:nextC});
       } else {
         results.unshift(nextC.toString());
         carries.unshift(' ');
         strA = ' ' + strA;
         strB = ' ' + strB;
-        txt += `Tulis ${sum}.`;
+        tStr = t('tambahTulisB', {sum});
       }
     } else {
-      txt += `Tulis ${rDigit}.`;
+      tStr = t('tambahTulisA', {r:rDigit});
     }
+    let txt = t('tambahStep', {da:digitA, db:digitB, cStr, sum, tStr});
     
     c = nextC;
     s.push({sim: baseSim(), txt: txt});
@@ -436,7 +1111,7 @@ function buildTambah(a, b){
     finalRes = finalRes.slice(0, finalRes.length - maxDec) + '.' + finalRes.slice(finalRes.length - maxDec);
     if (finalRes.startsWith('.')) finalRes = '0' + finalRes;
   }
-  s.push({sim: baseSim(), txt:'✓ Hasil akhir: '+a+' + '+b+' = '+finalRes});
+  s.push({sim: baseSim(), txt: t('tambahHasil', {a,b,res:finalRes}) });
   return s;
 }
 
@@ -449,7 +1124,7 @@ function buildKurang(a, b){
   
   const dota = sa.indexOf('.'), dotb = sb.indexOf('.');
   const intA = dota >= 0 ? sa.slice(0, dota) : sa;
-  const intB = dotb >= 0 ? sb.slice(0, dotb) : sb;
+  const intB = dotb >= 0 ? sb.slice(dotb+1) : sb;
   const decA = dota >= 0 ? sa.slice(dota+1) : '';
   const decB = dotb >= 0 ? sb.slice(dotb+1) : '';
   const maxDec = Math.max(decA.length, decB.length);
@@ -465,10 +1140,7 @@ function buildKurang(a, b){
   let modified = Array(strA.length).fill(false);
   let results = Array(strA.length).fill(' ');
   
-  let introTxt = 'Pengurangan '+a+' - '+b+'. Susun ke bawah, sejajarkan koma.';
-  if(isNeg){
-    introTxt += ' Karena '+a+' lebih kecil dari '+b+', hasil akan negatif. Kita hitung '+b+' - '+a+' lalu tambahkan minus.';
-  }
+  let introTxt = isNeg ? t('kurangIntroNeg', {a,b}) : t('kurangIntro', {a,b});
   s.push({sim: a+' - '+b+' = ?', txt: introTxt});
   
   const getDisplayRow = (arr, isTopStr = false) => {
@@ -515,7 +1187,7 @@ function buildKurang(a, b){
     return res.join('\n');
   };
   
-  s.push({sim: baseSim(), txt:'Mulai dari kolom paling kanan.'});
+  s.push({sim: baseSim(), txt: t('kurangMulai') });
   
   for(let i = strA.length - 1; i >= 0; i--){
     if(strA[i] === ' ' && strB[i] === ' ' && results[i] === ' ') break;
@@ -538,14 +1210,14 @@ function buildKurang(a, b){
         valA += 10;
         topDigits[i] = valA;
         modified[i] = true;
-        s.push({sim: baseSim(), txt: `Angka ${topDigits[i]-10} lebih kecil dari ${valB}. Pinjam 1 dari sebelah kiri, menjadi ${valA}.`});
+        s.push({sim: baseSim(), txt: t('kurangPinjam', {vA0:topDigits[i]-10, vB:valB, vA:valA}) });
       }
     }
     
     const diff = valA - valB;
     results[i] = diff.toString();
     
-    let txt = `Kurangkan kolom: ${valA} - ${valB} = ${diff}. Tulis ${diff}.`;
+    let txt = t('kurangStep', {vA:valA, vB:valB, diff});
     s.push({sim: baseSim(), txt: txt});
   }
   
@@ -562,7 +1234,7 @@ function buildKurang(a, b){
   }
   if (isNeg && finalRes !== '0') finalRes = '-' + finalRes;
   
-  s.push({sim: baseSim(), txt:'✓ Hasil akhir: '+a+' - '+b+' = '+finalRes});
+  s.push({sim: baseSim(), txt: t('kurangHasil', {a,b,res:finalRes}) });
   return s;
 }
 
@@ -595,8 +1267,9 @@ function buildKali(a, b){
   const barPos = rightCol - 2*(barLen - 1);
   const bar = makeRow(W, [{pos: barPos, s: '─'.repeat(2*barLen - 1)}]);
 
-  s.push({sim: a+' × '+b+' = ?', txt:'Perkalian '+a+' × '+b+'.'+(totalDec > 0 ? ' Abaikan koma sementara, kalikan sebagai '+intA+' × '+intB+'.' : '')});
-  s.push({sim: [top, bot, bar].join('\n'), txt:'Susun: '+intA+' di atas, '+intB+' di bawah.'});
+  let dStr = totalDec > 0 ? t('kaliAbaikanKoma', {ia:intA, ib:intB}) : '';
+  s.push({sim: a+' × '+b+' = ?', txt: t('kaliIntro', {a, b, dStr}) });
+  s.push({sim: [top, bot, bar].join('\n'), txt: t('kaliSusun', {ia:intA, ib:intB}) });
 
   const parts = [];
   for(let i = strB.length-1; i >= 0; i--){
@@ -619,8 +1292,8 @@ function buildKali(a, b){
       rows.push(makeRow(W, [{pos: pPos, s: String(p.part).split('').join(' ')}]));
     }
     const txt = shift > 0
-      ? 'Kalikan digit berikutnya: '+intA+' × '+d+' = '+part+'. Digeser '+shift+' tempat ke kiri.'
-      : 'Kalikan digit satuan: '+intA+' × '+d+' = '+part+'. Tulis di baris pertama hasil.';
+      ? t('kaliStepA', {ia:intA, d, part, s:shift})
+      : t('kaliStepB', {ia:intA, d, part});
     s.push({sim: rows.join('\n'), txt: txt});
   }
 
@@ -647,8 +1320,9 @@ function buildKali(a, b){
       finalStr = finalStr.slice(0, finalStr.length - totalDec) + '.' + finalStr.slice(finalStr.length - totalDec);
     }
     
-    s.push({sim: rows.join('\n'), txt:'Jumlahkan hasil perkalian = '+total+'.'});
-    s.push({sim: rows.join('\n'), txt:'✓ Hasil akhir: '+(totalDec > 0 ? 'Kembalikan '+totalDec+' tempat desimal: '+finalStr : a+' × '+b+' = '+total)+'.'});
+    s.push({sim: rows.join('\n'), txt: t('kaliJumlah', {tot:total}) });
+    let hs = totalDec > 0 ? t('kaliKembalikan', {td:totalDec, fs:finalStr}) : t('kaliAkhir', {a,b,tot:total});
+    s.push({sim: rows.join('\n'), txt: t('kaliHasil', {dStr:hs}) });
   } else {
     let total = parts.length === 1 ? parts[0].part : 0;
     let finalStr = String(total);
@@ -658,7 +1332,8 @@ function buildKali(a, b){
     }
     const tLen = String(total).length;
     const tPos = rightCol - 2*(tLen - 1);
-    s.push({sim: [top, bot, bar, makeRow(W, [{pos: tPos, s: String(total).split('').join(' ')}])].join('\n'), txt:'✓ Hasil akhir: '+(totalDec > 0 ? 'Kembalikan '+totalDec+' tempat desimal: '+finalStr : a+' × '+b+' = '+total)+'.'});
+    let hs = totalDec > 0 ? t('kaliKembalikan', {td:totalDec, fs:finalStr}) : t('kaliAkhir', {a,b,tot:total});
+    s.push({sim: [top, bot, bar, makeRow(W, [{pos: tPos, s: String(total).split('').join(' ')}])].join('\n'), txt: t('kaliHasil', {dStr:hs}) });
   }
   return s;
 }
@@ -674,7 +1349,7 @@ function buildBagi(dividend, divisor){
     const mult = Math.pow(10, shift);
     dividend = Math.round(dividend * mult);
     divisor = Math.round(divisor * mult);
-    s.push({sim: ` \n `, txt: `Karena ada desimal, kalikan kedua angka dengan ${mult} menjadi ${dividend} ÷ ${divisor}.`});
+    s.push({sim: ` \n `, txt: t('bagiDesimal', {m:mult, da:dividend, db:divisor}) });
   }
 
   const n = String(dividend).length;
@@ -737,23 +1412,24 @@ function buildBagi(dividend, divisor){
     return lines.join('\n');
   };
 
-  s.push({sim: renderAll(-1), txt:'Bentuk porogapit Indonesia: pembagi '+divisor+' di kiri, garis tegak │, bilangan yang dibagi '+dividend+' di kanan. Siapkan '+n+' tempat hasil di atas atap.'});
+  s.push({sim: renderAll(-1), txt: t('bagiBentuk', {d:divisor, n:dividend, c:n}) });
 
-  for(let t = 0; t < steps.length; t++){
-    const st = steps[t];
-    const bisa = st.sisa >= divisor;
+  for(let tIdx = 0; tIdx < steps.length; tIdx++){
+    const st = steps[tIdx];
+    const bisa = Number(st.sisaStr) >= divisor;
     const intro = st.dec
-      ? 'Karena masih ada sisa, tulis koma di hasil lalu turunkan angka 0: '
-      : (t === 0 ? 'Digit pertama: ' : 'Turunkan digit berikutnya: ');
+      ? t('bagiKoma', {sisa:st.sisaStr})
+      : (tIdx === 0 ? t('bagiMulai', {sisa:st.sisaStr}) : t('bagiTurun', {sisa:st.sisaStr}));
+    const posStr = st.dec ? t('bagiPosKoma') : t('bagiPosAtas');
     const txtA = bisa
-      ? st.sisaStr+' ÷ '+divisor+' = '+st.q+'. Tulis '+st.q+(st.dec ? ' setelah koma' : ' di hasil')+'.'
-      : 'Tidak bisa dibagi '+divisor+'. Tulis 0'+(st.dec ? ' setelah koma' : ' di hasil')+'.';
-    const txtB = st.q+' × '+divisor+' = '+st.prod+'. '+st.sisaStr+' − '+st.prod+' = '+st.r+'.';
+      ? t('bagiBisa', {sisa:st.sisaStr, d:divisor, q:st.q, pos:posStr})
+      : t('bagiTakBisa', {sisa:st.sisaStr, d:divisor, pos:posStr});
+    const txtB = ' ' + t('bagiKurang', {q:st.q, d:divisor, p:st.prod, sisa:st.sisaStr, r:st.r});
     const decSoFar = Math.max(0, st.j - n + 1);
-    const txtC = st.dec
-      ? ' Sekarang sudah '+decSoFar+' angka di belakang koma.'
-      : (t < steps.length-1 ? ' Sisa '+st.r+', lanjut ke digit berikutnya.' : ' Sisa '+st.r+'.');
-    s.push({sim: renderAll(t), txt: intro + st.sisaStr + '. ' + txtA + ' ' + txtB + txtC});
+    const txtC = ' ' + (st.dec
+      ? t('bagiSisaKoma', {dc:decSoFar})
+      : (tIdx < steps.length-1 ? t('bagiSisaLanjut', {r:st.r}) : t('bagiSisaHabis', {r:st.r})));
+    s.push({sim: renderAll(tIdx), txt: intro + txtA + txtB + txtC});
   }
 
   const intQ = steps.slice(0, n).map(x => x.q).join('').replace(/^0+/, '') || '0';
@@ -761,22 +1437,89 @@ function buildBagi(dividend, divisor){
   const finalQ = decQ ? intQ + ',' + decQ : intQ;
   const decTotal = steps.length - n;
   const last = steps.length - 1;
-  s.push({sim: renderAll(last), txt:'✓ Hasil akhir = '+finalQ+(decQ ? ' (tepat sampai '+decTotal+' angka di belakang koma)' : ' (tepat, tanpa sisa!)')+'.'});
+  s.push({sim: renderAll(last), txt: t('bagiHasil', {q:finalQ, ket:decQ ? t('bagiKetKoma', {dc:decTotal}) : t('bagiKetHabis')}) });
   return s;
 }
 
-// ===== STATE =====
-let operasi = 'tambah', steps = [], stepIdx = 0, autoTimer = null, isAutoMode = false;
+// ===== STATE & CONTROL LOGIC =====
+let operasi = 'tambah', steps = [], stepIdx = 0, isAutoMode = false;
 
-const speedNames = ['Paling Cepat','Cepat','Biasa','Lambat','Paling Lambat'];
-document.getElementById('speed').addEventListener('change', e => {
-  document.getElementById('speedLabel').textContent = speedNames[e.target.value - 1];
+function updateUI() {
+  document.getElementById('titleText').textContent = t('title');
+  document.getElementById('subTitle').textContent = t('subtitle');
+  
+  // Tabs
+  document.querySelector('[data-op="tambah"]').textContent = t('tambah');
+  document.querySelector('[data-op="kurang"]').textContent = t('kurang');
+  document.querySelector('[data-op="kali"]').textContent = t('kali');
+  document.querySelector('[data-op="bagi"]').textContent = t('bagi');
+  
+  // Action Buttons
+  document.getElementById('btnGo').textContent = t('mulaiHitung');
+  document.getElementById('btnPrev').textContent = t('mundur');
+  document.getElementById('btnNext').textContent = t('lanjut');
+  document.getElementById('btnReset').textContent = t('mulaiUlang');
+  document.getElementById('btnVoice').textContent = isVoiceEnabled ? t('suaraOn') : t('suaraOff');
+  
+  // Auto button state
+  const btnAuto = document.getElementById('btnAuto');
+  if (isAutoMode) {
+    btnAuto.textContent = t('jeda');
+    btnAuto.classList.add('playing');
+  } else if (stepIdx >= steps.length - 1 && steps.length > 0) {
+    btnAuto.textContent = t('selesai');
+    btnAuto.classList.remove('playing');
+  } else {
+    btnAuto.textContent = t('putarOtomatis');
+    btnAuto.classList.remove('playing');
+  }
+  
+  // Speed Slider
+  document.getElementById('speedText').textContent = t('kecepatan');
+  const speed = parseInt(document.getElementById('speed').value);
+  document.getElementById('speedLabel').textContent = i18n[currentLang].speed[speed - 1];
+  
+  // Stage Title & Step Count
+  const titles = {tambah:t('stageTambah'), kurang:t('stageKurang'), kali:t('stageKali'), bagi:t('stageBagi')};
+  document.getElementById('stageTitle').textContent = titles[operasi] || '';
+  
+  if (steps.length > 0) {
+    document.getElementById('stepCount').textContent = t('tahap') + ' ' + (stepIdx+1) + '/' + steps.length;
+    document.getElementById('btnPrev').disabled = (stepIdx === 0);
+    document.getElementById('btnNext').disabled = (stepIdx >= steps.length - 1);
+  } else {
+    document.getElementById('stepCount').textContent = t('tahap') + ' 0/0';
+    document.getElementById('btnPrev').disabled = true;
+    document.getElementById('btnNext').disabled = true;
+  }
+}
+
+document.getElementById('speed').addEventListener('input', e => {
+  document.getElementById('speedLabel').textContent = i18n[currentLang].speed[e.target.value - 1];
 });
 
-function genSteps(){
+function stopAuto() {
+  isAutoMode = false;
+  if (autoStepTimer) {
+    clearTimeout(autoStepTimer);
+    autoStepTimer = null;
+  }
+  if (speechAnimTimer) {
+    clearTimeout(speechAnimTimer);
+    speechAnimTimer = null;
+  }
+  window.speechSynthesis.cancel();
+  setTeacherTalking(false);
+  updateUI();
+}
+
+function genSteps(shouldSpeak = true){
   const n1 = parseFloat(document.getElementById('num1').value);
   const n2 = parseFloat(document.getElementById('num2').value);
-  if(isNaN(n1) || isNaN(n2)){ alert('Tulis angka dulu ya!'); return; }
+  if(isNaN(n1) || isNaN(n2)){
+    alert(t('alertAngka'));
+    return;
+  }
   const a = Math.abs(n1), b = Math.abs(n2);
 
   if(operasi === 'tambah') steps = buildTambah(a, b);
@@ -784,14 +1527,12 @@ function genSteps(){
   else if(operasi === 'kali') steps = buildKali(a, b);
   else if(operasi === 'bagi') steps = buildBagi(a, Math.max(b,1));
 
-  stepIdx = 0; isAutoMode = false;
-  document.getElementById('btnPrev').disabled = true;
-  document.getElementById('btnPlay').textContent = '▶ Main Sendiri';
+  stepIdx = 0;
   stopAuto();
-  renderPaper();
+  renderPaper(shouldSpeak);
 }
 
-function renderPaper(){
+function renderPaper(shouldSpeak = true){
   const paper = document.getElementById('paper');
   paper.innerHTML = '';
   
@@ -804,14 +1545,16 @@ function renderPaper(){
     paper.appendChild(div);
   }
   
-  document.getElementById('stepCount').textContent = 'Tahap '+(stepIdx+1)+'/'+steps.length;
-  document.getElementById('btnPrev').disabled = stepIdx === 0;
-  if(stepIdx >= steps.length-1){
-    document.getElementById('btnPlay').textContent = '✓ Selesai';
-  }else if(!isAutoMode){
-    document.getElementById('btnPlay').textContent = '▶ Main Sendiri';
+  // Teacher Speech & Animation
+  if(steps.length > 0 && stepIdx >= 0 && stepIdx < steps.length) {
+    const speechText = steps[stepIdx].txt;
+    document.getElementById('teacherSpeech').textContent = speechText;
+    if (shouldSpeak) {
+      speakText(speechText);
+    }
   }
   
+  updateUI();
   paper.scrollTop = paper.scrollHeight;
 }
 
@@ -827,67 +1570,148 @@ function animateDigits(text){
   });
 }
 
-function nextStep(){ if(stepIdx < steps.length-1){stepIdx++; renderPaper(); stopAuto(); playClick();} else if(stepIdx === steps.length-1) playSuccess(); }
-function prevStep(){ if(stepIdx > 0){stepIdx--; renderPaper(); stopAuto(); playClick();} }
-function resetSim(){ stepIdx = 0; renderPaper(); stopAuto(); isAutoMode = false; playClick(); }
-function stopAuto(){ if(autoTimer){clearInterval(autoTimer); autoTimer = null;} }
+// User Manual Step Navigation
+function nextStep(){
+  if(stepIdx < steps.length - 1){
+    stopAuto();
+    stepIdx++;
+    renderPaper(true);
+    playClick();
+  } else if(stepIdx === steps.length - 1){
+    playSuccess();
+  }
+}
 
-function autoPlay(){
-  isAutoMode = true;
-  if(stepIdx >= steps.length-1){ isAutoMode = false; return; }
+function prevStep(){
+  if(stepIdx > 0){
+    stopAuto();
+    stepIdx--;
+    renderPaper(true);
+    playClick();
+  }
+}
+
+function resetSim(){
   stopAuto();
-  const speed = parseInt(document.getElementById('speed').value);
-  const ms = [800, 1200, 1800, 2500, 3500][speed-1];
-  document.getElementById('btnPlay').textContent = '⏸ Sedang Jalan';
-  autoTimer = setInterval(() => {
-    if(stepIdx >= steps.length-1){
-      stopAuto(); isAutoMode = false;
-      document.getElementById('btnPlay').textContent = '✓ Selesai';
-      return;
-    }
-    stepIdx++; renderPaper(); playClick();
-  }, ms);
+  stepIdx = 0;
+  renderPaper(true);
+  playClick();
 }
 
-function togglePlay(){
-  if(isAutoMode){ stopAuto(); isAutoMode = false; document.getElementById('btnPlay').textContent = '▶ Otomatis'; }
-  else if(stepIdx >= steps.length-1){ resetSim(); }
-  else{ autoPlay(); }
+// User Continuous Auto-Play Navigation
+function startAutoPlay(){
+  if(steps.length === 0) {
+    genSteps(true);
+  }
+  isAutoMode = true;
+  if(stepIdx >= steps.length - 1){
+    stepIdx = 0;
+  }
+  renderPaper(true);
 }
 
-document.getElementById('btnGo').addEventListener('click', () => { genSteps(); playClick(); });
-document.getElementById('btnPlay').addEventListener('click', togglePlay);
+function toggleAutoPlay(){
+  if(isAutoMode){
+    stopAuto();
+  } else if(stepIdx >= steps.length - 1){
+    resetSim();
+    startAutoPlay();
+  } else {
+    startAutoPlay();
+  }
+}
+
+// ===== CONTROLS & EVENT LISTENERS =====
+// Primary "Mulai Hitung" Button
+document.getElementById('btnGo').addEventListener('click', () => {
+  genSteps(true);
+  playClick();
+});
+
+// Step Navigation Buttons
 document.getElementById('btnPrev').addEventListener('click', prevStep);
+document.getElementById('btnNext').addEventListener('click', nextStep);
+document.getElementById('btnAuto').addEventListener('click', toggleAutoPlay);
 document.getElementById('btnReset').addEventListener('click', resetSim);
 
-document.querySelectorAll('.tab').forEach(t => {
-  t.addEventListener('click', function(){
-    document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+// Voice ON/OFF Toggle
+document.getElementById('btnVoice').addEventListener('click', function() {
+  isVoiceEnabled = !isVoiceEnabled;
+  this.classList.toggle('off', !isVoiceEnabled);
+  this.textContent = isVoiceEnabled ? t('suaraOn') : t('suaraOff');
+  if(!isVoiceEnabled) {
+    window.speechSynthesis.cancel();
+    setTeacherTalking(false);
+  } else if (steps.length > 0 && stepIdx >= 0 && stepIdx < steps.length) {
+    speakText(steps[stepIdx].txt);
+  }
+});
+
+// Sensei Avatar Click to repeat current step speech
+document.getElementById('teacherAvatar').addEventListener('click', () => {
+  if (steps.length > 0 && stepIdx >= 0 && stepIdx < steps.length) {
+    speakText(steps[stepIdx].txt);
+  } else {
+    speakText(t('greet'));
+  }
+});
+
+// Language Switcher Buttons
+document.querySelectorAll('.lang-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    stopAuto();
+    document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
     this.classList.add('active');
-    operasi = this.dataset.op;
-    const labels = {tambah:'+', kurang:'-', kali:'×', bagi:'÷'};
-    const titles = {tambah:'Belajar Menambah', kurang:'Belajar Mengurangi', kali:'Belajar Mengali', bagi:'Belajar Membagi (Porogapit)'};
-    document.getElementById('opLabel').textContent = labels[operasi];
-    document.getElementById('stageTitle').textContent = titles[operasi];
-    document.getElementById('num1').value = {tambah:256, kurang:543, kali:34, bagi:1449}[operasi];
-    document.getElementById('num2').value = {tambah:178, kurang:287, kali:12, bagi:7}[operasi];
-    stopAuto(); isAutoMode = false; steps = []; stepIdx = 0; renderPaper(); playClick();
+    currentLang = this.dataset.lang;
+    
+    if(steps.length > 0) {
+      genSteps(false);
+    }
+    updateUI();
+    
+    // Speak energetic language-specific greeting immediately
+    const greeting = t('greet');
+    document.getElementById('teacherSpeech').textContent = greeting;
+    speakText(greeting, currentLang);
+    playClick();
   });
 });
 
-document.getElementById('num1').addEventListener('keypress', e => {if(e.key === 'Enter'){genSteps(); playClick();}});
-document.getElementById('num2').addEventListener('keypress', e => {if(e.key === 'Enter'){genSteps(); playClick();}});
+// Operations Tabs (+, -, ×, ÷)
+document.querySelectorAll('.tab').forEach(tBtn => {
+  tBtn.addEventListener('click', function(){
+    document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+    operasi = this.dataset.op;
+    
+    const labels = {tambah:'+', kurang:'-', kali:'×', bagi:'÷'};
+    document.getElementById('opLabel').textContent = labels[operasi];
+    document.getElementById('num1').value = {tambah:256, kurang:543, kali:34, bagi:1449}[operasi];
+    document.getElementById('num2').value = {tambah:178, kurang:287, kali:12, bagi:7}[operasi];
+    
+    stopAuto();
+    steps = [];
+    stepIdx = 0;
+    genSteps(true);
+    playClick();
+  });
+});
 
-genSteps();
-// Hapus auto playWelcome karena modern browser memblokir autoplay audio tanpa interaksi user
-// setTimeout(() => playWelcome(), 600); 
+// Input keyboard Enter triggers
+document.getElementById('num1').addEventListener('keypress', e => {
+  if(e.key === 'Enter'){ genSteps(true); playClick(); }
+});
+document.getElementById('num2').addEventListener('keypress', e => {
+  if(e.key === 'Enter'){ genSteps(true); playClick(); }
+});
 
-// Resume AudioContext saat user berinteraksi pertama kali (klik di mana saja)
-document.body.addEventListener('click', () => {
-  if (audioCtx.state === 'suspended') {
-    audioCtx.resume();
-  }
-}, { once: true });
+// Initial Setup
+genSteps(false);
+updateUI();
+
+// AudioContext & SpeechSynthesis unlocking
+document.body.addEventListener('click', unlockAudio);
+document.body.addEventListener('touchstart', unlockAudio);
 </script>
 </body>
 </html>
