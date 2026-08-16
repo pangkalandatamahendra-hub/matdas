@@ -2083,10 +2083,22 @@ document.getElementById('btnVoice').addEventListener('click', function() {
 
 const teacherAvatar = document.getElementById('teacherAvatar');
 teacherAvatar.addEventListener('click', () => {
-  if (steps.length > 0 && stepIdx >= 0 && stepIdx < steps.length) {
+  if (appMode === 'kuis') {
+    if (currentQ && qLives > 0) {
+      document.getElementById('teacherSpeech').textContent = currentQ.text;
+      speakText(currentQ.text);
+    } else {
+      const msg = t('kuisGreet');
+      document.getElementById('teacherSpeech').textContent = msg;
+      speakText(msg);
+    }
+  } else if (steps.length > 0 && stepIdx >= 0 && stepIdx < steps.length) {
+    document.getElementById('teacherSpeech').textContent = steps[stepIdx].txt;
     speakText(steps[stepIdx].txt);
   } else {
-    speakText(t('greet'));
+    const greeting = t('greet');
+    document.getElementById('teacherSpeech').textContent = greeting;
+    speakText(greeting);
   }
 });
 teacherAvatar.addEventListener('keydown', (e) => {
@@ -2102,11 +2114,30 @@ document.querySelectorAll('.lang-btn').forEach(btn => {
     document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
     this.classList.add('active');
     currentLang = this.dataset.lang;
-    if(steps.length > 0) genSteps(false);
     updateUI();
-    const greeting = t('greet');
-    document.getElementById('teacherSpeech').textContent = greeting;
-    speakText(greeting, currentLang);
+    
+    if (appMode === 'kuis') {
+      if (currentQ && qLives > 0) {
+        nextQuiz();
+      } else {
+        const msg = t('kuisGreet');
+        document.getElementById('teacherSpeech').textContent = msg;
+        speakText(msg, currentLang);
+      }
+    } else {
+      if (steps.length > 0) {
+        genSteps(false);
+        const curTxt = steps[stepIdx]?.txt || steps[0]?.txt;
+        if (curTxt) {
+          document.getElementById('teacherSpeech').textContent = curTxt;
+          speakText(curTxt, currentLang);
+        }
+      } else {
+        const greeting = t('greet');
+        document.getElementById('teacherSpeech').textContent = greeting;
+        speakText(greeting, currentLang);
+      }
+    }
     playClick();
   });
 });
@@ -2172,9 +2203,15 @@ function setAppMode(mode, isBedah = false) {
     modeBelajarUI.style.display = 'block'; belajarBoard.style.display = 'block'; belajarControls.style.display = 'block';
     modeKuisUI.style.display = 'none'; kuisBoard.style.display = 'none';
     if (!isBedah) {
-      const msg = t('kuisKembaliBelajar');
-      document.getElementById('teacherSpeech').textContent = msg;
-      speakText(msg);
+      if (steps.length > 0 && stepIdx >= 0 && stepIdx < steps.length) {
+        const curTxt = steps[stepIdx].txt;
+        document.getElementById('teacherSpeech').textContent = curTxt;
+        speakText(curTxt);
+      } else {
+        const msg = t('kuisKembaliBelajar');
+        document.getElementById('teacherSpeech').textContent = msg;
+        speakText(msg);
+      }
     }
   } else {
     tabBelajar.classList.remove('active'); tabKuis.classList.add('active');
@@ -2199,7 +2236,14 @@ document.querySelectorAll('.diff-btn').forEach(btn => {
   });
 });
 
-document.getElementById('btnMulaiKuis').addEventListener('click', () => { playClick(); qScore = 0; qLives = 3; correctStreak = 0; nextQuiz(); });
+document.getElementById('btnMulaiKuis').addEventListener('click', () => { 
+  playClick(); 
+  modeKuisUI.style.display = 'none';
+  qScore = 0; 
+  qLives = 3; 
+  correctStreak = 0; 
+  nextQuiz(); 
+});
 document.getElementById('btnNextQuiz').addEventListener('click', () => { playClick(); nextQuiz(); });
 document.getElementById('btnUlangKuis').addEventListener('click', () => { playClick(); qScore = 0; qLives = 3; correctStreak = 0; nextQuiz(); });
 
@@ -2216,14 +2260,36 @@ document.getElementById('btnBedahJawaban').addEventListener('click', () => {
   document.getElementById('num1').value = currentQ.n1;
   document.getElementById('num2').value = currentQ.n2;
   if (backToQuizBanner) backToQuizBanner.style.display = 'flex';
-  setTimeout(() => genSteps(true), 400);
+  setTimeout(() => genSteps(true), 300);
 });
 
 if (btnReturnQuiz) {
   btnReturnQuiz.addEventListener('click', () => {
-    playClick(); setAppMode('kuis');
+    playClick();
     if (backToQuizBanner) backToQuizBanner.style.display = 'none';
-    if (qLives > 0) nextQuiz();
+    
+    // Langsung kembali ke papan kuis & bacakan soal baru tanpa mengucap pesan sambutan!
+    appMode = 'kuis';
+    stopAuto();
+    setTeacherExpression('normal');
+    if (qTimerInt) clearInterval(qTimerInt);
+    
+    tabBelajar.classList.remove('active');
+    tabKuis.classList.add('active');
+    modeBelajarUI.style.display = 'none';
+    belajarBoard.style.display = 'none';
+    belajarControls.style.display = 'none';
+    modeKuisUI.style.display = 'none';
+    kuisBoard.style.display = 'block';
+    
+    if (qLives > 0) {
+      nextQuiz();
+    } else {
+      qScore = 0;
+      qLives = 3;
+      correctStreak = 0;
+      nextQuiz();
+    }
   });
 }
 
