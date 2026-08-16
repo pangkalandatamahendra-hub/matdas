@@ -20,12 +20,13 @@ body{
   align-items:center;
   overflow-x:hidden;
   padding: 0 10px;
+  transition: background 0.4s ease;
 }
 
 /* Floating Animations */
 @keyframes floatUp {
   0% { transform: translateY(0) rotate(0deg); }
-  50% { transform: translateY(-8px) rotate(2deg); }
+  50% { transform: translateY(-6px) rotate(1.5deg); }
   100% { transform: translateY(0) rotate(0deg); }
 }
 @keyframes cloudMove {
@@ -35,105 +36,128 @@ body{
   100% { transform: translateX(110vw); opacity: 0; }
 }
 
-/* Background Decor */
-  /* Mode Switch */
-  .mode-switch {
-    display: flex; justify-content: center; gap: 8px; margin-bottom: 18px;
-    background: #fdf0d5; padding: 6px; border-radius: 24px;
-    box-shadow: inset 0 2px 6px rgba(0,0,0,0.06);
-  }
-  .mode-btn {
-    flex: 1; padding: 12px 16px; font-size: 16px; font-weight: 800; border-radius: 18px;
-    background: transparent; color: #669bbc; box-shadow: none; border: none; transition: all 0.25s ease; cursor: pointer;
-    font-family: 'Fredoka One', cursive; letter-spacing: 0.5px;
-  }
-  .mode-btn:hover { color: #003049; }
-  .mode-btn.active {
-    background: #003049; color: #fff; box-shadow: 0 4px 12px rgba(0,48,73,0.3); transform: translateY(-1px);
-  }
-  
-  /* Difficulty selector */
-  .difficulty-row {
-    display: flex; justify-content: center; gap: 8px; margin-bottom: 14px; flex-wrap: wrap;
-  }
-  .diff-btn {
-    padding: 10px 16px; border: none; border-radius: 14px; font-size: 14px; font-weight: 800;
-    font-family: 'Quicksand', sans-serif; cursor: pointer; transition: all 0.2s;
-    background: #f5f5f5; color: #555; box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-  }
-  .diff-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-  .diff-btn.active[data-lvl="mudah"] { background: #4ade80; color: #000; box-shadow: 0 4px 10px rgba(74,222,128,0.4); font-weight: 900; }
-  .diff-btn.active[data-lvl="sedang"] { background: #fbbf24; color: #000; box-shadow: 0 4px 10px rgba(251,191,36,0.4); font-weight: 900; }
-  .diff-btn.active[data-lvl="sulit"] { background: #f87171; color: #fff; box-shadow: 0 4px 10px rgba(248,113,113,0.4); font-weight: 900; }
-  
-  /* Timer Bar */
-  .quiz-timer-bar-wrap {
-    width: 100%; height: 7px; background: rgba(0,0,0,0.12); overflow: hidden; border-radius: 2px;
-  }
-  .quiz-timer-bar {
-    height: 100%; width: 100%; background: #4ade80; transition: width 1s linear, background 0.3s ease;
-  }
-  .quiz-timer-bar.warning { background: #fbbf24; }
-  .quiz-timer-bar.danger { background: #ef4444; }
+/* Mode Switch */
+.mode-switch {
+  display: flex; justify-content: center; gap: 8px; margin-bottom: 14px;
+  background: #fdf0d5; padding: 6px; border-radius: 24px;
+  box-shadow: inset 0 2px 6px rgba(0,0,0,0.06);
+}
+.mode-btn {
+  flex: 1; padding: 10px 16px; font-size: 15px; font-weight: 800; border-radius: 18px;
+  background: transparent; color: #669bbc; box-shadow: none; border: none; transition: all 0.25s ease; cursor: pointer;
+  font-family: 'Fredoka One', cursive; letter-spacing: 0.5px;
+}
+.mode-btn:hover { color: #003049; }
+.mode-btn.active {
+  background: #003049; color: #fff; box-shadow: 0 4px 12px rgba(0,48,73,0.3); transform: translateY(-1px);
+}
 
-  /* Quiz Options Grid */
-  .quiz-options-grid {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%;
-  }
-  @media (max-width: 600px) {
-    .quiz-options-grid { grid-template-columns: 1fr; }
-  }
-  .quiz-option {
-    display: flex; align-items: center; gap: 12px; padding: 12px 16px;
-    font-size: 18px; font-weight: 800; font-family: 'Fredoka One', cursive;
-    background: #fff; border: 3px solid #fdf0d5; border-radius: 16px; color: #003049;
-    cursor: pointer; transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
-    box-shadow: 0 4px 0 #e5d8c0, 0 4px 10px rgba(0,0,0,0.03); text-align: left;
-  }
-  .quiz-option:hover { transform: translateY(-2px); border-color: #ffd3b6; box-shadow: 0 6px 0 #e5d8c0, 0 6px 14px rgba(0,0,0,0.06); }
-  .quiz-option:active { transform: translateY(2px); box-shadow: 0 2px 0 #e5d8c0; }
-  .quiz-option .opt-badge {
-    width: 30px; height: 30px; border-radius: 10px; display: flex; align-items: center; justify-content: center;
-    background: #ffd3b6; color: #d16b3f; font-size: 15px; font-weight: 900; flex-shrink: 0;
-  }
-  .quiz-option.correct {
-    background: #4ade80 !important; border-color: #22c55e !important; color: #fff !important;
-    box-shadow: 0 4px 0 #16a34a, 0 0 20px rgba(74,222,128,0.6) !important;
-    animation: correctPulse 0.4s ease-out;
-  }
-  .quiz-option.correct .opt-badge { background: #fff; color: #16a34a; }
-  .quiz-option.wrong {
-    background: #f87171 !important; border-color: #ef4444 !important; color: #fff !important;
-    box-shadow: 0 4px 0 #dc2626 !important; animation: wrongShake 0.4s ease-in-out;
-  }
-  .quiz-option.wrong .opt-badge { background: #fff; color: #dc2626; }
-  
-  @keyframes correctPulse {
-    0% { transform: scale(0.95); }
-    50% { transform: scale(1.05); }
-    100% { transform: scale(1); }
-  }
-  @keyframes wrongShake {
-    0%, 100% { transform: translateX(0); }
-    20%, 60% { transform: translateX(-6px); }
-    40%, 80% { transform: translateX(6px); }
-  }
+/* Top Bar Actions: Themes & Sticker Album */
+.top-action-bar {
+  display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 12px; flex-wrap: wrap;
+}
+.theme-picker {
+  display: flex; gap: 6px; align-items: center; background: rgba(255,255,255,0.7); padding: 4px 8px; border-radius: 16px;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.04);
+}
+.theme-picker span { font-size: 12px; font-weight: 800; color: #666; margin-right: 2px; }
+.theme-btn {
+  border: none; background: transparent; font-size: 13.5px; padding: 4px 8px; border-radius: 12px;
+  cursor: pointer; transition: all 0.2s; font-family: 'Quicksand', sans-serif; font-weight: 800;
+}
+.theme-btn:hover { transform: scale(1.08); }
+.theme-btn.active { background: #ff8b94; color: white; box-shadow: 0 2px 6px rgba(255,139,148,0.4); }
 
-  /* Back to Quiz Banner */
-  .back-to-quiz-banner {
-    background: linear-gradient(90deg, #ff758c 0%, #ff7eb3 100%);
-    color: white; padding: 10px 16px; border-radius: 16px; margin-bottom: 12px;
-    display: flex; justify-content: space-between; align-items: center; font-weight: 800; font-size: 14px;
-    box-shadow: 0 4px 12px rgba(255,117,140,0.3); animation: popIn 0.3s ease-out;
-  }
-  .btn-back-quiz {
-    background: white; color: #d90429; border: none; padding: 6px 14px; border-radius: 12px;
-    font-weight: 800; cursor: pointer; font-family: 'Quicksand', sans-serif; font-size: 13px;
-    transition: transform 0.2s; box-shadow: 0 3px 0 rgba(0,0,0,0.1);
-  }
-  .btn-back-quiz:hover { transform: scale(1.05); }
+.btn-sticker-badge {
+  background: #ffd166; color: #8c5a00; border: none; padding: 6px 14px; border-radius: 16px;
+  font-size: 13px; font-weight: 900; font-family: 'Fredoka One', cursive; cursor: pointer;
+  box-shadow: 0 4px 0 #d9ad49, 0 4px 8px rgba(0,0,0,0.08); transition: all 0.2s;
+}
+.btn-sticker-badge:hover { transform: translateY(-2px); box-shadow: 0 6px 0 #d9ad49; }
+.btn-sticker-badge:active { transform: translateY(2px); box-shadow: 0 1px 0 #d9ad49; }
 
-  .bg-decor { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; overflow: hidden; }
+/* Difficulty selector */
+.difficulty-row {
+  display: flex; justify-content: center; gap: 8px; margin-bottom: 14px; flex-wrap: wrap;
+}
+.diff-btn {
+  padding: 10px 16px; border: none; border-radius: 14px; font-size: 14px; font-weight: 800;
+  font-family: 'Quicksand', sans-serif; cursor: pointer; transition: all 0.2s;
+  background: #f5f5f5; color: #555; box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+.diff-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+.diff-btn.active[data-lvl="mudah"] { background: #4ade80; color: #000; box-shadow: 0 4px 10px rgba(74,222,128,0.4); font-weight: 900; }
+.diff-btn.active[data-lvl="sedang"] { background: #fbbf24; color: #000; box-shadow: 0 4px 10px rgba(251,191,36,0.4); font-weight: 900; }
+.diff-btn.active[data-lvl="sulit"] { background: #f87171; color: #fff; box-shadow: 0 4px 10px rgba(248,113,113,0.4); font-weight: 900; }
+
+/* Timer Bar */
+.quiz-timer-bar-wrap {
+  width: 100%; height: 7px; background: rgba(0,0,0,0.12); overflow: hidden; border-radius: 2px;
+}
+.quiz-timer-bar {
+  height: 100%; width: 100%; background: #4ade80; transition: width 1s linear, background 0.3s ease;
+}
+.quiz-timer-bar.warning { background: #fbbf24; }
+.quiz-timer-bar.danger { background: #ef4444; }
+
+/* Quiz Options Grid */
+.quiz-options-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%;
+}
+@media (max-width: 600px) {
+  .quiz-options-grid { grid-template-columns: 1fr; }
+}
+.quiz-option {
+  display: flex; align-items: center; gap: 12px; padding: 12px 16px;
+  font-size: 18px; font-weight: 800; font-family: 'Fredoka One', cursive;
+  background: #fff; border: 3px solid #fdf0d5; border-radius: 16px; color: #003049;
+  cursor: pointer; transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 4px 0 #e5d8c0, 0 4px 10px rgba(0,0,0,0.03); text-align: left;
+}
+.quiz-option:hover { transform: translateY(-2px); border-color: #ffd3b6; box-shadow: 0 6px 0 #e5d8c0, 0 6px 14px rgba(0,0,0,0.06); }
+.quiz-option:active { transform: translateY(2px); box-shadow: 0 2px 0 #e5d8c0; }
+.quiz-option .opt-badge {
+  width: 30px; height: 30px; border-radius: 10px; display: flex; align-items: center; justify-content: center;
+  background: #ffd3b6; color: #d16b3f; font-size: 15px; font-weight: 900; flex-shrink: 0;
+}
+.quiz-option.correct {
+  background: #4ade80 !important; border-color: #22c55e !important; color: #fff !important;
+  box-shadow: 0 4px 0 #16a34a, 0 0 20px rgba(74,222,128,0.6) !important;
+  animation: correctPulse 0.4s ease-out;
+}
+.quiz-option.correct .opt-badge { background: #fff; color: #16a34a; }
+.quiz-option.wrong {
+  background: #f87171 !important; border-color: #ef4444 !important; color: #fff !important;
+  box-shadow: 0 4px 0 #dc2626 !important; animation: wrongShake 0.4s ease-in-out;
+}
+.quiz-option.wrong .opt-badge { background: #fff; color: #dc2626; }
+
+@keyframes correctPulse {
+  0% { transform: scale(0.95); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+@keyframes wrongShake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-6px); }
+  40%, 80% { transform: translateX(6px); }
+}
+
+/* Back to Quiz Banner */
+.back-to-quiz-banner {
+  background: linear-gradient(90deg, #ff758c 0%, #ff7eb3 100%);
+  color: white; padding: 10px 16px; border-radius: 16px; margin-bottom: 12px;
+  display: flex; justify-content: space-between; align-items: center; font-weight: 800; font-size: 14px;
+  box-shadow: 0 4px 12px rgba(255,117,140,0.3); animation: popIn 0.3s ease-out;
+}
+.btn-back-quiz {
+  background: white; color: #d90429; border: none; padding: 6px 14px; border-radius: 12px;
+  font-weight: 800; cursor: pointer; font-family: 'Quicksand', sans-serif; font-size: 13px;
+  transition: transform 0.2s; box-shadow: 0 3px 0 rgba(0,0,0,0.1);
+}
+.btn-back-quiz:hover { transform: scale(1.05); }
+
+.bg-decor { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; overflow: hidden; }
 .cloud { position: absolute; background: white; border-radius: 50px; opacity: 0.6; filter: blur(2px); animation: cloudMove linear infinite; }
 .cloud::before, .cloud::after { content: ''; position: absolute; background: white; border-radius: 50%; }
 .cloud1 { width: 120px; height: 40px; top: 8%; left: -20%; animation-duration: 45s; }
@@ -146,47 +170,47 @@ body{
 /* Header / Hero */
 header {
   text-align:center;
-  margin: 18px 10px 12px;
+  margin: 16px 10px 10px;
   position:relative;
   z-index: 10;
   animation: floatUp 6s ease-in-out infinite;
 }
 h1 {
   font-family: 'Fredoka One', cursive;
-  font-size: 38px;
+  font-size: 36px;
   color: #ff8b94;
   text-shadow: 3px 3px 0 #fff, 4px 4px 0 rgba(0,0,0,0.08);
   letter-spacing: 1.5px;
   line-height: 1.15;
   margin-bottom: 4px;
 }
-h1 .star { color: #ffeb3b; text-shadow: none; font-size: 30px; }
+h1 .star { color: #ffeb3b; text-shadow: none; font-size: 28px; }
 .kids {
   display:block;
-  font-size:19px;
+  font-size:18px;
   color:#2e7d6b;
   font-family: 'Quicksand', sans-serif;
   font-weight: 800;
   margin-top: 3px;
 }
 .sub {
-  font-size:14px;
+  font-size:13.5px;
   color:#555;
   font-weight:700;
   margin-top: 6px;
   background: rgba(255,255,255,0.75);
   display: inline-block;
-  padding: 5px 16px;
+  padding: 4px 14px;
   border-radius: 20px;
   box-shadow: 0 4px 6px rgba(0,0,0,0.05);
 }
 
 /* Lang Selector */
-.lang-selector { margin-bottom: 12px; display: flex; justify-content: center; gap: 8px; z-index: 20; position: relative; flex-wrap: wrap; }
+.lang-selector { margin-bottom: 10px; display: flex; justify-content: center; gap: 8px; z-index: 20; position: relative; flex-wrap: wrap; }
 .lang-btn {
-  background: white; border: 3px solid #ffaaa5; border-radius: 18px; padding: 6px 16px;
+  background: white; border: 3px solid #ffaaa5; border-radius: 18px; padding: 5px 14px;
   font-family: 'Quicksand', sans-serif; font-weight: 800; cursor: pointer; transition: all 0.2s;
-  color: #555; font-size:14px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  color: #555; font-size:13px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);
 }
 .lang-btn.active {
   background: #ff8b94; color: white; border-color: #e6737c;
@@ -201,11 +225,15 @@ main {
   max-width: 960px;
   position: relative;
   z-index: 10;
-  margin-bottom: 35px;
-}/* TV / Keyboard Navigation Accessibility */
+  margin-bottom: 25px;
+}
+/* Enhanced Android TV & Keyboard Focus Outline */
 :focus-visible {
-  outline: 4px solid #118ab2 !important;
+  outline: 5px solid #ffb703 !important;
   outline-offset: 4px !important;
+  transform: scale(1.05) !important;
+  box-shadow: 0 0 20px rgba(255, 183, 3, 0.8) !important;
+  z-index: 100;
 }
 
 /* Classroom Board Card */
@@ -214,15 +242,16 @@ main {
   border: 6px solid #ffaaa5;
   border-radius: 32px;
   box-shadow: 0 15px 35px rgba(255,139,148,0.3), 0 8px 0 #ff8b94;
-  padding: 22px;
+  padding: 20px;
   position: relative;
   width: 100%;
+  transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
 }
 
 /* Tabs */
-.tabs{ display:flex; gap:8px; margin-bottom:16px; background:#f9f9f9; padding:6px; border-radius:20px; box-shadow: inset 0 3px 6px rgba(0,0,0,0.05); }
+.tabs{ display:flex; gap:8px; margin-bottom:14px; background:#f9f9f9; padding:6px; border-radius:20px; box-shadow: inset 0 3px 6px rgba(0,0,0,0.05); }
 .tab{
-  flex:1; padding:12px 4px; border:none; border-radius:15px;
+  flex:1; padding:10px 4px; border:none; border-radius:15px;
   font-size:15px; font-weight:800; cursor:pointer; transition:all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   background:white; color:#777; box-shadow:0 3px 6px rgba(0,0,0,0.05);
   font-family: 'Quicksand', sans-serif;
@@ -230,47 +259,68 @@ main {
 }
 .tab:hover { transform: translateY(-2px); box-shadow: 0 5px 10px rgba(0,0,0,0.1); }
 .tab.active{
-  background: #ff8b94; color:#fff; font-size:16px;
+  background: #ff8b94; color:#fff; font-size:15px;
   box-shadow: 0 6px 14px rgba(255,139,148,0.4), 0 3px 0 #e6737c;
   transform: translateY(-2px);
 }
 .tab.active:active { transform: translateY(1px); box-shadow: 0 0 0 #e6737c; }
 
-/* Inputs */
-.input-row{ display:flex; gap:10px; margin-bottom:14px; align-items:center; justify-content:center; }
-.input-row input{
-  flex:1; max-width: 190px; padding:12px 10px; border:4px solid #ffaaa5; border-radius:18px;
-  font-size:24px; font-weight:800; background:#fff; text-align:center;
-  font-family: 'Fredoka One', cursive; color:#444; transition:all .2s;
-  box-shadow: inset 0 3px 6px rgba(0,0,0,0.05);
-  min-width: 0;
+/* Enhanced Inputs with Mini Steppers & Randomizer */
+.input-row-container {
+  margin-bottom: 14px;
 }
-.input-row input:focus{ outline:none; border-color:#ff8b94; transform: scale(1.02); box-shadow: 0 0 15px rgba(255,139,148,0.35); }
-.input-row label{ font-size:28px; color:#ff8b94; font-weight:900; font-family:'Fredoka One',cursive; flex-shrink: 0; }
+.input-row{ display:flex; gap:8px; align-items:center; justify-content:center; flex-wrap:nowrap; }
+.input-stepper-wrap {
+  display: flex; align-items: center; background: #fff; border: 4px solid #ffaaa5; border-radius: 18px;
+  box-shadow: inset 0 3px 6px rgba(0,0,0,0.05); overflow: hidden; flex: 1; max-width: 220px;
+}
+.input-stepper-wrap input{
+  flex:1; width: 100%; padding:10px 2px; border:none; background:transparent;
+  font-size:22px; font-weight:800; text-align:center;
+  font-family: 'Fredoka One', cursive; color:#444; min-width: 0;
+}
+.input-stepper-wrap input:focus{ outline:none; }
+.btn-step {
+  border: none; background: #fff3f0; color: #e63946; width: 34px; height: 100%; min-height: 44px;
+  font-size: 20px; font-weight: 900; cursor: pointer; transition: all 0.15s;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.btn-step:hover { background: #ffe5d9; }
+.btn-step:active { background: #ffd3b6; transform: scale(0.92); }
+
+.input-row label{ font-size:26px; color:#ff8b94; font-weight:900; font-family:'Fredoka One',cursive; flex-shrink: 0; }
+
+.btn-random {
+  border: none; background: #ffd166; color: #8c5a00; padding: 10px 14px; border-radius: 18px;
+  font-size: 14px; font-weight: 900; font-family: 'Fredoka One', cursive; cursor: pointer;
+  box-shadow: 0 4px 0 #d9ad49; transition: all 0.2s; display: flex; align-items: center; gap: 4px; flex-shrink: 0;
+}
+.btn-random:hover { transform: translateY(-2px); box-shadow: 0 6px 0 #d9ad49; }
+.btn-random:active { transform: translateY(2px); box-shadow: 0 1px 0 #d9ad49; }
 
 /* Main Action Button (Top) */
 .btn-go{
-  width:100%; padding:15px; border:none; border-radius:20px;
+  width:100%; padding:14px; border:none; border-radius:20px;
   background: #ffd3b6; background-image: linear-gradient(180deg, #ffebcb, #ffd3b6);
-  color: #d16b3f; font-size:22px; font-family:'Fredoka One',cursive; cursor:pointer;
-  transition:all .2s; box-shadow: 0 7px 0 #e5a47e, 0 12px 18px rgba(229,164,126,0.4);
-  letter-spacing:1px; margin-bottom:18px;
+  color: #d16b3f; font-size:20px; font-family:'Fredoka One',cursive; cursor:pointer;
+  transition:all .2s; box-shadow: 0 6px 0 #e5a47e, 0 10px 16px rgba(229,164,126,0.35);
+  letter-spacing:1px; margin-bottom:16px;
 }
-.btn-go:hover{ transform:translateY(-3px); box-shadow: 0 10px 0 #e5a47e, 0 14px 22px rgba(229,164,126,0.5); }
-.btn-go:active{ transform:translateY(4px); box-shadow: 0 3px 0 #e5a47e, 0 5px 10px rgba(229,164,126,0.4); }
+.btn-go:hover{ transform:translateY(-3px); box-shadow: 0 9px 0 #e5a47e, 0 12px 20px rgba(229,164,126,0.45); }
+.btn-go:active{ transform:translateY(4px); box-shadow: 0 2px 0 #e5a47e, 0 4px 8px rgba(229,164,126,0.4); }
 
-/* CLASSROOM STAGE: Sensei on the LEFT, Blackboard on the RIGHT (Always Beside Each Other!) */
+/* CLASSROOM STAGE: Sensei on the LEFT, Blackboard on the RIGHT */
 .classroom-stage {
   display: flex;
   gap: 16px;
   align-items: flex-end;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
   width: 100%;
 }
 
 /* Left Column: Sensei & Speech Bubble */
 .sensei-col {
-  width: 190px;
+  width: 180px;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
@@ -283,17 +333,17 @@ main {
   background: white;
   border: 4px solid #118ab2;
   border-radius: 20px;
-  padding: 12px 14px;
-  font-size: 14px;
+  padding: 10px 12px;
+  font-size: 13.5px;
   font-weight: 700;
   color: #0f4c5c;
   position: relative;
-  margin-bottom: 14px;
+  margin-bottom: 12px;
   box-shadow: 0 6px 18px rgba(17,138,178,0.18);
   animation: popIn 0.3s ease-out;
   text-align: center;
   font-family: 'Quicksand', sans-serif;
-  line-height: 1.45;
+  line-height: 1.4;
   width: 100%;
 }
 .speech-bubble::after {
@@ -315,15 +365,15 @@ main {
 
 /* Animated Mouth and Pointer Stick */
 .teacher.talking #mouth {
-  transform-origin: 90px 124px;
+  transform-origin: 85px 108px;
   animation: animeMouth 0.2s infinite alternate;
 }
 .teacher.talking .arm-pointer {
-  transform-origin: 120px 145px;
+  transform-origin: 122px 135px;
   animation: animePoint 0.5s infinite alternate ease-in-out;
 }
 .teacher.talking .hair-ribbon {
-  transform-origin: 50px 70px;
+  transform-origin: 35px 65px;
   animation: ribbonFlutter 0.6s infinite alternate ease-in-out;
 }
 
@@ -349,10 +399,10 @@ main {
   flex-direction: column;
 }
 
-.paper-head{ display:flex; justify-content:space-between; align-items:center; font-size:14px; color:#ff8b94; margin-bottom:8px; font-weight:800; text-transform:uppercase; letter-spacing:0.5px; }
+.paper-head{ display:flex; justify-content:space-between; align-items:center; font-size:13.5px; color:#ff8b94; margin-bottom:8px; font-weight:800; text-transform:uppercase; letter-spacing:0.5px; }
 .paper{
-  background: #fffdf5; border:4px solid #ffaaa5; border-radius:20px; padding:18px;
-  min-height:220px; max-height:52vh; overflow-y:auto; overflow-x:auto; margin-bottom:0;
+  background: #fffdf5; border:4px solid #ffaaa5; border-radius:20px; padding:16px;
+  min-height:220px; max-height:50vh; overflow-y:auto; overflow-x:auto; margin-bottom:0;
   box-shadow: inset 0 5px 15px rgba(0,0,0,0.03);
   position: relative;
   -webkit-overflow-scrolling: touch;
@@ -362,16 +412,16 @@ main {
   background: repeating-linear-gradient(180deg, transparent, transparent 39px, #e8f4f8 39px, #e8f4f8 40px);
   pointer-events: none; z-index: 0;
 }
-.step-block { margin-bottom: 20px; padding-bottom: 16px; border-bottom: 2px dashed #ffcccb; position: relative; z-index: 2; opacity: 0.5; transition: opacity 0.3s; }
+.step-block { margin-bottom: 18px; padding-bottom: 14px; border-bottom: 2px dashed #ffcccb; position: relative; z-index: 2; opacity: 0.5; transition: opacity 0.3s; }
 .step-block:last-child { border-bottom: none; margin-bottom: 0; }
 .step-block.current { opacity: 1; }
 .step-sim {
   font-family: 'SF Mono', ui-monospace, 'Cascadia Code', 'Fira Code', monospace;
-  font-size: 24px; line-height: 1.8; letter-spacing: 3px;
+  font-size: clamp(15px, 3.8vw, 24px); line-height: 1.75; letter-spacing: clamp(1px, 0.5vw, 3px);
   white-space: pre; color: #2b2d42; font-weight: 800;
 }
 .step-txt {
-  font-size: 14px; color: #0b525b; font-weight: 700; margin-top: 12px; line-height: 1.5;
+  font-size: 13.5px; color: #0b525b; font-weight: 700; margin-top: 10px; line-height: 1.5;
   background: #e0fbfc; padding: 10px 14px; border-radius: 12px;
   border-left: 5px solid #118ab2; box-shadow: 0 3px 6px rgba(0,0,0,0.04);
 }
@@ -401,8 +451,8 @@ main {
   pointer-events: none; z-index: 10;
 }
 
-/* Bottom Step Controls: Clear & Unambiguous */
-.controls{ display:flex; gap:8px; margin-top:14px; margin-bottom:12px; flex-wrap:wrap; }
+/* Bottom Step Controls */
+.controls{ display:flex; gap:8px; margin-top:12px; margin-bottom:10px; flex-wrap:wrap; }
 .controls button{
   flex:1; min-width:80px; padding:12px 4px; border:none; border-radius:15px;
   font-size:14px; font-weight:800; cursor:pointer; transition:all .2s;
@@ -432,17 +482,97 @@ main {
 
 .controls button:disabled{ opacity:.45; cursor:not-allowed; transform:none!important; box-shadow:none!important; }
 
-/* Speed Row */
+/* Kids Speed Row with 3 Preset Animal Buttons */
 .speed-row{
-  display:flex; align-items:center; gap:10px;
-  font-size:13px; color:#ff8b94; background:#fff2f3; padding:10px 16px; border-radius:16px;
-  font-weight:800; border: 2px solid #ffaaa5;
+  display:flex; align-items:center; justify-content:space-between; gap:8px;
+  font-size:13px; color:#ff8b94; background:#fff2f3; padding:8px 14px; border-radius:16px;
+  font-weight:800; border: 2px solid #ffaaa5; flex-wrap:wrap;
 }
-.speed-row input[type=range]{ flex:1; accent-color:#ff8b94; cursor:pointer; height:8px; border-radius:4px; }
-.speed-label{ white-space:nowrap; min-width:55px; }
+.speed-preset-group {
+  display: flex; gap: 6px;
+}
+.speed-btn {
+  border: 2px solid transparent; background: white; padding: 6px 12px; border-radius: 12px;
+  font-size: 13px; font-weight: 800; font-family: 'Quicksand', sans-serif; cursor: pointer;
+  color: #555; box-shadow: 0 2px 4px rgba(0,0,0,0.05); transition: all 0.2s;
+}
+.speed-btn:hover { transform: translateY(-2px); }
+.speed-btn.active {
+  background: #ff8b94; color: white; border-color: #e6737c; box-shadow: 0 3px 8px rgba(255,139,148,0.4);
+}
+
+/* THEMES SYSTEM */
+/* 1. Chalkboard Theme (Papan Tulis Hijau Kapur) */
+body[data-theme="chalkboard"] {
+  background: #2d6a4f;
+  background-image: radial-gradient(circle at 50% 0%, #40916c 0%, #2d6a4f 60%, #1b4332 100%);
+}
+body[data-theme="chalkboard"] .board {
+  background: #1e3f20; border-color: #8d5b4c; box-shadow: 0 15px 35px rgba(0,0,0,0.4), 0 8px 0 #5c3a21;
+}
+body[data-theme="chalkboard"] .paper {
+  background: #19381c; border-color: #5c3a21; color: #fff;
+}
+body[data-theme="chalkboard"] .paper::before { background: none; }
+body[data-theme="chalkboard"] .step-sim {
+  color: #ffffff; text-shadow: 0 0 2px rgba(255,255,255,0.7);
+}
+body[data-theme="chalkboard"] .step-txt {
+  background: #244d28; color: #d8f3dc; border-left-color: #52b788;
+}
+
+/* 2. Grid Notebook Theme (Buku Kotak Matematika) */
+body[data-theme="grid"] {
+  background: #e0f2fe;
+  background-image: radial-gradient(circle at 50% 0%, #bae6fd 0%, #e0f2fe 60%, #bfdbfe 100%);
+}
+body[data-theme="grid"] .board {
+  background: #ffffff; border-color: #3b82f6; box-shadow: 0 15px 35px rgba(59,130,246,0.25), 0 8px 0 #2563eb;
+}
+body[data-theme="grid"] .paper {
+  background: #ffffff; border-color: #93c5fd;
+}
+body[data-theme="grid"] .paper::before {
+  background-size: 20px 20px;
+  background-image: linear-gradient(to right, #e2e8f0 1px, transparent 1px), linear-gradient(to bottom, #e2e8f0 1px, transparent 1px);
+}
+
+/* Sticker Album Modal */
+.modal-backdrop {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.55); backdrop-filter: blur(4px);
+  z-index: 10000; display: flex; align-items: center; justify-content: center; padding: 14px;
+}
+.modal-card {
+  background: white; border-radius: 28px; width: 100%; max-width: 520px; padding: 22px;
+  border: 5px solid #ffd166; box-shadow: 0 20px 40px rgba(0,0,0,0.2); animation: popIn 0.3s ease-out;
+  max-height: 90vh; overflow-y: auto;
+}
+.modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.modal-header h2 { font-family: 'Fredoka One', cursive; color: #d16b3f; font-size: 20px; }
+.btn-close-modal {
+  border: none; background: #fee2e2; color: #ef4444; width: 34px; height: 34px; border-radius: 50%;
+  font-size: 16px; font-weight: 900; cursor: pointer; transition: all 0.2s;
+}
+.btn-close-modal:hover { transform: scale(1.1); background: #fecaca; }
+.modal-desc { font-size: 13px; color: #666; font-weight: 700; margin-bottom: 16px; line-height: 1.4; }
+.sticker-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+}
+.sticker-item {
+  background: #fdfaf6; border: 3px solid #ffe5d9; border-radius: 18px; padding: 12px 10px;
+  text-align: center; display: flex; flex-direction: column; align-items: center; transition: all 0.2s;
+}
+.sticker-item.locked { opacity: 0.55; filter: grayscale(0.8); }
+.sticker-item.unlocked {
+  border-color: #ffd166; background: #fffdf5; box-shadow: 0 4px 10px rgba(255,209,102,0.3);
+}
+.sticker-icon { font-size: 38px; margin-bottom: 6px; line-height: 1; }
+.sticker-name { font-family: 'Fredoka One', cursive; font-size: 14px; color: #003049; margin-bottom: 2px; }
+.sticker-desc { font-size: 11px; font-weight: 700; color: #777; line-height: 1.3; }
 
 /* Footer */
-footer { text-align:center; padding: 18px; color: #555; font-weight: 600; font-size: 13px; opacity: 0.85; }
+footer { text-align:center; padding: 16px; color: #555; font-weight: 600; font-size: 13px; opacity: 0.85; }
 .info { background: white; padding: 8px 16px; border-radius: 20px; display: inline-block; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
 
 /* RESPONSIVE DESIGN: Sensei ALWAYS Beside Blackboard on All Screen Sizes */
@@ -452,25 +582,31 @@ footer { text-align:center; padding: 18px; color: #555; font-weight: 600; font-s
   .teacher svg { width: 125px; height: 165px; }
   .speech-bubble { font-size: 13px; padding: 10px; }
   .board { padding: 16px; }
-  .step-sim { font-size: 21px; letter-spacing: 2px; }
+  .step-sim { font-size: clamp(15px, 3.8vw, 21px); letter-spacing: 1.5px; }
 }
 
 @media(max-width: 520px){
-  header { margin: 12px 5px 8px; }
-  h1 { font-size: 26px; }
-  h1 .star { font-size: 20px; }
-  .kids { font-size: 14px; }
-  .sub { font-size: 12px; padding: 4px 10px; }
-  .lang-btn { font-size: 13px; padding: 5px 12px; }
+  header { margin: 10px 5px 6px; }
+  h1 { font-size: 24px; }
+  h1 .star { font-size: 18px; }
+  .kids { font-size: 13px; }
+  .sub { font-size: 11.5px; padding: 3px 8px; }
+  .lang-btn { font-size: 12px; padding: 4px 10px; }
   .board { padding: 12px; border-width: 4px; border-radius: 22px; }
-  .tabs { gap: 4px; padding: 4px; }
-  .tab { font-size: 12px; padding: 9px 2px; border-radius: 12px; }
+  .tabs { gap: 4px; padding: 4px; margin-bottom: 10px; }
+  .tab { font-size: 12px; padding: 8px 2px; border-radius: 12px; }
   .tab.active { font-size: 12px; }
-  .input-row input { font-size: 19px; padding: 9px 4px; border-width: 3px; }
-  .input-row label { font-size: 20px; }
-  .btn-go { font-size: 17px; padding: 12px; border-radius: 16px; margin-bottom: 12px; }
   
-  /* Sensei stays on the left of blackboard */
+  .input-row { gap: 4px; }
+  .input-stepper-wrap { border-width: 3px; border-radius: 14px; }
+  .input-stepper-wrap input { font-size: 18px; padding: 8px 2px; }
+  .btn-step { width: 28px; min-height: 38px; font-size: 18px; }
+  .input-row label { font-size: 20px; }
+  .btn-random { padding: 8px 10px; font-size: 12px; border-radius: 14px; }
+  .btn-random .random-txt { display: none; }
+  
+  .btn-go { font-size: 17px; padding: 12px; border-radius: 16px; margin-bottom: 10px; }
+  
   .classroom-stage { gap: 8px; align-items: flex-end; }
   .sensei-col { width: 95px; }
   .teacher svg { width: 90px; height: 120px; }
@@ -481,13 +617,40 @@ footer { text-align:center; padding: 18px; color: #555; font-weight: 600; font-s
   .speech-bubble::after { bottom: -9px; border-width: 9px 7px 0; }
   .speech-bubble::before { bottom: -5px; border-width: 6px 5px 0; }
   
-  .paper { min-height: 180px; max-height: 48vh; padding: 10px 8px; border-width: 3px; border-radius: 16px; }
-  .step-sim { font-size: 17px; letter-spacing: 1.5px; line-height: 1.6; }
-  .step-txt { font-size: 12.5px; padding: 8px 10px; margin-top: 8px; }
+  .paper { min-height: 180px; max-height: 46vh; padding: 10px 8px; border-width: 3px; border-radius: 16px; }
+  .step-sim { font-size: clamp(13px, 3.6vw, 17px); letter-spacing: 1px; line-height: 1.6; }
+  .step-txt { font-size: 12px; padding: 8px 10px; margin-top: 8px; }
   
-  .controls { gap: 5px; margin-top: 10px; }
-  .controls button { font-size: 12px; padding: 10px 2px; min-width: calc(50% - 5px); border-radius: 12px; }
+  .controls { gap: 4px; margin-top: 8px; }
+  .controls button { font-size: 12px; padding: 9px 2px; min-width: calc(50% - 4px); border-radius: 12px; }
   .btn-voice { min-width: 100%!important; }
+}
+
+/* Compact Landscape View for mobile & tablets rotated sideways */
+@media (max-height: 520px) and (orientation: landscape) {
+  header { margin: 6px 4px 4px; }
+  header h1 { font-size: 18px; margin-bottom: 0; }
+  header .kids, header .sub { display: none; }
+  .lang-selector { margin-bottom: 4px; gap: 4px; }
+  .lang-btn { padding: 3px 8px; font-size: 11px; }
+  .board { padding: 8px 12px; border-radius: 18px; border-width: 4px; }
+  .top-action-bar { margin-bottom: 6px; }
+  .mode-switch { margin-bottom: 6px; padding: 3px; }
+  .mode-btn { padding: 6px 8px; font-size: 12px; }
+  .tabs { margin-bottom: 6px; padding: 3px; }
+  .tab { padding: 5px 2px; font-size: 11px; }
+  .input-row-container { margin-bottom: 6px; }
+  .input-stepper-wrap input { font-size: 16px; padding: 4px 2px; }
+  .btn-step { min-height: 32px; width: 26px; font-size: 15px; }
+  .btn-go { padding: 8px; font-size: 15px; margin-bottom: 6px; }
+  .sensei-col { width: 85px; }
+  .teacher svg { width: 75px; height: 100px; }
+  .speech-bubble { font-size: 11px; padding: 5px 6px; margin-bottom: 4px; line-height: 1.25; }
+  .paper { min-height: 120px; max-height: 48vh; padding: 6px; }
+  .controls { margin-top: 4px; gap: 3px; }
+  .controls button { padding: 6px 2px; font-size: 11px; }
+  .speed-row { padding: 4px 8px; }
+  footer { display: none; }
 }
 </style>
 </head>
@@ -512,6 +675,17 @@ footer { text-align:center; padding: 18px; color: #555; font-weight: 600; font-s
 <main>
 <div class="board">
 
+  <!-- Top Action Bar: Themes & Sticker Album -->
+  <div class="top-action-bar">
+    <div class="theme-picker">
+      <span id="txtThemeLabel">🎨 Tema:</span>
+      <button class="theme-btn active" data-theme="pastel" title="Pastel Ceria">🌸 Pastel</button>
+      <button class="theme-btn" data-theme="chalkboard" title="Papan Tulis Hijau Kapur">🟢 Kapur</button>
+      <button class="theme-btn" data-theme="grid" title="Buku Kotak Matematika">📄 Kotak</button>
+    </div>
+    <button id="btnOpenStickers" class="btn-sticker-badge">🏆 <span id="stickerCountBadge">Stiker (0/6)</span></button>
+  </div>
+
   <!-- Mode Switch -->
   <div class="mode-switch">
     <button class="mode-btn active" id="tabBelajar">🎓 Mode Belajar</button>
@@ -527,11 +701,27 @@ footer { text-align:center; padding: 18px; color: #555; font-weight: 600; font-s
     <button class="tab" data-op="bagi">➗ Bagi</button>
   </div>
 
-  <!-- Number Inputs -->
-  <div class="input-row">
-    <input type="number" step="any" inputmode="decimal" id="num1" placeholder="Angka 1" value="256">
-    <label id="opLabel">+</label>
-    <input type="number" step="any" inputmode="decimal" id="num2" placeholder="Angka 2" value="178">
+  <!-- Number Inputs with Steppers and Randomizer -->
+  <div class="input-row-container">
+    <div class="input-row">
+      <div class="input-stepper-wrap">
+        <button class="btn-step" onclick="stepInput('num1', -1)" title="Kurang 1" aria-label="Kurang 1">−</button>
+        <input type="number" step="any" inputmode="decimal" id="num1" placeholder="Angka 1" value="256">
+        <button class="btn-step" onclick="stepInput('num1', 1)" title="Tambah 1" aria-label="Tambah 1">+</button>
+      </div>
+      
+      <label id="opLabel">+</label>
+      
+      <div class="input-stepper-wrap">
+        <button class="btn-step" onclick="stepInput('num2', -1)" title="Kurang 1" aria-label="Kurang 1">−</button>
+        <input type="number" step="any" inputmode="decimal" id="num2" placeholder="Angka 2" value="178">
+        <button class="btn-step" onclick="stepInput('num2', 1)" title="Tambah 1" aria-label="Tambah 1">+</button>
+      </div>
+      
+      <button class="btn-random" id="btnRandomNum" title="Acak Angka" aria-label="Acak Angka">
+        🎲 <span class="random-txt">Acak</span>
+      </button>
+    </div>
   </div>
   
   <!-- Primary Action Button (Top) -->
@@ -555,7 +745,7 @@ footer { text-align:center; padding: 18px; color: #555; font-weight: 600; font-s
     <div class="sensei-col">
       <div class="speech-bubble" id="teacherSpeech">Halo! Aku Sensei! Yuk kita mulai belajar berhitung!</div>
       <div class="teacher" id="teacherAvatar" tabindex="0" role="button" title="Klik aku untuk mengulang penjelasan suara!">
-        <!-- Cute Chibi Anime Teacher SVG -->
+        <!-- Cute Chibi Anime Teacher SVG with Dynamic Expressions -->
         <svg width="170" height="225" viewBox="0 0 170 225" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <linearGradient id="hairGrad" x1="0" y1="0" x2="0" y2="1">
@@ -615,16 +805,44 @@ footer { text-align:center; padding: 18px; color: #555; font-weight: 600; font-s
           <ellipse cx="58" cy="98" rx="8" ry="4" fill="#ffb4a2" opacity="0.8"/>
           <ellipse cx="112" cy="98" rx="8" ry="4" fill="#ffb4a2" opacity="0.8"/>
 
-          <!-- Big Cute Anime Eyes -->
-          <ellipse cx="62" cy="85" rx="10" ry="13" fill="url(#eyeGrad)"/>
-          <ellipse cx="60" cy="81" rx="4.5" ry="6" fill="#fff"/>
-          <circle cx="65" cy="91" r="2.2" fill="#fff"/>
-          <path d="M52,72 Q63,68 74,74" fill="none" stroke="#2b2d42" stroke-width="2.5" stroke-linecap="round"/>
-          
-          <ellipse cx="108" cy="85" rx="10" ry="13" fill="url(#eyeGrad)"/>
-          <ellipse cx="106" cy="81" rx="4.5" ry="6" fill="#fff"/>
-          <circle cx="111" cy="91" r="2.2" fill="#fff"/>
-          <path d="M96,74 Q107,68 118,72" fill="none" stroke="#2b2d42" stroke-width="2.5" stroke-linecap="round"/>
+          <!-- Extra Rosy Blush for Happy Moments -->
+          <g id="extraBlush" style="display:none;">
+            <circle cx="56" cy="99" r="6" fill="#ff4d6d" opacity="0.6"/>
+            <circle cx="114" cy="99" r="6" fill="#ff4d6d" opacity="0.6"/>
+          </g>
+
+          <!-- 1. Normal Big Cute Anime Eyes -->
+          <g id="eyesNormal">
+            <ellipse cx="62" cy="85" rx="10" ry="13" fill="url(#eyeGrad)"/>
+            <ellipse cx="60" cy="81" rx="4.5" ry="6" fill="#fff"/>
+            <circle cx="65" cy="91" r="2.2" fill="#fff"/>
+            <path d="M52,72 Q63,68 74,74" fill="none" stroke="#2b2d42" stroke-width="2.5" stroke-linecap="round"/>
+            
+            <ellipse cx="108" cy="85" rx="10" ry="13" fill="url(#eyeGrad)"/>
+            <ellipse cx="106" cy="81" rx="4.5" ry="6" fill="#fff"/>
+            <circle cx="111" cy="91" r="2.2" fill="#fff"/>
+            <path d="M96,74 Q107,68 118,72" fill="none" stroke="#2b2d42" stroke-width="2.5" stroke-linecap="round"/>
+          </g>
+
+          <!-- 2. Happy Star Eyes (Jawaban Benar / Selesai) -->
+          <g id="eyesHappy" style="display:none;">
+            <polygon points="62,75 64,82 72,82 65,87 68,95 62,90 56,95 59,87 52,82 60,82" fill="#ffd166" stroke="#f77f00" stroke-width="1.5"/>
+            <circle cx="62" cy="85" r="2.5" fill="#fff"/>
+            <path d="M52,70 Q62,64 72,70" fill="none" stroke="#2b2d42" stroke-width="3" stroke-linecap="round"/>
+
+            <polygon points="108,75 110,82 118,82 111,87 114,95 108,90 102,95 105,87 98,82 106,82" fill="#ffd166" stroke="#f77f00" stroke-width="1.5"/>
+            <circle cx="108" cy="85" r="2.5" fill="#fff"/>
+            <path d="M98,70 Q108,64 118,70" fill="none" stroke="#2b2d42" stroke-width="3" stroke-linecap="round"/>
+          </g>
+
+          <!-- 3. Encouraging Warm Smile Eyes (Salah / Waktu Habis) -->
+          <g id="eyesEncourage" style="display:none;">
+            <path d="M53,86 Q62,76 71,86" fill="none" stroke="#2b2d42" stroke-width="3.5" stroke-linecap="round"/>
+            <path d="M52,72 Q63,69 74,74" fill="none" stroke="#2b2d42" stroke-width="2.5" stroke-linecap="round"/>
+            
+            <path d="M99,86 Q108,76 117,86" fill="none" stroke="#2b2d42" stroke-width="3.5" stroke-linecap="round"/>
+            <path d="M96,74 Q107,69 118,72" fill="none" stroke="#2b2d42" stroke-width="2.5" stroke-linecap="round"/>
+          </g>
 
           <!-- Cute Teacher Glasses -->
           <rect x="49" y="74" width="26" height="22" rx="7" fill="rgba(255,255,255,0.2)" stroke="#e63946" stroke-width="2.8"/>
@@ -709,14 +927,33 @@ footer { text-align:center; padding: 18px; color: #555; font-weight: 600; font-s
   </div>
   
   <div class="speed-row">
-    <span class="speed-label" id="speedText">Jeda Suara:</span>
-    <input type="range" id="speed" min="1" max="5" value="3">
-    <span class="speed-label" id="speedLabel">Biasa</span>
+    <span class="speed-label" id="speedText">Kecepatan Suara:</span>
+    <div class="speed-preset-group">
+      <button class="speed-btn" data-speed="1" title="Sangat Lambat & Jelas">🐢 Lambat</button>
+      <button class="speed-btn active" data-speed="3" title="Kecepatan Normal">🚶 Santai</button>
+      <button class="speed-btn" data-speed="5" title="Cepat & Lincah">🐇 Cepat</button>
+    </div>
+    <input type="range" id="speed" min="1" max="5" value="3" style="display:none;">
+    <span class="speed-label" id="speedLabel" style="display:none;">Biasa</span>
   </div>
   </div> <!-- /belajarControls -->
 
 </div>
 </main>
+
+<!-- Sticker Collection Modal -->
+<div id="stickerModal" class="modal-backdrop" style="display:none;">
+  <div class="modal-card">
+    <div class="modal-header">
+      <h2>🏆 Album Stiker Juara Matematika</h2>
+      <button id="btnCloseStickers" class="btn-close-modal">✖</button>
+    </div>
+    <p class="modal-desc" id="txtStickerDesc">Kumpulkan stiker hadiah dengan cara berlatih di Mode Belajar dan menjawab benar di Mode Olimpiade!</p>
+    <div class="sticker-grid" id="stickerGrid">
+      <!-- Dynamically rendered -->
+    </div>
+  </div>
+</div>
 
 <footer>
   <p class="info">Setiap langkah simulasi dipandu oleh Sensei langkah demi langkah!</p>
@@ -730,7 +967,6 @@ const i18n = {
     subtitle: "Matematika jadi mudah dan seru bersama Sensei! 🎈",
     tambah: "➕ Tambah", kurang: "➖ Kurang", kali: "✖️ Kali", bagi: "➗ Bagi",
     
-    // Clear action buttons
     mulaiHitung: "🚀 Mulai Hitung",
     mundur: "◀ Mundur",
     lanjut: "Lanjut ▶",
@@ -739,7 +975,13 @@ const i18n = {
     mulaiUlang: "↺ Mulai Ulang",
     selesai: "✓ Selesai",
     
-    kecepatan: "Jeda Suara:",
+    themeLabel: "🎨 Tema:",
+    stikerBadge: "Stiker",
+    stikerTitle: "🏆 Album Stiker Juara Matematika",
+    stikerDesc: "Kumpulkan stiker hadiah dengan cara berlatih di Mode Belajar dan menjawab benar di Mode Olimpiade!",
+    btnAcak: "Acak",
+    
+    kecepatan: "Kecepatan Suara:",
     speed: ['Paling Cepat', 'Cepat', 'Biasa', 'Lambat', 'Paling Lambat'],
     stageTambah: "Belajar Menambah", stageKurang: "Belajar Mengurangi", stageKali: "Belajar Mengali", stageBagi: "Belajar Membagi (Porogapit)",
     tahap: "Tahap",
@@ -789,7 +1031,6 @@ const i18n = {
     bagiKetKoma: "(tepat {dc} angka di belakang koma ya!)",
     bagiKetHabis: "(pas banget nih, tanpa sisa!)",
     
-    // Quiz Mode Strings
     modeBelajar: "🎓 Mode Belajar",
     modeOlimpiade: "🏆 Mode Olimpiade",
     pilihTingkat: "Pilih Tingkat Kesulitan:",
@@ -827,7 +1068,13 @@ const i18n = {
     mulaiUlang: "↺ Restart",
     selesai: "✓ Done",
     
-    kecepatan: "Voice Pause:",
+    themeLabel: "🎨 Theme:",
+    stikerBadge: "Stickers",
+    stikerTitle: "🏆 Math Champion Sticker Album",
+    stikerDesc: "Collect reward stickers by practicing in Learning Mode and answering correctly in Olympiad Mode!",
+    btnAcak: "Random",
+    
+    kecepatan: "Voice Speed:",
     speed: ['Fastest', 'Fast', 'Normal', 'Slow', 'Slowest'],
     stageTambah: "Learning Addition", stageKurang: "Learning Subtraction", stageKali: "Learning Multiplication", stageBagi: "Learning Long Division",
     tahap: "Step",
@@ -877,7 +1124,6 @@ const i18n = {
     bagiKetKoma: "(exactly {dc} digits after the dot!)",
     bagiKetHabis: "(perfect fit, no remainder!)",
     
-    // Quiz Mode Strings
     modeBelajar: "🎓 Learning Mode",
     modeOlimpiade: "🏆 Olympiad Mode",
     pilihTingkat: "Select Difficulty Level:",
@@ -915,7 +1161,13 @@ const i18n = {
     mulaiUlang: "↺ Baleni",
     selesai: "✓ Rampung",
     
-    kecepatan: "Jeda Swara:",
+    themeLabel: "🎨 Tema:",
+    stikerBadge: "Stiker",
+    stikerTitle: "🏆 Album Stiker Juara Matematika",
+    stikerDesc: "Klumpukna stiker hadiah kanthi sinau ing Mode Sinau lan mangsuli bener ing Mode Olimpiade!",
+    btnAcak: "Acak",
+    
+    kecepatan: "Kecepatan Swara:",
     speed: ['Paling Cepet', 'Cepet', 'Biasa', 'Alon', 'Paling Alon'],
     stageTambah: "Sinau Tambah-tambahan", stageKurang: "Sinau Suda-sudaan", stageKali: "Sinau Ping-pingan", stageBagi: "Sinau Porogapit",
     tahap: "Langkah",
@@ -965,7 +1217,6 @@ const i18n = {
     bagiKetKoma: "(pas {dc} angka nang mburine koma yo!)",
     bagiKetHabis: "(pas tenan iki, ra ono turahane!)",
     
-    // Quiz Mode Strings
     modeBelajar: "🎓 Mode Sinau",
     modeOlimpiade: "🏆 Mode Olimpiade",
     pilihTingkat: "Pilih Tingkat Kangelan:",
@@ -995,7 +1246,9 @@ const i18n = {
 let currentLang = 'id';
 let isVoiceEnabled = true;
 let availableVoices = [];
-let activeUtterance = null; // Prevent Garbage Collection killing speech!
+let activeUtterance = null;
+let operationsTried = new Set();
+let correctStreak = 0;
 
 function t(key, vars = {}) {
   let text = (i18n[currentLang] && i18n[currentLang][key]) || (i18n['id'] && i18n['id'][key]) || key;
@@ -1003,34 +1256,37 @@ function t(key, vars = {}) {
   return text;
 }
 
+// ===== DYNAMIC SENSEI FACIAL EXPRESSIONS =====
+function setTeacherExpression(expr) {
+  const norm = document.getElementById('eyesNormal');
+  const happy = document.getElementById('eyesHappy');
+  const enc = document.getElementById('eyesEncourage');
+  const blush = document.getElementById('extraBlush');
+  if(!norm || !happy || !enc) return;
+  
+  norm.style.display = (expr === 'normal') ? 'inline' : 'none';
+  happy.style.display = (expr === 'happy') ? 'inline' : 'none';
+  enc.style.display = (expr === 'encourage') ? 'inline' : 'none';
+  if (blush) blush.style.display = (expr === 'happy') ? 'inline' : 'none';
+}
+
 // ===== BULLETPROOF VOICE ENGINE =====
 function loadVoices() {
   if (!('speechSynthesis' in window)) return;
   try {
     const v = window.speechSynthesis.getVoices();
-    if (v && v.length > 0) {
-      availableVoices = v;
-    }
+    if (v && v.length > 0) availableVoices = v;
   } catch(e){}
 }
 
 loadVoices();
-if ('speechSynthesis' in window) {
-  window.speechSynthesis.onvoiceschanged = () => {
-    loadVoices();
-  };
-}
+if ('speechSynthesis' in window) window.speechSynthesis.onvoiceschanged = loadVoices;
 
 function unlockAudio() {
   try {
-    if (audioCtx.state === 'suspended') {
-      audioCtx.resume();
-    }
+    if (audioCtx.state === 'suspended') audioCtx.resume();
     if ('speechSynthesis' in window) {
-      if (window.speechSynthesis.paused) {
-        window.speechSynthesis.resume();
-      }
-      loadVoices();
+      if (window.speechSynthesis.paused) window.speechSynthesis.resume();
       if (!window.speechUnlocked) {
         const silentMsg = new SpeechSynthesisUtterance('');
         silentMsg.volume = 0;
@@ -1042,226 +1298,101 @@ function unlockAudio() {
 }
 
 function getBestVoice(targetLang) {
-  if (!availableVoices || availableVoices.length === 0) {
-    loadVoices();
-  }
-  if (!availableVoices || availableVoices.length === 0) return null;
-  
-  if (targetLang === 'en') {
-    return availableVoices.find(v => v.lang === 'en-US' || v.lang === 'en_US') ||
-           availableVoices.find(v => v.lang.startsWith('en')) ||
-           availableVoices.find(v => v.name.toLowerCase().includes('english') || v.name.toLowerCase().includes('samantha') || v.name.toLowerCase().includes('google us') || v.name.toLowerCase().includes('victoria')) ||
-           null;
-  }
-  
-  if (targetLang === 'jv') {
-    return availableVoices.find(v => v.lang === 'jv-ID' || v.lang === 'jv_ID' || v.lang.startsWith('jv')) ||
-           availableVoices.find(v => v.lang === 'id-ID' || v.lang === 'id_ID' || v.lang.startsWith('id')) ||
-           availableVoices.find(v => v.name.toLowerCase().includes('indonesia') || v.name.toLowerCase().includes('damayanti') || v.name.toLowerCase().includes('gadis')) ||
-           null;
-  }
-  
-  // Indonesian (id)
-  return availableVoices.find(v => v.lang === 'id-ID' || v.lang === 'id_ID' || v.lang.startsWith('id')) ||
-         availableVoices.find(v => v.name.toLowerCase().includes('indonesia') || v.name.toLowerCase().includes('damayanti') || v.name.toLowerCase().includes('gadis')) ||
-         null;
+  loadVoices();
+  if (targetLang === 'en') return availableVoices.find(v => v.lang.startsWith('en')) || null;
+  return availableVoices.find(v => v.lang.startsWith('id')) || availableVoices.find(v => v.lang.startsWith('jv')) || null;
 }
 
 function cleanTextForSpeech(rawText, langCode) {
-  let text = rawText;
-  
-  // Remove emojis & decorative symbols
-  text = text.replace(/[✨🎈🚀🦉🎉👍➕➖✖️➗✓]/g, '');
-  text = text.replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/gu, '');
-  text = text.replace(/\{|\}|\[|\]/g, '');
-  
-  if (langCode === 'en') {
-    text = text.replace(/\+/g, ' plus ');
-    text = text.replace(/−|-/g, ' minus ');
-    text = text.replace(/×|\*/g, ' times ');
-    text = text.replace(/÷|\//g, ' divided by ');
-    text = text.replace(/=/g, ' equals ');
-  } else if (langCode === 'jv') {
-    text = text.replace(/\+/g, ' ditambah ');
-    text = text.replace(/−|-/g, ' disuda ');
-    text = text.replace(/×|\*/g, ' diping ');
-    text = text.replace(/÷|\//g, ' diporo ');
-    text = text.replace(/=/g, ' podo karo ');
-  } else {
-    // Indonesian
-    text = text.replace(/\+/g, ' tambah ');
-    text = text.replace(/−|-/g, ' kurang ');
-    text = text.replace(/×|\*/g, ' dikali ');
-    text = text.replace(/÷|\//g, ' dibagi ');
-    text = text.replace(/=/g, ' sama dengan ');
-  }
-  
-  return text.replace(/\s+/g, ' ').trim();
+  let text = rawText.replace(/[✨🎈🚀🦉🎉👍➕➖✖️➗✓]/g, '').replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/gu, '').replace(/\{|\}|\[|\]/g, '');
+  if (langCode === 'en') return text.replace(/\+/g, ' plus ').replace(/-/g, ' minus ').replace(/×/g, ' times ').replace(/÷/g, ' divided by ').replace(/=/g, ' equals ');
+  return text.replace(/\+/g, ' tambah ').replace(/-/g, ' kurang ').replace(/×/g, ' dikali ').replace(/÷/g, ' dibagi ').replace(/=/g, ' sama dengan ');
 }
 
 function setTeacherTalking(talking) {
   const tchr = document.getElementById('teacherAvatar');
-  if (!tchr) return;
-  if (talking) {
-    tchr.classList.add('talking');
-  } else {
-    tchr.classList.remove('talking');
-  }
+  if (tchr) tchr.classList.toggle('talking', talking);
 }
 
-let speechAnimTimer = null;
-let autoStepTimer = null;
-let speakDebounceTimer = null;
+let speechAnimTimer = null, autoStepTimer = null;
 
-// Voice-driven auto-play synchronization
 function handleSpeechFinished() {
   if (!isAutoMode) return;
-  
   if (stepIdx >= steps.length - 1) {
     isAutoMode = false;
     updateUI();
     playSuccess();
+    setTeacherExpression('happy');
+    unlockSticker('cat_genius');
+    operationsTried.add(operasi);
+    if (operationsTried.size >= 4) unlockSticker('donut_master');
     return;
   }
-  
-  // Pause interval after speech finishes before moving to next step
   const speed = parseInt(document.getElementById('speed').value);
   const pauseIntervals = [400, 750, 1100, 1600, 2400];
-  const pauseMs = pauseIntervals[speed - 1] || 1100;
-  
   if (autoStepTimer) clearTimeout(autoStepTimer);
   autoStepTimer = setTimeout(() => {
     if (!isAutoMode) return;
     stepIdx++;
     renderPaper(true);
     playClick();
-  }, pauseMs);
+  }, pauseIntervals[speed - 1] || 1100);
 }
 
 function speakText(text, explicitLang) {
   if (speechAnimTimer) clearTimeout(speechAnimTimer);
   if (autoStepTimer) clearTimeout(autoStepTimer);
-  
   const targetLang = explicitLang || currentLang;
   const spoken = cleanTextForSpeech(text, targetLang);
-  if (!spoken) {
-    handleSpeechFinished();
-    return;
-  }
-  
-  // Provide auditory feedback that a step occurred
+  if (!spoken) { handleSpeechFinished(); return; }
   if (isVoiceEnabled) playPop();
   
-  const ttsWarning = document.getElementById('ttsWarning');
-  
-  // If voice is disabled in UI or Web Speech not supported
   if (!isVoiceEnabled || !('speechSynthesis' in window)) {
-    if (ttsWarning) ttsWarning.style.display = 'none';
     setTeacherTalking(true);
-    const readingTime = Math.max(1200, spoken.length * 60);
-    speechAnimTimer = setTimeout(() => {
-      setTeacherTalking(false);
-      handleSpeechFinished();
-    }, readingTime);
+    speechAnimTimer = setTimeout(() => { setTeacherTalking(false); handleSpeechFinished(); }, Math.max(1200, spoken.length * 60));
     return;
   }
   
   unlockAudio();
-  
   try {
-    // Unpause if stalled
-    if (window.speechSynthesis.paused) {
-      window.speechSynthesis.resume();
-    }
     window.speechSynthesis.cancel();
-    
     const utterance = new SpeechSynthesisUtterance(spoken);
-    activeUtterance = utterance; // Prevent Garbage Collection!
-    
-    // Assign language locale (always valid)
-    const langMap = { 'id': 'id-ID', 'en': 'en-US', 'jv': 'id-ID' };
-    utterance.lang = langMap[targetLang] || 'id-ID';
-    
+    activeUtterance = utterance;
+    utterance.lang = (targetLang === 'en') ? 'en-US' : 'id-ID';
     const voice = getBestVoice(targetLang);
-    if (voice) {
-      utterance.voice = voice;
-    }
-    
-    // Show warning if NO voices are available at all after unlocking
-    if (!availableVoices || availableVoices.length === 0) {
-      if (ttsWarning) ttsWarning.style.display = 'block';
-    } else {
-      if (ttsWarning) ttsWarning.style.display = 'none';
-    }
-    
-    utterance.volume = 1.0;
-    utterance.rate = 0.95;
-    utterance.pitch = (targetLang === 'en') ? 1.1 : 1.15;
-    
-    utterance.onstart = () => {
-      setTeacherTalking(true);
-    };
-    
-    utterance.onend = () => {
-      setTeacherTalking(false);
-      activeUtterance = null;
-      handleSpeechFinished();
-    };
-    
-    utterance.onerror = (e) => {
-      console.warn('Speech synthesis event:', e);
-      setTeacherTalking(false);
-      activeUtterance = null;
-      handleSpeechFinished();
-    };
-    
-    // Fallback timer to ensure animations and auto-play don't get stuck if TTS silently fails
-    const maxSpeakTime = Math.max(2500, (spoken.length / 5) * 1000);
-    speechAnimTimer = setTimeout(() => {
-      setTeacherTalking(false);
-      if (activeUtterance === utterance) {
-        activeUtterance = null;
-        handleSpeechFinished();
-      }
-    }, maxSpeakTime + 1000);
-    
-    // Speak immediately within the user interaction frame
+    if (voice) utterance.voice = voice;
+    utterance.onstart = () => setTeacherTalking(true);
+    utterance.onend = () => { setTeacherTalking(false); activeUtterance = null; handleSpeechFinished(); };
+    utterance.onerror = () => { setTeacherTalking(false); activeUtterance = null; handleSpeechFinished(); };
+    speechAnimTimer = setTimeout(() => { setTeacherTalking(false); if(activeUtterance === utterance) handleSpeechFinished(); }, Math.max(2500, (spoken.length / 5) * 1000) + 1000);
     window.speechSynthesis.speak(utterance);
-    
-    // Extra resume call for Chrome quirk
-    if (window.speechSynthesis.paused) {
-      window.speechSynthesis.resume();
-    }
-    
+    if (window.speechSynthesis.paused) window.speechSynthesis.resume();
   } catch(err) {
-    console.warn('Speech execution fallback:', err);
     setTeacherTalking(false);
     handleSpeechFinished();
   }
 }
 
-// ===== AUDIO EFFECTS (SOUND FX) =====
+// ===== AUDIO EFFECTS =====
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 function playPop() {
   try {
     if (audioCtx.state === 'suspended') return;
-    const osc = audioCtx.createOscillator();
-    const gain = audioCtx.createGain();
+    const osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
     osc.connect(gain); gain.connect(audioCtx.destination);
     osc.frequency.setValueAtTime(400, audioCtx.currentTime);
     osc.frequency.exponentialRampToValueAtTime(600, audioCtx.currentTime + 0.1);
     gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
     gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
-    osc.start(audioCtx.currentTime);
-    osc.stop(audioCtx.currentTime + 0.1);
+    osc.start(audioCtx.currentTime); osc.stop(audioCtx.currentTime + 0.1);
   } catch(e){}
 }
 function playClick(){
   try{
-    const osc = audioCtx.createOscillator();
-    const gain = audioCtx.createGain();
+    if (audioCtx.state === 'suspended') return;
+    const osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
     osc.connect(gain); gain.connect(audioCtx.destination);
-    osc.frequency.value = 720; osc.type = 'sine';
+    osc.frequency.value = 720;
     gain.gain.setValueAtTime(0.18, audioCtx.currentTime);
     gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.12);
     osc.start(audioCtx.currentTime); osc.stop(audioCtx.currentTime + 0.12);
@@ -1269,14 +1400,12 @@ function playClick(){
 }
 function playSuccess(){
   try{
+    if (audioCtx.state === 'suspended') return;
     const osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
     osc.connect(gain); gain.connect(audioCtx.destination);
     const now = audioCtx.currentTime;
-    osc.frequency.setValueAtTime(523, now);
-    osc.frequency.setValueAtTime(659, now+0.1);
-    osc.frequency.setValueAtTime(784, now+0.2);
-    gain.gain.setValueAtTime(0.3, now);
-    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
+    osc.frequency.setValueAtTime(523, now); osc.frequency.setValueAtTime(659, now+0.1); osc.frequency.setValueAtTime(784, now+0.2);
+    gain.gain.setValueAtTime(0.3, now); gain.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
     osc.start(now); osc.stop(now + 0.4);
   }catch(e){}
 }
@@ -1284,482 +1413,276 @@ function playSuccessFanfare(){
   try{
     if (audioCtx.state === 'suspended') return;
     const now = audioCtx.currentTime;
-    const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
-    notes.forEach((freq, i) => {
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
+    [523.25, 659.25, 783.99, 1046.50].forEach((f, i) => {
+      const osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
       osc.connect(gain); gain.connect(audioCtx.destination);
-      osc.type = 'triangle';
-      osc.frequency.value = freq;
+      osc.type = 'triangle'; osc.frequency.value = f;
       const start = now + (i * 0.09);
-      gain.gain.setValueAtTime(0.25, start);
-      gain.gain.exponentialRampToValueAtTime(0.01, start + 0.28);
-      osc.start(start);
-      osc.stop(start + 0.28);
+      gain.gain.setValueAtTime(0.25, start); gain.gain.exponentialRampToValueAtTime(0.01, start + 0.28);
+      osc.start(start); osc.stop(start + 0.28);
     });
   }catch(e){}
+}
+function playApplauseSound() {
+  try {
+    if (audioCtx.state === 'suspended') return;
+    for (let i = 0; i < 18; i++) {
+      setTimeout(() => {
+        if (!audioCtx || audioCtx.state === 'suspended') return;
+        const now = audioCtx.currentTime;
+        const osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
+        osc.type = 'triangle'; osc.frequency.setValueAtTime(320 + Math.random() * 450, now);
+        gain.gain.setValueAtTime(0.08, now); gain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
+        osc.connect(gain); gain.connect(audioCtx.destination);
+        osc.start(now); osc.stop(now + 0.1);
+      }, i * 55 + Math.random() * 25);
+    }
+  } catch(e){}
 }
 function playErrorBoing(){
   try{
     if (audioCtx.state === 'suspended') return;
     const now = audioCtx.currentTime;
-    const osc = audioCtx.createOscillator();
-    const gain = audioCtx.createGain();
+    const osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
     osc.connect(gain); gain.connect(audioCtx.destination);
     osc.type = 'sawtooth';
-    osc.frequency.setValueAtTime(220, now);
-    osc.frequency.exponentialRampToValueAtTime(110, now + 0.35);
-    gain.gain.setValueAtTime(0.2, now);
-    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
+    osc.frequency.setValueAtTime(220, now); osc.frequency.exponentialRampToValueAtTime(110, now + 0.35);
+    gain.gain.setValueAtTime(0.2, now); gain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
     osc.start(now); osc.stop(now + 0.35);
-  }catch(e){}
+  } catch(e){}
 }
 function playTickSound(){
-  try{
+  try {
     if (audioCtx.state === 'suspended') return;
-    const osc = audioCtx.createOscillator();
-    const gain = audioCtx.createGain();
+    const osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
     osc.connect(gain); gain.connect(audioCtx.destination);
     osc.frequency.value = 900;
-    gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.04);
-    osc.start(audioCtx.currentTime);
-    osc.stop(audioCtx.currentTime + 0.04);
-  }catch(e){}
+    gain.gain.setValueAtTime(0.08, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.04);
+    osc.start(audioCtx.currentTime); osc.stop(audioCtx.currentTime + 0.04);
+  } catch(e){}
 }
 
-// ===== STAR BURST / CONFETTI EFFECT =====
+// ===== STAR BURST EFFECT =====
 function triggerStarBurst() {
   const canvas = document.getElementById('confettiCanvas');
   if(!canvas) return;
   const ctx = canvas.getContext('2d');
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-  
+  canvas.width = window.innerWidth; canvas.height = window.innerHeight;
   const particles = [];
-  const colors = ['#ff8b94', '#ffd166', '#06d6a0', '#118ab2', '#ff9f1c', '#a8dadc', '#9b5de5'];
-  const symbols = ['⭐', '✨', '🌟', '🎉', '➕', '✖️', '➗', '🏆'];
-  
-  const cx = window.innerWidth / 2;
-  const cy = window.innerHeight / 2 - 50;
-  
   for(let i=0; i<50; i++) {
     const angle = Math.random() * Math.PI * 2;
-    const speed = 4 + Math.random() * 8;
     particles.push({
-      x: cx,
-      y: cy,
-      vx: Math.cos(angle) * speed,
-      vy: Math.sin(angle) * speed - 2,
+      x: canvas.width/2, y: canvas.height/2-50,
+      vx: Math.cos(angle) * (4 + Math.random() * 8),
+      vy: Math.sin(angle) * (4 + Math.random() * 8) - 2,
       size: 14 + Math.random() * 16,
-      color: colors[Math.floor(Math.random() * colors.length)],
-      symbol: symbols[Math.floor(Math.random() * symbols.length)],
-      rotation: Math.random() * 360,
-      vRot: (Math.random() - 0.5) * 8,
-      alpha: 1,
-      decay: 0.015 + Math.random() * 0.015
+      symbol: ['⭐', '✨', '🌟', '🎉', '➕', '✖️', '➗', '🏆'][Math.floor(Math.random() * 8)],
+      rotation: Math.random() * 360, vRot: (Math.random() - 0.5) * 8,
+      alpha: 1, decay: 0.015 + Math.random() * 0.015
     });
   }
-  
-  function renderParticles() {
+  function render() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    let active = 0;
-    
-    for(const p of particles) {
-      if(p.alpha <= 0) continue;
-      active++;
-      p.x += p.vx;
-      p.y += p.vy;
-      p.vy += 0.22; // gravity
-      p.rotation += p.vRot;
-      p.alpha -= p.decay;
-      
-      ctx.save();
-      ctx.globalAlpha = Math.max(0, p.alpha);
-      ctx.translate(p.x, p.y);
-      ctx.rotate((p.rotation * Math.PI) / 180);
-      ctx.font = `${p.size}px 'Fredoka One', sans-serif`;
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillText(p.symbol, 0, 0);
-      ctx.restore();
-    }
-    
-    if(active > 0) {
-      requestAnimationFrame(renderParticles);
-    } else {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-    }
+    let alive = false;
+    particles.forEach(p => {
+      p.x += p.vx; p.y += p.vy; p.vy += 0.2; p.rotation += p.vRot; p.alpha -= p.decay;
+      if(p.alpha > 0) {
+        alive = true;
+        ctx.save(); ctx.globalAlpha = p.alpha; ctx.translate(p.x, p.y); ctx.rotate(p.rotation * Math.PI / 180);
+        ctx.font = `${p.size}px sans-serif`; ctx.textAlign = 'center'; ctx.fillText(p.symbol, 0, 0); ctx.restore();
+      }
+    });
+    if(alive) requestAnimationFrame(render);
   }
-  renderParticles();
+  render();
 }
 
-// ===== HELPERS =====
-function esc(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-function makeRow(W, ps){
-  const r = Array(W).fill(' ');
-  for(const p of ps) for(let k=0;k<p.s.length;k++){ const c = p.pos+k; if(c >= 0 && c < W) r[c] = p.s[k]; }
-  return r.join('').replace(/\s+$/,'');
+// ===== MATH ENGINES =====
+function splitNum(n){
+  const s = String(n), dot = s.indexOf('.');
+  return dot === -1 ? {int: s, dec: '', td: 0} : {int: s.slice(0, dot), dec: s.slice(dot + 1), td: s.length - dot - 1};
 }
+function padL(s, len, ch='0'){ while(s.length < len) s = ch + s; return s; }
+function padR(s, len, ch='0'){ while(s.length < len) s = s + ch; return s; }
+function esc(t){ return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
-// ===== TAMBAH =====
 function buildTambah(a, b){
-  const s = [];
-  const sa = String(a), sb = String(b);
-  const dota = sa.indexOf('.'), dotb = sb.indexOf('.');
-  const intA = dota >= 0 ? sa.slice(0, dota) : sa;
-  const intB = dotb >= 0 ? sb.slice(dotb+1) : sb;
-  const decA = dota >= 0 ? sa.slice(dota+1) : '';
-  const decB = dotb >= 0 ? sb.slice(dotb+1) : '';
-  const maxDec = Math.max(decA.length, decB.length);
-  const totalLen = Math.max(intA.length, intB.length) + maxDec;
-  
-  let strA = intA.padStart(Math.max(intA.length, intB.length), ' ') + decA.padEnd(maxDec, '0');
-  let strB = intB.padStart(Math.max(intA.length, intB.length), ' ') + decB.padEnd(maxDec, '0');
-  
-  const rightCol = 6 + 2 * totalLen + (maxDec > 0 ? 3 : 0);
-  const W = rightCol + 4;
-  
-  const getDisplayRow = (str) => {
-    let disp = '';
-    for(let i=0; i<str.length; i++) {
-      if(str[i] === ' ') disp += '  ';
-      else disp += str[i] + ' ';
-      if(maxDec > 0 && i === str.length - maxDec - 1) disp += '. ';
+  const sa = splitNum(a), sb = splitNum(b);
+  const maxDec = Math.max(sa.td, sb.td);
+  const da = padR(sa.dec, maxDec), db = padR(sb.dec, maxDec);
+  const maxInt = Math.max(sa.int.length, sb.int.length);
+  const ia = padL(sa.int, maxInt, ' '), ib = padL(sb.int, maxInt, ' ');
+  const sA = (ia + (maxDec ? ',' + da : '')).trimStart();
+  const sB = (ib + (maxDec ? ',' + db : '')).trimStart();
+  const W = Math.max(sA.length, sB.length) + 4;
+  const off = (i, isDec) => isDec ? W - maxDec + i : W - (maxDec ? maxDec + 1 : 0) - (maxInt - i);
+
+  const fullA = padL(sa.int, maxInt) + da, fullB = padL(sb.int, maxInt) + db;
+  const totCols = fullA.length, steps = [];
+  let carry = 0, res = Array(totCols).fill(' '), carries = Array(totCols).fill(' ');
+
+  steps.push({sim: [sA.padStart(W), sB.padStart(W) + ' +', '─'.repeat(W).padStart(W)].join('\n'), txt: t('tambahIntro', {a, b}) });
+  steps.push({sim: steps[0].sim, txt: t('tambahMulai') });
+
+  for(let c = totCols - 1; c >= 0; c--){
+    const isDec = c >= maxInt, colIdx = isDec ? c - maxInt : c;
+    const vA = parseInt(fullA[c]), vB = parseInt(fullB[c]);
+    const sum = vA + vB + carry, r = sum % 10, newCarry = Math.floor(sum / 10);
+    const pA = off(colIdx, isDec);
+
+    res[c] = String(r);
+    if(newCarry && c > 0) carries[c-1] = String(newCarry);
+
+    let tStr = (newCarry && c > 0) ? t('tambahTulisC', {r, nc:newCarry}) : (c === 0 && newCarry ? t('tambahTulisB', {sum}) : t('tambahTulisA', {r}));
+
+    let topLines = [];
+    if(carries.some(x => x !== ' ')){
+      let cLine = Array(W).fill(' ');
+      for(let k = 0; k < totCols; k++) if(carries[k] !== ' ') cLine[off(k >= maxInt ? k-maxInt : k, k >= maxInt)] = carries[k];
+      topLines.push(cLine.join(''));
     }
-    return disp;
-  };
-  
-  let carries = Array(strA.length).fill(' ');
-  let results = Array(strA.length).fill(' ');
-  let c = 0;
-  
-  s.push({sim: a+' + '+b+' = ?', txt: t('tambahIntro', {a,b}) });
-  
-  const baseSim = () => {
-    const cDisp = getDisplayRow(carries.join(''));
-    const tDisp = getDisplayRow(strA);
-    const bDisp = getDisplayRow(strB);
-    const rDisp = getDisplayRow(results.join(''));
-    
-    const baseDispLen = getDisplayRow(strA).length;
-    
-    let res = [];
-    if(cDisp.trim() !== '') res.push(makeRow(W, [{pos: rightCol - baseDispLen, s: cDisp}]));
-    res.push(makeRow(W, [{pos: rightCol - baseDispLen, s: tDisp}]));
-    res.push(makeRow(W, [{pos: rightCol - baseDispLen - 2, s: '+'}, {pos: rightCol - baseDispLen, s: bDisp}]));
-    const barLen = tDisp.trimEnd().length + 2;
-    res.push(makeRow(W, [{pos: rightCol - baseDispLen - 2, s: '─'.repeat(barLen)}]));
-    if(rDisp.trim() !== '') res.push(makeRow(W, [{pos: rightCol - baseDispLen, s: rDisp}]));
-    return res.join('\n');
-  };
-  
-  s.push({sim: baseSim(), txt: t('tambahMulai') });
-  
-  for(let i = strA.length - 1; i >= 0; i--){
-    if(strA[i] === ' ' && strB[i] === ' ' && c === 0) break;
-    const digitA = strA[i] === ' ' ? 0 : parseInt(strA[i]);
-    const digitB = strB[i] === ' ' ? 0 : parseInt(strB[i]);
-    const sum = digitA + digitB + c;
-    const rDigit = sum % 10;
-    const nextC = Math.floor(sum / 10);
-    
-    results[i] = rDigit.toString();
-    
-    let cStr = c > 0 ? t('tambahCarry', {c}) : '';
-    let tStr = '';
-    
-    if (nextC > 0) {
-      if (i > 0) {
-        carries[i-1] = nextC.toString();
-        tStr = t('tambahTulisC', {r:rDigit, nc:nextC});
-      } else {
-        results.unshift(nextC.toString());
-        carries.unshift(' ');
-        strA = ' ' + strA;
-        strB = ' ' + strB;
-        tStr = t('tambahTulisB', {sum});
-      }
-    } else {
-      tStr = t('tambahTulisA', {r:rDigit});
-    }
-    let txt = t('tambahStep', {da:digitA, db:digitB, cStr, sum, tStr});
-    
-    c = nextC;
-    s.push({sim: baseSim(), txt: txt});
+
+    let lineA = Array(W).fill(' '); for(let k = 0; k < sA.length; k++) lineA[W - sA.length + k] = sA[k]; lineA[pA] = `{${sA[sA.length - W + pA] || fullA[c]}}`;
+    let lineB = Array(W).fill(' '); for(let k = 0; k < sB.length; k++) lineB[W - sB.length + k] = sB[k]; lineB[pA] = `{${sB[sB.length - W + pA] || fullB[c]}}`;
+
+    let resStr = res.slice(0, maxInt).join('').trimStart();
+    if(c === 0 && newCarry) resStr = newCarry + resStr;
+    if(maxDec) resStr += ',' + res.slice(maxInt).join('');
+
+    steps.push({
+      sim: [...topLines, lineA.join(''), lineB.join('') + ' +', '─'.repeat(W).padStart(W), resStr.padStart(W)].join('\n'),
+      txt: t('tambahStep', {da:vA, db:vB, cStr: carry ? t('tambahCarry', {c:carry}) : '', sum, tStr})
+    });
+    carry = newCarry;
   }
-  
-  let finalRes = results.join('').trim();
-  if (maxDec > 0) {
-    finalRes = finalRes.slice(0, finalRes.length - maxDec) + '.' + finalRes.slice(finalRes.length - maxDec);
-    if (finalRes.startsWith('.')) finalRes = '0' + finalRes;
-  }
-  s.push({sim: baseSim(), txt: t('tambahHasil', {a,b,res:finalRes}) });
-  return s;
+  const finalRes = (a + b).toFixed(maxDec).replace('.', ',');
+  steps.push({sim: [sA.padStart(W), sB.padStart(W) + ' +', '─'.repeat(W).padStart(W), finalRes.padStart(W)].join('\n'), txt: t('tambahHasil', {a, b, res:finalRes}) });
+  return steps;
 }
 
-// ===== KURANG =====
 function buildKurang(a, b){
-  const s = [];
-  let isNeg = parseFloat(a) < parseFloat(b);
-  let sa = isNeg ? String(b) : String(a);
-  let sb = isNeg ? String(a) : String(b);
-  
-  const dota = sa.indexOf('.'), dotb = sb.indexOf('.');
-  const intA = dota >= 0 ? sa.slice(0, dota) : sa;
-  const intB = dotb >= 0 ? sb.slice(dotb+1) : sb;
-  const decA = dota >= 0 ? sa.slice(dota+1) : '';
-  const decB = dotb >= 0 ? sb.slice(dotb+1) : '';
-  const maxDec = Math.max(decA.length, decB.length);
-  const totalLen = Math.max(intA.length, intB.length) + maxDec;
-  
-  let strA = intA.padStart(Math.max(intA.length, intB.length), ' ') + decA.padEnd(maxDec, '0');
-  let strB = intB.padStart(Math.max(intA.length, intB.length), ' ') + decB.padEnd(maxDec, '0');
-  
-  const rightCol = 6 + 2 * totalLen + (maxDec > 0 ? 3 : 0);
-  const W = rightCol + 4;
-  
-  let topDigits = strA.split('').map(c => c === ' ' ? 0 : parseInt(c));
-  let modified = Array(strA.length).fill(false);
-  let results = Array(strA.length).fill(' ');
-  
-  let introTxt = isNeg ? t('kurangIntroNeg', {a,b}) : t('kurangIntro', {a,b});
-  s.push({sim: a+' - '+b+' = ?', txt: introTxt});
-  
-  const getDisplayRow = (arr, isTopStr = false) => {
-    let disp = '';
-    for(let i=0; i<arr.length; i++) {
-      let char = arr[i];
-      if (char === ' ' || char === null || char === false) disp += '  ';
-      else {
-        let charStr = String(char);
-        if (isTopStr && modified[i] && charStr !== ' ') {
-            disp += charStr + '\u0338 '; 
-        } else {
-            if (charStr.length > 1) {
-                disp += charStr; 
-            } else {
-                disp += charStr + ' ';
-            }
-        }
-      }
-      if(maxDec > 0 && i === arr.length - maxDec - 1) disp += '. ';
+  const sa = splitNum(a), sb = splitNum(b);
+  const maxDec = Math.max(sa.td, sb.td);
+  const da = padR(sa.dec, maxDec), db = padR(sb.dec, maxDec);
+  const maxInt = Math.max(sa.int.length, sb.int.length);
+  const ia = padL(sa.int, maxInt, ' '), ib = padL(sb.int, maxInt, ' ');
+  const sA = (ia + (maxDec ? ',' + da : '')).trimStart();
+  const sB = (ib + (maxDec ? ',' + db : '')).trimStart();
+  const W = Math.max(sA.length, sB.length) + 4;
+  const off = (i, isDec) => isDec ? W - maxDec + i : W - (maxDec ? maxDec + 1 : 0) - (maxInt - i);
+
+  const fullA = (padL(sa.int, maxInt) + da).split('').map(Number);
+  const fullB = (padL(sb.int, maxInt) + db).split('').map(Number);
+  const totCols = fullA.length, steps = [];
+  let res = Array(totCols).fill(' '), slash = Array(totCols).fill(false), topVals = Array(totCols).fill(' ');
+
+  steps.push({sim: [sA.padStart(W), sB.padStart(W) + ' -', '─'.repeat(W).padStart(W)].join('\n'), txt: t('kurangIntro', {a, b}) });
+  steps.push({sim: steps[0].sim, txt: t('kurangMulai') });
+
+  for(let c = totCols - 1; c >= 0; c--){
+    const isDec = c >= maxInt, colIdx = isDec ? c - maxInt : c;
+    const vA0 = fullA[c], vB = fullB[c];
+    let vA = vA0, borrowed = false;
+    if(vA < vB){
+      borrowed = true;
+      let k = c - 1;
+      while(k >= 0 && fullA[k] === 0){ slash[k] = true; fullA[k] = 9; topVals[k] = '9'; k--; }
+      if(k >= 0){ slash[k] = true; fullA[k]--; topVals[k] = String(fullA[k]); }
+      slash[c] = true; fullA[c] += 10; vA = fullA[c]; topVals[c] = String(vA);
     }
-    return disp;
-  };
-  
-  const baseSim = () => {
-    let borrowArr = Array(strA.length).fill(' ');
-    for(let i=0; i<strA.length; i++){
-      if(modified[i]) borrowArr[i] = topDigits[i].toString();
+    const diff = vA - vB; res[c] = String(diff);
+    const pA = off(colIdx, isDec);
+
+    let topLines = [];
+    if(slash.some(x => x)){
+      let tLine = Array(W).fill(' ');
+      for(let j = 0; j < totCols; j++) if(topVals[j] !== ' ') tLine[off(j >= maxInt ? j-maxInt : j, j >= maxInt)] = topVals[j];
+      topLines.push(tLine.join(''));
     }
-    const cDisp = getDisplayRow(borrowArr);
-    const tDisp = getDisplayRow(strA.split(''), true);
-    const bDisp = getDisplayRow(strB.split(''));
-    const rDisp = getDisplayRow(results);
-    
-    const baseDispLen = getDisplayRow(strA.split('')).length;
-    
-    let res = [];
-    if(cDisp.trim() !== '') res.push(makeRow(W, [{pos: rightCol - baseDispLen, s: cDisp}]));
-    res.push(makeRow(W, [{pos: rightCol - baseDispLen, s: tDisp}]));
-    res.push(makeRow(W, [{pos: rightCol - baseDispLen - 2, s: '-'}, {pos: rightCol - baseDispLen, s: bDisp}]));
-    const barLen = getDisplayRow(strA.split('')).trimEnd().length + 2;
-    res.push(makeRow(W, [{pos: rightCol - baseDispLen - 2, s: '─'.repeat(barLen)}]));
-    if(rDisp.trim() !== '') res.push(makeRow(W, [{pos: rightCol - baseDispLen, s: rDisp}]));
-    return res.join('\n');
-  };
-  
-  s.push({sim: baseSim(), txt: t('kurangMulai') });
-  
-  for(let i = strA.length - 1; i >= 0; i--){
-    if(strA[i] === ' ' && strB[i] === ' ' && results[i] === ' ') break;
-    let valA = topDigits[i];
-    const valB = strB[i] === ' ' ? 0 : parseInt(strB[i]);
-    
-    if (valA < valB) {
-      let bIdx = i - 1;
-      while(bIdx >= 0 && topDigits[bIdx] === 0) bIdx--;
-      if (bIdx >= 0) {
-        for(let j = bIdx; j < i; j++){
-          if (j === bIdx) {
-            topDigits[j] -= 1;
-            modified[j] = true;
-          } else {
-            topDigits[j] = 9;
-            modified[j] = true;
-          }
-        }
-        valA += 10;
-        topDigits[i] = valA;
-        modified[i] = true;
-        s.push({sim: baseSim(), txt: t('kurangPinjam', {vA0:topDigits[i]-10, vB:valB, vA:valA}) });
-      }
-    }
-    
-    const diff = valA - valB;
-    results[i] = diff.toString();
-    
-    let txt = t('kurangStep', {vA:valA, vB:valB, diff});
-    s.push({sim: baseSim(), txt: txt});
+    let lineA = Array(W).fill(' '); for(let j = 0; j < sA.length; j++) lineA[W - sA.length + j] = sA[j];
+    for(let j = 0; j < totCols; j++) if(slash[j]){ const p = off(j >= maxInt ? j-maxInt : j, j >= maxInt); if(lineA[p] !== ' ') lineA[p] += '\u0338'; }
+    lineA[pA] = `{${lineA[pA]}}`;
+    let lineB = Array(W).fill(' '); for(let j = 0; j < sB.length; j++) lineB[W - sB.length + j] = sB[j]; lineB[pA] = `{${sB[sB.length - W + pA] || fullB[c]}}`;
+    let resStr = res.slice(0, maxInt).join('').trimStart() || '0';
+    if(maxDec) resStr += ',' + res.slice(maxInt).join('');
+
+    if(borrowed) steps.push({sim: [...topLines, lineA.join(''), lineB.join('') + ' -', '─'.repeat(W).padStart(W), resStr.padStart(W)].join('\n'), txt: t('kurangPinjam', {vA0, vB, vA}) });
+    steps.push({sim: [...topLines, lineA.join(''), lineB.join('') + ' -', '─'.repeat(W).padStart(W), resStr.padStart(W)].join('\n'), txt: t('kurangStep', {vA, vB, diff}) });
   }
-  
-  let finalRes = results.join('').trim();
-  while(finalRes.length > 1 && finalRes.startsWith('0')) {
-    finalRes = finalRes.slice(1);
-  }
-  if (maxDec > 0) {
-    if (finalRes.length <= maxDec) {
-      finalRes = finalRes.padStart(maxDec + 1, '0');
-    }
-    finalRes = finalRes.slice(0, finalRes.length - maxDec) + '.' + finalRes.slice(finalRes.length - maxDec);
-    if (finalRes.startsWith('.')) finalRes = '0' + finalRes;
-  }
-  if (isNeg && finalRes !== '0') finalRes = '-' + finalRes;
-  
-  s.push({sim: baseSim(), txt: t('kurangHasil', {a,b,res:finalRes}) });
-  return s;
+  const finalRes = (a - b).toFixed(maxDec).replace('.', ',');
+  steps.push({sim: [sA.padStart(W), sB.padStart(W) + ' -', '─'.repeat(W).padStart(W), finalRes.padStart(W)].join('\n'), txt: t('kurangHasil', {a, b, res:finalRes}) });
+  return steps;
 }
 
-// ===== KALI =====
 function buildKali(a, b){
-  const s = [];
-  const sa = String(a), sb = String(b);
-  const decA = sa.includes('.') ? sa.length - 1 - sa.indexOf('.') : 0;
-  const decB = sb.includes('.') ? sb.length - 1 - sb.indexOf('.') : 0;
-  const totalDec = decA + decB;
+  const sa = splitNum(a), sb = splitNum(b);
+  const totDec = sa.td + sb.td;
+  const intA = sa.int + sa.dec, intB = sb.int + sb.dec;
+  const steps = [];
 
-  const strA = sa.replace('.', '');
-  const strB = sb.replace('.', '');
-  const intA = parseInt(strA, 10) || 0;
-  const intB = parseInt(strB, 10) || 0;
+  steps.push({sim: [intA.padStart(8), intB.padStart(8) + ' ×', '─'.repeat(8).padStart(8)].join('\n'), txt: t('kaliIntro', {a, b, dStr: totDec ? t('kaliAbaikanKoma', {ia:intA, ib:intB}) : ''}) });
+  steps.push({sim: steps[0].sim, txt: t('kaliSusun', {ia:intA, ib:intB}) });
 
-  const lenA = strA.length;
-  const lenB = strB.length;
-  const maxProdLen = lenA + lenB;
-  const rightCol = 4 + 2 * maxProdLen;
-  const W = rightCol + 4;
+  const numA = parseInt(intA), strB = String(intB);
+  const parts = [], W = Math.max(intA.length + intB.length + 3, 10);
 
-  const posA = rightCol - 2*(lenA - 1);
-  const top = makeRow(W, [{pos: posA, s: strA.split('').join(' ')}]);
-  
-  const posB = rightCol - 2*(lenB - 1);
-  const bot = makeRow(W, [{pos: posB - 2, s: '×'}, {pos: posB, s: strB.split('').join(' ')}]);
-  
-  const barLen = Math.max(lenA, lenB + 1);
-  const barPos = rightCol - 2*(barLen - 1);
-  const bar = makeRow(W, [{pos: barPos, s: '─'.repeat(2*barLen - 1)}]);
-
-  let dStr = totalDec > 0 ? t('kaliAbaikanKoma', {ia:intA, ib:intB}) : '';
-  s.push({sim: a+' × '+b+' = ?', txt: t('kaliIntro', {a, b, dStr}) });
-  s.push({sim: [top, bot, bar].join('\n'), txt: t('kaliSusun', {ia:intA, ib:intB}) });
-
-  const parts = [];
-  for(let i = strB.length-1; i >= 0; i--){
-    const d = +strB[i];
-    const shift = strB.length-1-i;
-    const part = intA * d;
-    parts.push({part, shift, d});
-    
-    let stepTopStr = '{' + strA.split('').join(' ') + '}';
-    let stepTop = makeRow(W, [{pos: posA, s: stepTopStr}]);
-    
-    let arrB = strB.split('');
-    arrB[i] = '[' + arrB[i] + ']';
-    let stepBot = makeRow(W, [{pos: posB - 2, s: '×'}, {pos: posB, s: arrB.join(' ')}]);
-    
-    const rows = [stepTop, stepBot, bar];
-    for(const p of parts){
-      const pLen = String(p.part).length;
-      const pPos = rightCol - 2*(pLen + p.shift - 1);
-      rows.push(makeRow(W, [{pos: pPos, s: String(p.part).split('').join(' ')}]));
-    }
-    const txt = shift > 0
-      ? t('kaliStepA', {ia:intA, d, part, s:shift})
-      : t('kaliStepB', {ia:intA, d, part});
-    s.push({sim: rows.join('\n'), txt: txt});
+  for(let i = strB.length - 1; i >= 0; i--){
+    const d = parseInt(strB[i]), prod = numA * d;
+    parts.push({prod, shift: strB.length - 1 - i});
+    const simLines = [intA.padStart(W), intB.padStart(W) + ' ×', '─'.repeat(W)];
+    parts.forEach(p => simLines.push((String(p.prod) + ' '.repeat(p.shift)).padStart(W)));
+    steps.push({sim: simLines.join('\n'), txt: (strB.length - 1 - i) ? t('kaliStepA', {ia:intA, d, part:prod, s:strB.length - 1 - i}) : t('kaliStepB', {ia:intA, d, part:prod}) });
   }
 
-  if(parts.length > 1){
-    let total = 0;
-    for(const p of parts) total += p.part * Math.pow(10, p.shift);
-    const rows = [top, bot, bar];
-    for(const p of parts){
-      const pLen = String(p.part).length;
-      const pPos = rightCol - 2*(pLen + p.shift - 1);
-      rows.push(makeRow(W, [{pos: pPos, s: String(p.part).split('').join(' ')}]));
-    }
-    const tLen = String(total).length;
-    const tBarLen = Math.max(tLen, String(parts[parts.length-1].part).length + parts[parts.length-1].shift);
-    const tBarPos = rightCol - 2*(tBarLen - 1);
-    rows.push(makeRow(W, [{pos: tBarPos, s: '─'.repeat(2*tBarLen - 1)}]));
-    
-    const tPos = rightCol - 2*(tLen - 1);
-    rows.push(makeRow(W, [{pos: tPos, s: String(total).split('').join(' ')}]));
-    
-    let finalStr = String(total);
-    if(totalDec > 0){
-      finalStr = finalStr.padStart(totalDec + 1, '0');
-      finalStr = finalStr.slice(0, finalStr.length - totalDec) + '.' + finalStr.slice(finalStr.length - totalDec);
-    }
-    
-    s.push({sim: rows.join('\n'), txt: t('kaliJumlah', {tot:total}) });
-    let hs = totalDec > 0 ? t('kaliKembalikan', {td:totalDec, fs:finalStr}) : t('kaliAkhir', {a,b,tot:total});
-    s.push({sim: rows.join('\n'), txt: t('kaliHasil', {dStr:hs}) });
-  } else {
-    let total = parts.length === 1 ? parts[0].part : 0;
-    let finalStr = String(total);
-    if(totalDec > 0){
-      finalStr = finalStr.padStart(totalDec + 1, '0');
-      finalStr = finalStr.slice(0, finalStr.length - totalDec) + '.' + finalStr.slice(finalStr.length - totalDec);
-    }
-    const tLen = String(total).length;
-    const tPos = rightCol - 2*(tLen - 1);
-    let hs = totalDec > 0 ? t('kaliKembalikan', {td:totalDec, fs:finalStr}) : t('kaliAkhir', {a,b,tot:total});
-    s.push({sim: [top, bot, bar, makeRow(W, [{pos: tPos, s: String(total).split('').join(' ')}])].join('\n'), txt: t('kaliHasil', {dStr:hs}) });
-  }
-  return s;
+  const totalInt = numA * parseInt(intB);
+  let finalStr = String(totalInt);
+  if(totDec){ finalStr = padL(finalStr, totDec + 1); finalStr = finalStr.slice(0, finalStr.length - totDec) + ',' + finalStr.slice(finalStr.length - totDec); }
+  const allLines = [intA.padStart(W), intB.padStart(W) + ' ×', '─'.repeat(W)];
+  parts.forEach(p => allLines.push((String(p.prod) + ' '.repeat(p.shift)).padStart(W)));
+  if(parts.length > 1){ allLines.push('─'.repeat(W)); allLines.push(String(totalInt).padStart(W)); }
+  steps.push({sim: allLines.join('\n'), txt: (parts.length > 1 ? t('kaliJumlah', {tot:totalInt}) + ' ' : '') + t('kaliHasil', {dStr: totDec ? t('kaliKembalikan', {td:totDec, fs:finalStr}) : t('kaliAkhir', {a, b, tot:finalStr})}) });
+  return steps;
 }
 
-// ===== BAGI (POROGAPIT INDONESIA) =====
 function buildBagi(dividend, divisor){
+  const sa = splitNum(dividend), sb = splitNum(divisor);
+  let mult = Math.pow(10, Math.max(sa.td, sb.td));
+  const divA = Math.round(dividend * mult), divB = Math.round(divisor * mult);
   const s = [];
-  const decA = String(dividend).includes('.') ? String(dividend).length - 1 - String(dividend).indexOf('.') : 0;
-  const decB = String(divisor).includes('.') ? String(divisor).length - 1 - String(divisor).indexOf('.') : 0;
-  const shift = Math.max(decA, decB);
+
+  if(mult > 1) s.push({sim: `${dividend} ÷ ${divisor}`, txt: t('bagiDesimal', {m:mult, da:divA, db:divB}) });
+  const digits = String(divA).split('').map(Number);
+  const n = digits.length, steps = [];
+  let cur = 0;
+  for(let i = 0; i < n; i++){
+    cur = cur * 10 + digits[i];
+    const q = Math.floor(cur / divB);
+    const prod = q * divB;
+    const r = cur - prod;
+    steps.push({j: i, d: digits[i], sisaStr: String(cur), q, prod, r, dec: false});
+    cur = r;
+  }
+  let decCount = 0;
+  while(cur !== 0 && decCount < 3){
+    decCount++;
+    cur = cur * 10;
+    const q = Math.floor(cur / divB);
+    const prod = q * divB;
+    const r = cur - prod;
+    steps.push({j: n - 1 + decCount, d: 0, sisaStr: String(cur), q, prod, r, dec: true});
+    cur = r;
+  }
   
-  if (shift > 0) {
-    const mult = Math.pow(10, shift);
-    dividend = Math.round(dividend * mult);
-    divisor = Math.round(divisor * mult);
-    s.push({sim: ` \n `, txt: t('bagiDesimal', {m:mult, da:dividend, db:divisor}) });
-  }
+  const divStr = String(divB);
+  const intDigits = String(divA).split('');
+  const basePos = divStr.length + 3;
+  const off = (col) => basePos + 2*col;
 
-  const n = String(dividend).length;
-  const MAX_DEC = 5;
-  const intDigits = String(dividend).split('').map(Number);
-  const steps = [];
-  let sisa = 0, j = 0, decCount = 0;
-  while(true){
-    if(j < intDigits.length){
-      sisa = sisa*10 + intDigits[j];
-    } else {
-      if(decCount >= MAX_DEC) break;
-      decCount++;
-      sisa = sisa*10;
-    }
-    const q = Math.floor(sisa/divisor);
-    const r = sisa%divisor;
-    steps.push({j, sisaStr:String(sisa), q, prod:q*divisor, r, dec: j >= intDigits.length});
-    sisa = r;
-    j++;
-    if(j >= intDigits.length && r === 0) break;
-  }
-
-  const divStr = String(divisor);
-  const divLen = divStr.length;
-  const basePos = divLen + 3;
-  const off = c => basePos + 2*c;
+  const makeRow = (W, items) => {
+    const row = Array(W).fill(' ');
+    items.forEach(it => { for(let k = 0; k < it.s.length; k++) row[it.pos + k] = it.s[k]; });
+    return row.join('').trimEnd();
+  };
 
   const qRow = (nSlots, decSoFar, upto) => {
     const W = basePos + 2*(nSlots + decSoFar) + 3;
@@ -1795,19 +1718,19 @@ function buildBagi(dividend, divisor){
     return lines.join('\n');
   };
 
-  s.push({sim: renderAll(-1), txt: t('bagiBentuk', {d:divisor, n:dividend, c:n}) });
+  s.push({sim: renderAll(-1), txt: t('bagiBentuk', {d:divB, n:divA, c:n}) });
 
   for(let tIdx = 0; tIdx < steps.length; tIdx++){
     const st = steps[tIdx];
-    const bisa = Number(st.sisaStr) >= divisor;
+    const bisa = Number(st.sisaStr) >= divB;
     const intro = st.dec
       ? t('bagiKoma', {sisa:st.sisaStr})
       : (tIdx === 0 ? t('bagiMulai', {sisa:st.sisaStr}) : t('bagiTurun', {sisa:st.sisaStr}));
     const posStr = st.dec ? t('bagiPosKoma') : t('bagiPosAtas');
     const txtA = bisa
-      ? t('bagiBisa', {sisa:st.sisaStr, d:divisor, q:st.q, pos:posStr})
-      : t('bagiTakBisa', {sisa:st.sisaStr, d:divisor, pos:posStr});
-    const txtB = ' ' + t('bagiKurang', {q:st.q, d:divisor, p:st.prod, sisa:st.sisaStr, r:st.r});
+      ? t('bagiBisa', {sisa:st.sisaStr, d:divB, q:st.q, pos:posStr})
+      : t('bagiTakBisa', {sisa:st.sisaStr, d:divB, pos:posStr});
+    const txtB = ' ' + t('bagiKurang', {q:st.q, d:divB, p:st.prod, sisa:st.sisaStr, r:st.r});
     const decSoFar = Math.max(0, st.j - n + 1);
     const txtC = ' ' + (st.dec
       ? t('bagiSisaKoma', {dc:decSoFar})
@@ -1824,12 +1747,95 @@ function buildBagi(dividend, divisor){
   return s;
 }
 
+// ===== KIDS-FRIENDLY TOOLS =====
+function stepInput(id, delta) { 
+  unlockAudio(); playPop(); 
+  const inp = document.getElementById(id); 
+  if(inp) inp.value = Math.max(0, (parseFloat(inp.value)||0) + delta); 
+}
+
+function randomizeInputs() {
+  unlockAudio(); playPop(); setTeacherExpression('normal');
+  const n1 = document.getElementById('num1'), n2 = document.getElementById('num2');
+  if (operasi === 'tambah') { n1.value = Math.floor(Math.random()*450)+125; n2.value = Math.floor(Math.random()*350)+48; }
+  else if (operasi === 'kurang') { const a = Math.floor(Math.random()*600)+220; n1.value = a; n2.value = Math.floor(Math.random()*(a-60))+35; }
+  else if (operasi === 'kali') { n1.value = Math.floor(Math.random()*85)+14; n2.value = Math.floor(Math.random()*8)+2; }
+  else { const d = [2,3,4,5,6,7,8,9][Math.floor(Math.random()*8)]; n1.value = d * (Math.floor(Math.random()*140)+18); n2.value = d; }
+  genSteps(true);
+}
+
+// ===== THEMES & STICKERS REWARD SYSTEM =====
+const STICKER_DEFS = [
+  { id: 'cat_genius', icon: '🐱', name: 'Kucing Cerdas', desc: 'Selesaikan 1 hitungan di Mode Belajar' },
+  { id: 'rocket_star', icon: '🚀', name: 'Roket Juara', desc: 'Raih skor 50 di Mode Olimpiade' },
+  { id: 'crown_gold', icon: '👑', name: 'Mahkota Emas', desc: 'Raih skor 100 di Mode Olimpiade' },
+  { id: 'star_spark', icon: '🌟', name: 'Bintang Kejora', desc: 'Jawab 3 soal berturut-turut benar' },
+  { id: 'archery_pro', icon: '🎯', name: 'Raja Hitung', desc: 'Selesaikan kuis di Level Sulit' },
+  { id: 'donut_master', icon: '🍩', name: 'Master Donat', desc: 'Coba 4 operasi (+, −, ×, ÷)' }
+];
+
+function getUnlockedStickers() { 
+  try { return JSON.parse(localStorage.getItem('matdas_stickers') || '[]'); } 
+  catch(e){ return []; } 
+}
+
+function unlockSticker(sid) {
+  const cur = getUnlockedStickers();
+  if (cur.includes(sid)) return;
+  cur.push(sid); 
+  try { localStorage.setItem('matdas_stickers', JSON.stringify(cur)); } catch(e){}
+  
+  updateStickerBadge(); triggerStarBurst(); playApplauseSound(); setTeacherExpression('happy');
+  const def = STICKER_DEFS.find(s => s.id === sid);
+  if (def) {
+    const toast = document.createElement('div');
+    toast.style.cssText = `position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); background: #003049; color: white; border: 4px solid #ffd166; padding: 12px 24px; border-radius: 20px; font-weight: 800; font-family:'Fredoka One',cursive; z-index: 99999; box-shadow:0 10px 25px rgba(0,0,0,0.3); animation:popIn 0.3s;`;
+    toast.innerHTML = `<span style="font-size:28px; margin-right:8px;">${def.icon}</span> <span>Stiker Terbuka: ${def.name}! 🎉</span>`;
+    document.body.appendChild(toast); 
+    setTimeout(() => { toast.style.opacity = '0'; toast.style.transition = 'opacity 0.4s'; setTimeout(() => toast.remove(), 400); }, 3500);
+  }
+}
+
+function updateStickerBadge() { 
+  const badge = document.getElementById('stickerCountBadge'); 
+  if(badge) badge.textContent = `${t('stikerBadge')} (${getUnlockedStickers().length}/${STICKER_DEFS.length})`; 
+}
+
+function renderStickerAlbum() {
+  const unlocked = getUnlockedStickers(), grid = document.getElementById('stickerGrid');
+  if (!grid) return; grid.innerHTML = '';
+  STICKER_DEFS.forEach(st => {
+    const isU = unlocked.includes(st.id);
+    grid.innerHTML += `<div class="sticker-item ${isU ? 'unlocked' : 'locked'}"><div class="sticker-icon">${isU ? st.icon : '🔒'}</div><div class="sticker-name">${isU ? st.name : '???'}</div><div class="sticker-desc">${st.desc}</div></div>`;
+  });
+}
+
+function setBoardTheme(themeName) { 
+  unlockAudio(); playPop(); 
+  document.body.setAttribute('data-theme', themeName); 
+  try { localStorage.setItem('matdas_theme', themeName); } catch(e){}
+  document.querySelectorAll('.theme-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.theme === themeName));
+}
+
+function setSpeedPreset(speedVal) {
+  unlockAudio(); playPop();
+  const speedInp = document.getElementById('speed');
+  if (speedInp) speedInp.value = speedVal;
+  document.querySelectorAll('.speed-btn').forEach(btn => btn.classList.toggle('active', parseInt(btn.dataset.speed) === parseInt(speedVal)));
+}
+
 // ===== STATE & CONTROL LOGIC =====
 let operasi = 'tambah', steps = [], stepIdx = 0, isAutoMode = false;
 
 function updateUI() {
   document.getElementById('titleText').textContent = t('title');
   document.getElementById('subTitle').textContent = t('subtitle');
+  
+  const txtTheme = document.getElementById('txtThemeLabel');
+  if(txtTheme) txtTheme.textContent = t('themeLabel');
+  const txtStickerDesc = document.getElementById('txtStickerDesc');
+  if(txtStickerDesc) txtStickerDesc.textContent = t('stikerDesc');
+  updateStickerBadge();
   
   // Tabs
   document.querySelector('[data-op="tambah"]').textContent = t('tambah');
@@ -1844,7 +1850,6 @@ function updateUI() {
   document.getElementById('btnReset').textContent = t('mulaiUlang');
   document.getElementById('btnVoice').textContent = isVoiceEnabled ? t('suaraOn') : t('suaraOff');
   
-  // Auto button state
   const btnAuto = document.getElementById('btnAuto');
   if (isAutoMode) {
     btnAuto.textContent = t('jeda');
@@ -1857,16 +1862,11 @@ function updateUI() {
     btnAuto.classList.remove('playing');
   }
   
-  // Speed Slider
   document.getElementById('speedText').textContent = t('kecepatan');
-  const speed = parseInt(document.getElementById('speed').value);
-  document.getElementById('speedLabel').textContent = i18n[currentLang].speed[speed - 1];
   
-  // Stage Title & Step Count
   const titles = {tambah:t('stageTambah'), kurang:t('stageKurang'), kali:t('stageKali'), bagi:t('stageBagi')};
   document.getElementById('stageTitle').textContent = titles[operasi] || '';
   
-  // Quiz Mode UI Elements
   const tabBelajar = document.getElementById('tabBelajar');
   const tabKuis = document.getElementById('tabKuis');
   if(tabBelajar) tabBelajar.textContent = t('modeBelajar');
@@ -1902,20 +1902,10 @@ function updateUI() {
   }
 }
 
-document.getElementById('speed').addEventListener('input', e => {
-  document.getElementById('speedLabel').textContent = i18n[currentLang].speed[e.target.value - 1];
-});
-
 function stopAuto() {
   isAutoMode = false;
-  if (autoStepTimer) {
-    clearTimeout(autoStepTimer);
-    autoStepTimer = null;
-  }
-  if (speechAnimTimer) {
-    clearTimeout(speechAnimTimer);
-    speechAnimTimer = null;
-  }
+  if (autoStepTimer) { clearTimeout(autoStepTimer); autoStepTimer = null; }
+  if (speechAnimTimer) { clearTimeout(speechAnimTimer); speechAnimTimer = null; }
   window.speechSynthesis.cancel();
   setTeacherTalking(false);
   updateUI();
@@ -1953,13 +1943,10 @@ function renderPaper(shouldSpeak = true){
     paper.appendChild(div);
   }
   
-  // Teacher Speech & Animation
   if(steps.length > 0 && stepIdx >= 0 && stepIdx < steps.length) {
     const speechText = steps[stepIdx].txt;
     document.getElementById('teacherSpeech').textContent = speechText;
-    if (shouldSpeak) {
-      speakText(speechText);
-    }
+    if (shouldSpeak) speakText(speechText);
   }
   
   updateUI();
@@ -1978,7 +1965,6 @@ function animateDigits(text){
   });
 }
 
-// User Manual Step Navigation
 function nextStep(){
   if(stepIdx < steps.length - 1){
     stopAuto();
@@ -1987,6 +1973,10 @@ function nextStep(){
     playClick();
   } else if(stepIdx === steps.length - 1){
     playSuccess();
+    setTeacherExpression('happy');
+    unlockSticker('cat_genius');
+    operationsTried.add(operasi);
+    if (operationsTried.size >= 4) unlockSticker('donut_master');
   }
 }
 
@@ -2001,48 +1991,55 @@ function prevStep(){
 
 function resetSim(){
   stopAuto();
+  setTeacherExpression('normal');
   stepIdx = 0;
   renderPaper(true);
   playClick();
 }
 
-// User Continuous Auto-Play Navigation
 function startAutoPlay(){
-  if(steps.length === 0) {
-    genSteps(true);
-  }
+  if(steps.length === 0) genSteps(true);
   isAutoMode = true;
-  if(stepIdx >= steps.length - 1){
-    stepIdx = 0;
-  }
+  if(stepIdx >= steps.length - 1) stepIdx = 0;
   renderPaper(true);
 }
 
 function toggleAutoPlay(){
-  if(isAutoMode){
-    stopAuto();
-  } else if(stepIdx >= steps.length - 1){
-    resetSim();
-    startAutoPlay();
-  } else {
-    startAutoPlay();
-  }
+  if(isAutoMode) stopAuto();
+  else if(stepIdx >= steps.length - 1){ resetSim(); startAutoPlay(); }
+  else startAutoPlay();
 }
 
-// ===== CONTROLS & EVENT LISTENERS =====
-// Primary "Mulai Hitung" Button
-document.getElementById('btnGo').addEventListener('click', () => {
-  genSteps(true);
-  playClick();
+// ===== CONTROLS & LISTENERS =====
+document.getElementById('btnGo').addEventListener('click', () => { setTeacherExpression('normal'); genSteps(true); playClick(); });
+document.getElementById('btnRandomNum').addEventListener('click', randomizeInputs);
+
+document.querySelectorAll('.theme-btn').forEach(btn => {
+  btn.addEventListener('click', function() { setBoardTheme(this.dataset.theme); });
 });
 
-// Step Navigation Buttons
+document.querySelectorAll('.speed-btn').forEach(btn => {
+  btn.addEventListener('click', function() { setSpeedPreset(this.dataset.speed); });
+});
+
+document.getElementById('btnOpenStickers').addEventListener('click', () => {
+  unlockAudio(); playPop(); renderStickerAlbum();
+  document.getElementById('stickerModal').style.display = 'flex';
+});
+
+document.getElementById('btnCloseStickers').addEventListener('click', () => {
+  playPop(); document.getElementById('stickerModal').style.display = 'none';
+});
+
+document.getElementById('stickerModal').addEventListener('click', (e) => {
+  if (e.target.id === 'stickerModal') document.getElementById('stickerModal').style.display = 'none';
+});
+
 document.getElementById('btnPrev').addEventListener('click', prevStep);
 document.getElementById('btnNext').addEventListener('click', nextStep);
 document.getElementById('btnAuto').addEventListener('click', toggleAutoPlay);
 document.getElementById('btnReset').addEventListener('click', resetSim);
 
-// Voice ON/OFF Toggle
 document.getElementById('btnVoice').addEventListener('click', function() {
   isVoiceEnabled = !isVoiceEnabled;
   this.classList.toggle('off', !isVoiceEnabled);
@@ -2055,7 +2052,6 @@ document.getElementById('btnVoice').addEventListener('click', function() {
   }
 });
 
-// Sensei Avatar Click to repeat current step speech
 const teacherAvatar = document.getElementById('teacherAvatar');
 teacherAvatar.addEventListener('click', () => {
   if (steps.length > 0 && stepIdx >= 0 && stepIdx < steps.length) {
@@ -2071,20 +2067,14 @@ teacherAvatar.addEventListener('keydown', (e) => {
   }
 });
 
-// Language Switcher Buttons
 document.querySelectorAll('.lang-btn').forEach(btn => {
   btn.addEventListener('click', function() {
     stopAuto();
     document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
     this.classList.add('active');
     currentLang = this.dataset.lang;
-    
-    if(steps.length > 0) {
-      genSteps(false);
-    }
+    if(steps.length > 0) genSteps(false);
     updateUI();
-    
-    // Speak energetic language-specific greeting immediately
     const greeting = t('greet');
     document.getElementById('teacherSpeech').textContent = greeting;
     speakText(greeting, currentLang);
@@ -2092,18 +2082,20 @@ document.querySelectorAll('.lang-btn').forEach(btn => {
   });
 });
 
-// Operations Tabs (+, -, ×, ÷)
 document.querySelectorAll('.tab').forEach(tBtn => {
   tBtn.addEventListener('click', function(){
     document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
     this.classList.add('active');
     operasi = this.dataset.op;
+    operationsTried.add(operasi);
+    if (operationsTried.size >= 4) unlockSticker('donut_master');
     
     const labels = {tambah:'+', kurang:'-', kali:'×', bagi:'÷'};
     document.getElementById('opLabel').textContent = labels[operasi];
     document.getElementById('num1').value = {tambah:256, kurang:543, kali:34, bagi:1449}[operasi];
     document.getElementById('num2').value = {tambah:178, kurang:287, kali:12, bagi:7}[operasi];
     
+    setTeacherExpression('normal');
     stopAuto();
     steps = [];
     stepIdx = 0;
@@ -2112,17 +2104,12 @@ document.querySelectorAll('.tab').forEach(tBtn => {
   });
 });
 
-// Input keyboard Enter triggers
-document.getElementById('num1').addEventListener('keypress', e => {
-  if(e.key === 'Enter'){ genSteps(true); playClick(); }
-});
-document.getElementById('num2').addEventListener('keypress', e => {
-  if(e.key === 'Enter'){ genSteps(true); playClick(); }
-});
+document.getElementById('num1').addEventListener('keypress', e => { if(e.key === 'Enter'){ genSteps(true); playClick(); } });
+document.getElementById('num2').addEventListener('keypress', e => { if(e.key === 'Enter'){ genSteps(true); playClick(); } });
 
 // ===== MODE KUIS (OLIMPIADE SD) =====
-let appMode = 'belajar'; // 'belajar' | 'kuis'
-let quizLevel = 'mudah'; // 'mudah' | 'sedang' | 'sulit'
+let appMode = 'belajar';
+let quizLevel = 'mudah';
 let qScore = 0;
 let qLives = 3;
 let qTime = 60;
@@ -2146,39 +2133,27 @@ tabKuis.addEventListener('click', () => setAppMode('kuis'));
 function setAppMode(mode, isBedah = false) {
   appMode = mode;
   stopAuto();
+  setTeacherExpression('normal');
   if (qTimerInt) clearInterval(qTimerInt);
   
-  if (!isBedah && backToQuizBanner) {
-    backToQuizBanner.style.display = 'none';
-  }
+  if (!isBedah && backToQuizBanner) backToQuizBanner.style.display = 'none';
   
   if (mode === 'belajar') {
-    tabBelajar.classList.add('active');
-    tabKuis.classList.remove('active');
-    modeBelajarUI.style.display = 'block';
-    belajarBoard.style.display = 'block';
-    belajarControls.style.display = 'block';
-    modeKuisUI.style.display = 'none';
-    kuisBoard.style.display = 'none';
-    
+    tabBelajar.classList.add('active'); tabKuis.classList.remove('active');
+    modeBelajarUI.style.display = 'block'; belajarBoard.style.display = 'block'; belajarControls.style.display = 'block';
+    modeKuisUI.style.display = 'none'; kuisBoard.style.display = 'none';
     if (!isBedah) {
       const msg = t('kuisKembaliBelajar');
       document.getElementById('teacherSpeech').textContent = msg;
       speakText(msg);
     }
   } else {
-    tabBelajar.classList.remove('active');
-    tabKuis.classList.add('active');
-    modeBelajarUI.style.display = 'none';
-    belajarBoard.style.display = 'none';
-    belajarControls.style.display = 'none';
-    modeKuisUI.style.display = 'block';
-    kuisBoard.style.display = 'block';
-    
+    tabBelajar.classList.remove('active'); tabKuis.classList.add('active');
+    modeBelajarUI.style.display = 'none'; belajarBoard.style.display = 'none'; belajarControls.style.display = 'none';
+    modeKuisUI.style.display = 'block'; kuisBoard.style.display = 'block';
     document.getElementById('quizOptions').innerHTML = '';
     document.getElementById('quizFeedback').style.display = 'none';
     document.getElementById('quizQuestion').textContent = t('kuisPrompt');
-    
     const msg = t('kuisGreet');
     document.getElementById('teacherSpeech').textContent = msg;
     speakText(msg);
@@ -2186,7 +2161,6 @@ function setAppMode(mode, isBedah = false) {
   playClick();
 }
 
-// Difficulty Selector Buttons
 document.querySelectorAll('.diff-btn').forEach(btn => {
   btn.addEventListener('click', function() {
     document.querySelectorAll('.diff-btn').forEach(b => b.classList.remove('active'));
@@ -2196,311 +2170,142 @@ document.querySelectorAll('.diff-btn').forEach(btn => {
   });
 });
 
-document.getElementById('btnMulaiKuis').addEventListener('click', () => {
-  playClick();
-  qScore = 0;
-  qLives = 3;
-  nextQuiz();
-});
+document.getElementById('btnMulaiKuis').addEventListener('click', () => { playClick(); qScore = 0; qLives = 3; correctStreak = 0; nextQuiz(); });
+document.getElementById('btnNextQuiz').addEventListener('click', () => { playClick(); nextQuiz(); });
+document.getElementById('btnUlangKuis').addEventListener('click', () => { playClick(); qScore = 0; qLives = 3; correctStreak = 0; nextQuiz(); });
 
-document.getElementById('btnNextQuiz').addEventListener('click', () => {
-  playClick();
-  nextQuiz();
-});
-
-document.getElementById('btnUlangKuis').addEventListener('click', () => {
-  playClick();
-  qScore = 0;
-  qLives = 3;
-  nextQuiz();
-});
-
-// "Bedah Jawaban" -> switches to Mode Belajar and auto-runs simulation
 document.getElementById('btnBedahJawaban').addEventListener('click', () => {
   playClick();
   if(!currentQ) return;
   setAppMode('belajar', true);
-  
   operasi = currentQ.op; 
   document.querySelectorAll('.tabs .tab').forEach(b => b.classList.remove('active'));
   const targetTab = document.querySelector(`.tabs .tab[data-op="${operasi}"]`);
   if (targetTab) targetTab.classList.add('active');
-  
   const labels = {tambah:'+', kurang:'-', kali:'×', bagi:'÷'};
   document.getElementById('opLabel').textContent = labels[operasi] || '+';
   document.getElementById('num1').value = currentQ.n1;
   document.getElementById('num2').value = currentQ.n2;
-  
-  if (backToQuizBanner) {
-    backToQuizBanner.style.display = 'flex';
-  }
-  
-  setTimeout(() => {
-    genSteps(true);
-  }, 400);
+  if (backToQuizBanner) backToQuizBanner.style.display = 'flex';
+  setTimeout(() => genSteps(true), 400);
 });
 
-// Return back to Quiz from Bedah Jawaban
 if (btnReturnQuiz) {
   btnReturnQuiz.addEventListener('click', () => {
-    playClick();
-    setAppMode('kuis');
+    playClick(); setAppMode('kuis');
     if (backToQuizBanner) backToQuizBanner.style.display = 'none';
-    if (qLives > 0) {
-      nextQuiz();
-    }
+    if (qLives > 0) nextQuiz();
   });
 }
 
 function rand(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
 
-// Comprehensive Multilingual Question Generator for Elementary Olympiad
 function generateQ() {
   let n1, n2, op, ans, text;
   const lang = currentLang || 'id';
   
   if (quizLevel === 'mudah') {
     const types = ['tambah', 'kurang', 'kali', 'bagi'];
-    op = types[rand(0, types.length - 1)];
-    
+    op = types[Math.floor(Math.random() * types.length)];
     if (op === 'tambah') {
-      n1 = rand(15, 65);
-      n2 = rand(8, 45);
-      ans = n1 + n2;
+      n1 = rand(15, 60); n2 = rand(10, 40); ans = n1 + n2;
       const tpls = {
-        id: [
-          `Budi memiliki ${n1} butir kelereng. Kakak memberinya ${n2} kelereng lagi. Berapa total kelereng Budi sekarang?`,
-          `Di kebun kakek ada ${n1} ekor ayam dan ${n2} ekor bebek. Berapa total hewan ternak kakek?`,
-          `Chayra membaca ${n1} halaman buku cerita kemarin, dan ${n2} halaman hari ini. Berapa total halaman yang sudah dibaca?`
-        ],
-        en: [
-          `Budi has ${n1} marbles. His brother gives him ${n2} more. How many marbles does Budi have now?`,
-          `There are ${n1} chickens and ${n2} ducks in grandpa's farm. How many animals are there in total?`,
-          `Chayra read ${n1} pages yesterday and ${n2} pages today. How many pages has she read in total?`
-        ],
-        jv: [
-          `Budi nduwe ${n1} kelereng. Dikeki mas'e ${n2} kelereng maneh. Piro gunggunge kelerenge Budi saiki?`,
-          `Ing kandhange simbah ana ${n1} pitik lan ${n2} bebek. Piro kabeh kewan ternake simbah?`,
-          `Chayra maca ${n1} kaca wingi, lan ${n2} kaca dina iki. Piro kabeh kaca sing wis diwaca?`
-        ]
+        id: `Budi memiliki ${n1} buah kelereng merah di kantongnya. Lalu ia diberi lagi oleh pamannya ${n2} kelereng biru. Berapa total seluruh kelereng yang dimiliki Budi sekarang?`,
+        en: `Budi has ${n1} red marbles in his bag. His uncle gives him ${n2} more blue marbles. How many marbles does Budi have in total now?`,
+        jv: `Budi duwe ${n1} neker abang ing saké. Banjur diwenehi pamane ${n2} neker biru. Piro kabeh gunggunge nekere Budi saiki?`
       };
-      const list = tpls[lang] || tpls['id'];
-      text = list[rand(0, list.length - 1)];
+      text = tpls[lang] || tpls['id'];
     } else if (op === 'kurang') {
-      n1 = rand(30, 95);
-      n2 = rand(10, n1 - 5);
-      ans = n1 - n2;
+      n1 = rand(40, 95); n2 = rand(15, n1 - 10); ans = n1 - n2;
       const tpls = {
-        id: [
-          `Ibu membuat ${n1} kue bolu lezat. Adik dan temannya memakan ${n2} kue. Berapa sisa kue bolu ibu?`,
-          `Sebuah toko memiliki stok ${n1} pensil warna. Hari ini terjual ${n2} pensil. Berapa sisa pensil di toko?`,
-          `Annira punya ${n1} stiker lucu. Ia menempelkan ${n2} stiker di buku gambar. Berapa stiker yang tersisa?`
-        ],
-        en: [
-          `Mom baked ${n1} cupcakes. Annira and her friends ate ${n2} cupcakes. How many cupcakes are left?`,
-          `A store had ${n1} colored pencils in stock. Today, ${n2} pencils were sold. How many pencils are left?`,
-          `Annira had ${n1} cute stickers. She used ${n2} stickers on her drawing book. How many stickers are left?`
-        ],
-        jv: [
-          `Ibu nggawe ${n1} roti bolu. Dipangan adhi lan kancane ${n2} roti. Piro sisa rotine ibu?`,
-          `Toko buku nduwe ${n1} potlot warna. Dina iki payu ${n2} potlot. Piro sisa potlot nang toko?`,
-          `Annira nduwe ${n1} stiker lucu. Ditempel ${n2} stiker nang bukune. Piro stiker sing isih ono?`
-        ]
+        id: `Ibu membuat ${n1} kue donat cokelat yang lezat. Adik dan teman-temannya memakan ${n2} kue donat. Berapa sisa kue donat yang masih ada di atas meja?`,
+        en: `Mom baked ${n1} yummy chocolate donuts. Little brother and his friends ate ${n2} donuts. How many donuts are left on the table?`,
+        jv: `Ibu nggawe ${n1} roti donat coklat sing enak. Adhik lan kanca-kancane mangan ${n2} donat. Piro sisa donat sing isih ana ing meja?`
       };
-      const list = tpls[lang] || tpls['id'];
-      text = list[rand(0, list.length - 1)];
+      text = tpls[lang] || tpls['id'];
     } else if (op === 'kali') {
-      n1 = rand(3, 9);
-      n2 = rand(3, 9);
-      ans = n1 * n2;
+      n1 = rand(3, 9); n2 = rand(3, 8); ans = n1 * n2;
       const tpls = {
-        id: [
-          `Siti membeli ${n1} kotak donat. Setiap kotak berisi ${n2} donat. Berapa jumlah seluruh donat yang dibeli Siti?`,
-          `Ada ${n1} sarang burung di pohon. Setiap sarang berisi ${n2} butir telur. Berapa total telur burung semuanya?`,
-          `Pak Guru membawa ${n1} pak buku tulis. Setiap pak berisi ${n2} buku. Berapa total buku tulis semuanya?`
-        ],
-        en: [
-          `Siti bought ${n1} boxes of donuts. Each box contains ${n2} donuts. How many donuts did she buy in total?`,
-          `There are ${n1} birds' nests on a tree. Each nest contains ${n2} eggs. How many eggs are there altogether?`,
-          `The teacher brings ${n1} packs of notebooks. Each pack contains ${n2} books. How many notebooks are there in total?`
-        ],
-        jv: [
-          `Siti tuku ${n1} kothak donat. Saben kothak isine ${n2} donat. Piro cacahe kabeh donat sing dituku Siti?`,
-          `Ana ${n1} susuh manuk ing wit. Saben susuh isine ${n2} endhog. Piro gunggunge endhog kabeh?`,
-          `Pak Guru ngasta ${n1} bungkus buku. Saben bungkus isine ${n2} buku. Piro kabeh buku tulis kui?`
-        ]
+        id: `Di peternakan ada ${n1} sarang burung. Di setiap sarang terdapat ${n2} butir telur. Berapa jumlah seluruh telur burung di peternakan tersebut?`,
+        en: `There are ${n1} birds' nests on the farm. Each nest contains ${n2} eggs. How many eggs are there in total on the farm?`,
+        jv: `Ing peternakan ana ${n1} susuh manuk. Saben susuh ana ${n2} endhog. Piro kabeh cacahe endhog manuk ing peternakan kasebut?`
       };
-      const list = tpls[lang] || tpls['id'];
-      text = list[rand(0, list.length - 1)];
+      text = tpls[lang] || tpls['id'];
     } else {
-      n2 = rand(2, 6);
-      ans = rand(3, 10);
-      n1 = n2 * ans;
+      n2 = rand(2, 6); ans = rand(4, 9); n1 = n2 * ans; op = 'bagi';
       const tpls = {
-        id: [
-          `Ibu membagikan ${n1} buah apel secara merata kepada ${n2} orang anaknya. Berapa buah apel yang diterima setiap anak?`,
-          `Ada ${n1} permen manis yang akan dimasukkan ke dalam ${n2} toples sama banyak. Berapa isi permen di tiap toples?`,
-          `Kakak menata ${n1} buku komik ke dalam ${n2} rak sama rata. Berapa buku di setiap rak?`
-        ],
-        en: [
-          `Mom distributed ${n1} apples equally among her ${n2} children. How many apples does each child receive?`,
-          `There are ${n1} candies to be put equally into ${n2} jars. How many candies in each jar?`,
-          `Sister arranged ${n1} comic books equally onto ${n2} shelves. How many books are on each shelf?`
-        ],
-        jv: [
-          `Ibu mbagi ${n1} apel rata marang ${n2} anake. Piro apel sing ditampa saben bocah?`,
-          `Ana ${n1} permen sing arep dilebokake ing ${n2} toples podho akehe. Piro isine saben toples?`,
-          `Mbakyu nata ${n1} buku komik ing ${n2} rak podho akehe. Piro buku ing saben rak?`
-        ]
+        id: `Pak Guru memiliki ${n1} buku cerita bergambar. Buku tersebut akan dibagikan sama rata kepada ${n2} siswa berprestasi. Berapa buku yang diterima setiap siswa?`,
+        en: `The teacher has ${n1} illustrated storybooks. The books are shared equally among ${n2} top students. How many books does each student get?`,
+        jv: `Pak Guru duwe ${n1} buku crita gambar. Buku mau dibagekake podho akehe marang ${n2} murid sing pinter. Piro buku sing ditampa saben murid?`
       };
-      const list = tpls[lang] || tpls['id'];
-      text = list[rand(0, list.length - 1)];
+      text = tpls[lang] || tpls['id'];
     }
   } else if (quizLevel === 'sedang') {
     const types = ['tambah', 'kurang', 'kali', 'bagi'];
-    op = types[rand(0, types.length - 1)];
-    
+    op = types[Math.floor(Math.random() * types.length)];
     if (op === 'tambah') {
-      n1 = rand(120, 680);
-      n2 = rand(85, 450);
-      ans = n1 + n2;
+      n1 = rand(125, 450); n2 = rand(150, 480); ans = n1 + n2;
       const tpls = {
-        id: [
-          `Desa Sukamaju memiliki ${n1} warga. Bulan ini datang warga transmigran baru sebanyak ${n2} orang. Berapa jumlah total warga desa sekarang?`,
-          `Perpustakaan kota menerima sumbangan ${n1} buku ensiklopedia dan ${n2} buku cerita fiksi. Berapa total buku yang disumbangkan?`,
-          `Kebun binatang dikunjungi ${n1} anak pada hari Sabtu dan ${n2} anak pada hari Minggu. Berapa total pengunjung anak di akhir pekan?`
-        ],
-        en: [
-          `Sukamaju village had ${n1} residents. This month, ${n2} new residents moved in. What is the total population now?`,
-          `The city library received a donation of ${n1} encyclopedias and ${n2} fiction books. How many books were donated in total?`,
-          `The zoo was visited by ${n1} kids on Saturday and ${n2} kids on Sunday. What was the total weekend kids attendance?`
-        ],
-        jv: [
-          `Desa Sukamaju nduwe ${n1} warga. Sasi iki teka warga anyar ${n2} wong. Piro gunggunge kabeh warga saiki?`,
-          `Perpustakaan kutha nampa sumbangan ${n1} buku ensiklopedia lan ${n2} buku dongeng. Piro kabeh buku sing disumbangke?`,
-          `Kebon binatang ditekani ${n1} bocah ing dina Setu lan ${n2} bocah ing dina Minggu. Piro kabeh pengunjung bocah?`
-        ]
+        id: `Perpustakaan sekolah memiliki ${n1} buku sains dan ${n2} buku cerita fiksi. Berapa total seluruh koleksi buku di perpustakaan tersebut?`,
+        en: `The school library has ${n1} science books and ${n2} fiction storybooks. What is the total collection of books in the library?`,
+        jv: `Perpustakaan sekolah nduwe ${n1} buku sains lan ${n2} buku dongeng. Piro cacahe kabeh koleksi buku ing perpustakaan kasebut?`
       };
-      const list = tpls[lang] || tpls['id'];
-      text = list[rand(0, list.length - 1)];
+      text = tpls[lang] || tpls['id'];
     } else if (op === 'kurang') {
-      n1 = rand(350, 980);
-      n2 = rand(110, n1 - 50);
-      ans = n1 - n2;
+      n1 = rand(500, 950); n2 = rand(150, n1 - 100); ans = n1 - n2;
       const tpls = {
-        id: [
-          `Ibu membawa uang belanja Rp ${n1}000 ke pasar. Setelah membeli sayur dan ikan sebesar Rp ${n2}000, berapa sisa uang belanja Ibu? (Jawab dalam ribuan)`,
-          `Sebuah gudang memiliki stok ${n1} karung beras. Sebanyak ${n2} karung beras telah dikirim ke toko mitra. Berapa karung beras yang masih tersisa di gudang?`,
-          `Tabungan celengan Chayra ada Rp ${n1}00. Chayra mengambil Rp ${n2}00 untuk membeli buku gambar. Berapa sisa tabungan Chayra? (Jawab dalam ratusan)`
-        ],
-        en: [
-          `Mom brought $${n1} for grocery shopping. After spending $${n2} on groceries, how much money does she have left?`,
-          `A warehouse had ${n1} sacks of rice in stock. ${n2} sacks were shipped to partner stores. How many sacks remain in the warehouse?`,
-          `Chayra had saved $${n1}. She took $${n2} to buy drawing supplies. How much savings does Chayra have left?`
-        ],
-        jv: [
-          `Ibu nggawa dhuwit blanja Rp ${n1}000. Kanggo tuku sayur lan iwak Rp ${n2}000, piro sisa dhuwite Ibu? (Wangsulan ewon)`,
-          `Gudang nduwe simpenan ${n1} karung beras. Wis dikirim ${n2} karung menyang toko. Piro karung beras sing isih ono nang gudang?`,
-          `Celengane Chayra ana Rp ${n1}00. Dijupuk Rp ${n2}00 kanggo tuku buku gambar. Piro sisa celengane Chayra?`
-        ]
+        id: `Kakak membawa uang saku Rp ${n1}000 ke pasar swalayan. Kakak membeli peralatan sekolah seharga Rp ${n2}000. Berapa ribu rupiah sisa uang kembalian Kakak?`,
+        en: `Brother brought $${n1} to the supermarket. He bought stationery costing $${n2}. How many dollars does Brother have left?`,
+        jv: `Kakang nggawa dhuwit Rp ${n1}000 menyang pasar. Kakang tuku alat sekolah regane Rp ${n2}000. Piro ewu rupiah susuk dhuwite Kakang?`
       };
-      const list = tpls[lang] || tpls['id'];
-      text = list[rand(0, list.length - 1)];
+      text = tpls[lang] || tpls['id'];
     } else if (op === 'kali') {
-      n1 = rand(14, 38);
-      n2 = rand(6, 16);
-      ans = n1 * n2;
+      n1 = rand(24, 75); n2 = rand(12, 28); ans = n1 * n2;
       const tpls = {
-        id: [
-          `Seorang petani memanen ${n1} keranjang buah mangga. Setiap keranjang memiliki berat ${n2} kg. Berapa total berat panen mangga petani tersebut?`,
-          `Sebuah angkutan umum membawa ${n1} penumpang setiap kali jalan. Jika angkutan tersebut bolak-balik sebanyak ${n2} kali, berapa total penumpang yang diangkut?`,
-          `Di aula sekolah terdapat ${n1} baris kursi. Setiap baris terdiri dari ${n2} kursi. Berapa kapasitas total kursi di aula tersebut?`
-        ],
-        en: [
-          `A farmer harvested ${n1} crates of mangoes. Each crate weighs ${n2} kg. What is the total weight of the harvested mangoes?`,
-          `A shuttle bus carries ${n1} passengers per trip. If it makes ${n2} trips today, how many passengers were transported in total?`,
-          `In the school hall, there are ${n1} rows of chairs. Each row has ${n2} chairs. What is the total seating capacity in the hall?`
-        ],
-        jv: [
-          `Petani panen ${n1} kranjang pelem. Saben kranjang bobote ${n2} kg. Piro gunggunge bobot panen pelem kabeh?`,
-          `Angkot nggawa ${n1} penumpang saben mlaku. Yen angkote bolak-balik ping ${n2}, piro kabeh penumpang sing diangkut?`,
-          `Ing aula sekolah ana ${n1} larik kursi. Saben larik ana ${n2} kursi. Piro kabeh kursine?`
-        ]
+        id: `Di aula sekolah terdapat ${n1} baris kursi. Setiap baris diisi rapi oleh ${n2} buah kursi. Berapa jumlah seluruh kursi yang tersedia di aula tersebut?`,
+        en: `In the school hall, there are ${n1} rows of chairs. Each row contains ${n2} chairs. How many chairs are available in the hall in total?`,
+        jv: `Ing aula sekolah ana ${n1} larik kursi. Saben larik diisi rapi ${n2} kursi. Piro kabeh cacahe kursi sing cumepak ing aula kasebut?`
       };
-      const list = tpls[lang] || tpls['id'];
-      text = list[rand(0, list.length - 1)];
+      text = tpls[lang] || tpls['id'];
     } else {
-      n2 = rand(6, 16);
-      ans = rand(14, 48);
-      n1 = n2 * ans;
+      n2 = rand(6, 14); ans = rand(15, 45); n1 = n2 * ans; op = 'bagi';
       const tpls = {
-        id: [
-          `Pak Guru memiliki ${n1} lembar kertas gambar yang akan dibagikan kepada ${n2} kelompok siswa sama banyak. Berapa lembar kertas yang didapat tiap kelompok?`,
-          `Sebuah pabrik roti mengemas ${n1} bungkus roti ke dalam ${n2} kardus secara merata. Berapa bungkus roti isi setiap kardus?`,
-          `Pak Tani memiliki ${n1} bibit pohon jati yang akan ditanam di ${n2} petak lahan sama rata. Berapa bibit per petak lahan?`
-        ],
-        en: [
-          `The teacher has ${n1} sheets of drawing paper to be divided equally among ${n2} student groups. How many sheets does each group receive?`,
-          `A bakery packs ${n1} loaves of bread into ${n2} cartons equally. How many loaves are inside each carton?`,
-          `A farmer has ${n1} tree saplings to plant evenly across ${n2} plots of land. How many saplings per plot?`
-        ],
-        jv: [
-          `Pak Guru ngasta ${n1} lembar kertas gambar sing arep dibagekake marang ${n2} kelompok podho akehe. Piro lembar saben kelompok?`,
-          `Pabrik roti ngemas ${n1} bungkus roti ing ${n2} kardus podho akehe. Piro bungkus rotine saben kardus?`,
-          `Pak Tani nduwe ${n1} bibit wit jati sing arep ditandur ing ${n2} petak lahan podho akehe. Piro bibit saben petak?`
-        ]
+        id: `Petani memetik ${n1} bibit pohon jati. Bibit tersebut ditanam secara merata pada ${n2} petak kebun. Berapa bibit pohon di setiap petak kebun?`,
+        en: `A farmer harvests ${n1} teak seedlings. The seedlings are planted equally across ${n2} garden plots. How many seedlings are in each plot?`,
+        jv: `Pak Tani methik ${n1} bibit wit jati. Bibit mau ditandur podho akehe ing ${n2} petak kebon. Piro bibit wit ing saben petak kebon?`
       };
-      const list = tpls[lang] || tpls['id'];
-      text = list[rand(0, list.length - 1)];
+      text = tpls[lang] || tpls['id'];
     }
   } else {
-    // Level Sulit: Real Elementary Olympiad Logic Problems!
-    const problemType = rand(1, 5);
-    
-    if (problemType === 1) {
-      const s = rand(2, 8);
-      ans = rand(18, 55);
-      n2 = rand(12, 28);
-      n1 = n2 * ans + s;
-      op = 'bagi';
+    // Level Sulit (Olimpiade)
+    const pType = rand(1, 5);
+    if (pType === 1) {
+      const s = rand(2, 6); ans = rand(25, 65); n2 = rand(12, 28); n1 = n2 * ans + s; op = 'bagi';
       const tpls = {
         id: `Sebuah gudang memiliki ${n1} buah apel. Apel tersebut dimasukkan ke dalam ${n2} peti sama rata, dan ternyata tersisa ${s} buah apel di luar. Berapa banyak apel di dalam setiap peti?`,
         en: `A warehouse has ${n1} apples. The apples are packed equally into ${n2} crates, leaving a remainder of ${s} apples unpacked. How many apples are inside each crate?`,
         jv: `Gudang nduwe ${n1} apel. Apel mau dilebokake ing ${n2} peti podho akehe, lan isih turah ${s} apel ing njaba. Piro cacahe apel ing saben peti?`
       };
       text = tpls[lang] || tpls['id'];
-    } else if (problemType === 2) {
-      n1 = rand(25, 75);
-      n2 = rand(3, 6);
-      ans = n1 * (n2 - 1);
-      op = 'kali';
+    } else if (pType === 2) {
+      n1 = rand(25, 75); n2 = rand(3, 6); ans = n1 * (n2 - 1); op = 'kali';
       const tpls = {
         id: `Toko Sembako A menjual ${n1} kg beras dalam sehari. Toko B menjual beras ${n2} kali lipat lebih banyak daripada Toko A. Berapa kg SELISIH beras yang dijual Toko B dan Toko A?`,
         en: `Grocery Store A sells ${n1} kg of rice per day. Store B sells ${n2} times as much rice as Store A. What is the DIFFERENCE in kg between Store B and Store A?`,
         jv: `Toko Sembako A dodolan ${n1} kg beras sedina. Toko B dodolan beras ${n2} tikel luwih akeh tinimbang Toko A. Piro BEDANE (selisih) beras sing didol Toko B lan Toko A?`
       };
       text = tpls[lang] || tpls['id'];
-    } else if (problemType === 3) {
-      const diff = rand(15, 60) * 2;
-      n2 = rand(40, 180);
-      n1 = n2 + diff;
-      ans = diff / 2;
-      op = 'kurang';
+    } else if (pType === 3) {
+      const diff = rand(15, 60) * 2; n2 = rand(40, 180); n1 = n2 + diff; ans = diff / 2; op = 'kurang';
       const tpls = {
         id: `Tabungan Chayra berjumlah Rp ${n1}000, sedangkan tabungan Annira berjumlah Rp ${n2}000. Berapa ribu rupiah yang harus diberikan Chayra kepada Annira agar tabungan mereka berdua menjadi SAMA BANYAK?`,
         en: `Chayra has $${n1} in savings, while Annira has $${n2}. How many dollars must Chayra give to Annira so that both of them have the EXACT SAME amount of money?`,
         jv: `Celengane Chayra ana Rp ${n1}000, dene celengane Annira ana Rp ${n2}000. Piro ewu rupiah sing kudu diwenehake Chayra marang Annira supaya dhuwite dadi PODHO AKEHE?`
       };
       text = tpls[lang] || tpls['id'];
-    } else if (problemType === 4) {
-      const perBox = rand(6, 12);
-      ans = rand(15, 40);
-      const totalItems = ans * perBox;
-      n2 = rand(3, 7);
-      n1 = Math.round(totalItems / n2);
-      const finalTotal = n1 * n2;
-      ans = Math.floor(finalTotal / perBox);
-      op = 'bagi';
+    } else if (pType === 4) {
+      const perBox = rand(6, 12); ans = rand(15, 40); const totalItems = ans * perBox; n2 = rand(3, 7); n1 = Math.round(totalItems / n2);
+      ans = Math.floor((n1 * n2) / perBox); op = 'bagi';
       const tpls = {
         id: `Sebuah pabrik roti memproduksi ${n1} bungkus roti per hari selama ${n2} hari berturut-turut. Seluruh roti dimasukkan ke kardus besar yang masing-masing muat ${perBox} bungkus. Berapa kardus yang terisi penuh?`,
         en: `A bakery produces ${n1} loaves of bread per day for ${n2} consecutive days. All bread is packed into cartons that hold ${perBox} loaves each. How many cartons are filled completely?`,
@@ -2508,10 +2313,7 @@ function generateQ() {
       };
       text = tpls[lang] || tpls['id'];
     } else {
-      n2 = rand(15, 36);
-      ans = rand(35, 88);
-      n1 = n2 * ans;
-      op = 'bagi';
+      n2 = rand(15, 36); ans = rand(35, 88); n1 = n2 * ans; op = 'bagi';
       const tpls = {
         id: `Sebuah yayasan sosial menerima sumbangan ${n1} paket buku tulis. Paket tersebut dibagikan kepada ${n2} panti asuhan sama rata. Berapa paket buku yang diterima oleh masing-masing panti asuhan?`,
         en: `A charity foundation received ${n1} notebook care packages. The packages were distributed equally among ${n2} orphanages. How many packages did each orphanage receive?`,
@@ -2526,51 +2328,43 @@ function generateQ() {
     let offset = rand(-12, 12);
     if (offset === 0) offset = rand(1, 10);
     let wrong = ans + offset;
-    if (wrong >= 0 && !opts.includes(wrong)) {
-      opts.push(wrong);
-    }
+    if (wrong >= 0 && !opts.includes(wrong)) opts.push(wrong);
   }
   opts.sort(() => Math.random() - 0.5);
-  
   return { n1, n2, op, ans, text, opts };
 }
 
 function updateQuizUI() {
   document.getElementById('quizScore').textContent = `${t('skor')}: ${qScore} | ${t('nyawa')}: ${'❤️'.repeat(Math.max(0, qLives))}`;
   document.getElementById('quizTimer').textContent = `${t('waktu')}: ${qTime}s`;
-  
   const timerBar = document.getElementById('quizTimerBar');
   if (timerBar && qTotalTime > 0) {
     const pct = Math.max(0, (qTime / qTotalTime) * 100);
     timerBar.style.width = pct + '%';
-    if (qTime <= 10) {
-      timerBar.className = 'quiz-timer-bar danger';
-    } else if (qTime <= 20) {
-      timerBar.className = 'quiz-timer-bar warning';
-    } else {
-      timerBar.className = 'quiz-timer-bar';
-    }
+    if (qTime <= 10) timerBar.className = 'quiz-timer-bar danger';
+    else if (qTime <= 20) timerBar.className = 'quiz-timer-bar warning';
+    else timerBar.className = 'quiz-timer-bar';
   }
 }
 
 function nextQuiz() {
   if (qLives <= 0) {
+    setTeacherExpression('encourage');
     const gameOverTxt = t('gameOverFeedback');
     document.getElementById('teacherSpeech').textContent = gameOverTxt;
     speakText(gameOverTxt);
-    
     document.getElementById('quizQuestion').textContent = `${t('quizDone')} ${t('skorAkhir')}: ${qScore}`;
     document.getElementById('quizOptions').innerHTML = '';
     document.getElementById('quizFeedback').style.display = 'block';
     document.getElementById('quizFeedbackText').textContent = `🏆 ${t('quizDone')} ${t('skorAkhir')}: ${qScore}`;
     document.getElementById('quizFeedbackText').style.color = '#003049';
-    
     document.getElementById('btnBedahJawaban').style.display = 'none';
     document.getElementById('btnNextQuiz').style.display = 'none';
     document.getElementById('btnUlangKuis').style.display = 'inline-block';
     return;
   }
 
+  setTeacherExpression('normal');
   currentQ = generateQ();
   qTotalTime = quizLevel === 'mudah' ? 45 : (quizLevel === 'sedang' ? 60 : 90);
   qTime = qTotalTime;
@@ -2605,9 +2399,7 @@ function nextQuiz() {
   qTimerInt = setInterval(() => {
     qTime--;
     updateQuizUI();
-    if (qTime <= 10 && qTime > 0) {
-      playTickSound();
-    }
+    if (qTime <= 10 && qTime > 0) playTickSound();
     if (qTime <= 0) {
       clearInterval(qTimerInt);
       handleTimeOut();
@@ -2617,6 +2409,8 @@ function nextQuiz() {
 
 function handleTimeOut() {
   qLives--;
+  correctStreak = 0;
+  setTeacherExpression('encourage');
   playErrorBoing();
   const timeOutTxt = t('timeOutFeedback');
   document.getElementById('teacherSpeech').textContent = timeOutTxt;
@@ -2633,6 +2427,13 @@ function handleAnswer(selected, btnNode) {
     btnNode.classList.add('correct');
     const pts = (quizLevel === 'mudah' ? 10 : (quizLevel === 'sedang' ? 20 : 30));
     qScore += pts;
+    correctStreak++;
+    
+    setTeacherExpression('happy');
+    if (correctStreak >= 3) unlockSticker('star_spark');
+    if (qScore >= 50) unlockSticker('rocket_star');
+    if (qScore >= 100) unlockSticker('crown_gold');
+    if (quizLevel === 'sulit') unlockSticker('archery_pro');
     
     const correctTxt = t('correctFeedback');
     document.getElementById('teacherSpeech').textContent = correctTxt;
@@ -2647,6 +2448,8 @@ function handleAnswer(selected, btnNode) {
       if (b.textContent.includes(String(currentQ.ans))) b.classList.add('correct');
     });
     qLives--;
+    correctStreak = 0;
+    setTeacherExpression('encourage');
     playErrorBoing();
     
     const wrongTxt = t('wrongFeedback');
@@ -2679,7 +2482,6 @@ function showFeedback(isCorrect, text) {
   updateQuizUI();
 }
 
-// Keyboard & Remote TV shortcuts (Keys 1-4, A-D)
 window.addEventListener('keydown', (e) => {
   if (appMode !== 'kuis') return;
   const key = e.key.toUpperCase();
@@ -2697,11 +2499,20 @@ window.addEventListener('keydown', (e) => {
   }
 });
 
-// Initial Setup
+document.addEventListener('focusin', (e) => {
+  if (e.target && (e.target.tagName === 'BUTTON' || e.target.tagName === 'INPUT')) {
+    playPop();
+  }
+});
+
+try {
+  const savedTheme = localStorage.getItem('matdas_theme') || 'pastel';
+  setBoardTheme(savedTheme);
+} catch(e){}
+
 genSteps(false);
 updateUI();
 
-// AudioContext & SpeechSynthesis unlocking
 document.body.addEventListener('click', unlockAudio);
 document.body.addEventListener('touchstart', unlockAudio);
 document.body.addEventListener('keydown', unlockAudio);
