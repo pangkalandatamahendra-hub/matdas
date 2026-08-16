@@ -533,6 +533,9 @@ footer { text-align:center; padding: 18px; color: #555; font-weight: 600; font-s
           </g>
         </svg>
       </div>
+      <div id="ttsWarning" style="color:#d90429; font-size:12px; text-align:center; display:none; margin-top:8px; font-weight:800; background:rgba(255,255,255,0.8); padding:4px 8px; border-radius:10px; box-shadow:0 2px 5px rgba(0,0,0,0.1);">
+        Suara tidak didukung<br>di TV/perangkat ini
+      </div>
     </div>
 
     <!-- Right: Blackboard / Simulation Paper -->
@@ -802,6 +805,12 @@ function unlockAudio() {
         window.speechSynthesis.resume();
       }
       loadVoices();
+      if (!window.speechUnlocked) {
+        const silentMsg = new SpeechSynthesisUtterance('');
+        silentMsg.volume = 0;
+        window.speechSynthesis.speak(silentMsg);
+        window.speechUnlocked = true;
+      }
     }
   } catch(e){}
 }
@@ -914,8 +923,14 @@ function speakText(text, explicitLang) {
     return;
   }
   
+  // Provide auditory feedback that a step occurred
+  if (isVoiceEnabled) playPop();
+  
+  const ttsWarning = document.getElementById('ttsWarning');
+  
   // If voice is disabled in UI or Web Speech not supported
   if (!isVoiceEnabled || !('speechSynthesis' in window)) {
+    if (ttsWarning) ttsWarning.style.display = 'none';
     setTeacherTalking(true);
     const readingTime = Math.max(1200, spoken.length * 60);
     speechAnimTimer = setTimeout(() => {
@@ -946,6 +961,13 @@ function speakText(text, explicitLang) {
       utterance.voice = voice;
     }
     
+    // Show warning if NO voices are available at all after unlocking
+    if (!availableVoices || availableVoices.length === 0) {
+      if (ttsWarning) ttsWarning.style.display = 'block';
+    } else {
+      if (ttsWarning) ttsWarning.style.display = 'none';
+    }
+    
     utterance.volume = 1.0;
     utterance.rate = 0.95;
     utterance.pitch = (targetLang === 'en') ? 1.1 : 1.15;
@@ -967,11 +989,15 @@ function speakText(text, explicitLang) {
       handleSpeechFinished();
     };
     
-    // Fallback timer to ensure animations and auto-play don't get stuck
-    const maxSpeakTime = Math.max(2000, (spoken.length / 5) * 1000);
+    // Fallback timer to ensure animations and auto-play don't get stuck if TTS silently fails
+    const maxSpeakTime = Math.max(2500, (spoken.length / 5) * 1000);
     speechAnimTimer = setTimeout(() => {
       setTeacherTalking(false);
-    }, maxSpeakTime);
+      if (activeUtterance === utterance) {
+        activeUtterance = null;
+        handleSpeechFinished();
+      }
+    }, maxSpeakTime + 1000);
     
     // Speak immediately within the user interaction frame
     window.speechSynthesis.speak(utterance);
@@ -990,6 +1016,20 @@ function speakText(text, explicitLang) {
 
 // ===== AUDIO EFFECTS (SOUND FX) =====
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+function playPop() {
+  try {
+    if (audioCtx.state === 'suspended') return;
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.connect(gain); gain.connect(audioCtx.destination);
+    osc.frequency.setValueAtTime(400, audioCtx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(600, audioCtx.currentTime + 0.1);
+    gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+    osc.start(audioCtx.currentTime);
+    osc.stop(audioCtx.currentTime + 0.1);
+  } catch(e){}
+}
 function playClick(){
   try{
     const osc = audioCtx.createOscillator();
