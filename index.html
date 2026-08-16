@@ -36,7 +36,28 @@ body{
 }
 
 /* Background Decor */
-.bg-decor { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+  .mode-switch {
+    display: flex; justify-content: center; gap: 10px; margin-bottom: 20px;
+    background: #fdf0d5; padding: 6px; border-radius: 20px;
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
+  }
+  .mode-btn {
+    flex: 1; padding: 10px; font-size: 15px; font-weight: 800; border-radius: 16px;
+    background: transparent; color: #669bbc; box-shadow: none; border: none; transition: 0.3s; cursor: pointer;
+  }
+  .mode-btn.active {
+    background: #003049; color: #fff; box-shadow: 0 4px 10px rgba(0,48,73,0.3);
+  }
+  .quiz-option {
+    padding: 12px; font-size: 18px; font-weight: bold; font-family: 'Fredoka One', cursive;
+    background: #fdf0d5; border: 3px solid #fdf0d5; border-radius: 12px; color: #003049;
+    cursor: pointer; transition: 0.2s; box-shadow: 0 4px 0 #e5d8c0;
+  }
+  .quiz-option:hover { transform: translateY(2px); box-shadow: 0 2px 0 #e5d8c0; }
+  .quiz-option.correct { background: #4ade80; border-color: #22c55e; color: #fff; box-shadow: 0 4px 0 #16a34a; }
+  .quiz-option.wrong { background: #f87171; border-color: #ef4444; color: #fff; box-shadow: 0 4px 0 #dc2626; }
+
+  .bg-decor { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; overflow: hidden; }
 .cloud { position: absolute; background: white; border-radius: 50px; opacity: 0.6; filter: blur(2px); animation: cloudMove linear infinite; }
 .cloud::before, .cloud::after { content: ''; position: absolute; background: white; border-radius: 50%; }
 .cloud1 { width: 120px; height: 40px; top: 8%; left: -20%; animation-duration: 45s; }
@@ -414,8 +435,15 @@ footer { text-align:center; padding: 18px; color: #555; font-weight: 600; font-s
 <main>
 <div class="board">
 
-  <!-- Math Operation Tabs -->
-  <div class="tabs">
+  <!-- Mode Switch -->
+  <div class="mode-switch">
+    <button class="mode-btn active" id="tabBelajar">🎓 Mode Belajar</button>
+    <button class="mode-btn" id="tabKuis">🏆 Mode Olimpiade</button>
+  </div>
+
+  <div id="modeBelajarUI">
+    <!-- Math Operation Tabs -->
+    <div class="tabs">
     <button class="tab active" data-op="tambah">➕ Tambah</button>
     <button class="tab" data-op="kurang">➖ Kurang</button>
     <button class="tab" data-op="kali">✖️ Kali</button>
@@ -431,6 +459,17 @@ footer { text-align:center; padding: 18px; color: #555; font-weight: 600; font-s
   
   <!-- Primary Action Button (Top) -->
   <button class="btn-go" id="btnGo">🚀 Mulai Hitung</button>
+  </div> <!-- /modeBelajarUI -->
+
+  <div id="modeKuisUI" style="display:none; text-align:center; padding-bottom:15px;">
+    <p style="font-size:16px; margin-bottom:10px; font-weight:bold; color:#003049;">Pilih Tingkat Kesulitan:</p>
+    <div style="display:flex; justify-content:center; gap:10px; margin-bottom:15px;">
+      <button class="tab active" id="btnLvlMudah" style="background:#4ade80; color:#000;">Mudah</button>
+      <button class="tab" id="btnLvlSedang" style="background:#fbbf24; color:#000;">Sedang</button>
+      <button class="tab" id="btnLvlSulit" style="background:#f87171; color:#000;">Sulit</button>
+    </div>
+    <button class="btn-go" id="btnMulaiKuis">🎯 Mulai Kuis!</button>
+  </div>
 
   <!-- CLASSROOM STAGE: Sensei on the LEFT, Blackboard on the RIGHT -->
   <div class="classroom-stage">
@@ -540,16 +579,40 @@ footer { text-align:center; padding: 18px; color: #555; font-weight: 600; font-s
 
     <!-- Right: Blackboard / Simulation Paper -->
     <div class="blackboard-col">
-      <div class="paper-head">
-        <span id="stageTitle">Belajar Menambah</span>
-        <span id="stepCount">Tahap 0/0</span>
+      
+      <div id="belajarBoard">
+        <div class="paper-head">
+          <span id="stageTitle">Belajar Menambah</span>
+          <span id="stepCount">Tahap 0/0</span>
+        </div>
+        <div class="paper" id="paper"></div>
       </div>
-      <div class="paper" id="paper"></div>
+
+      <div id="kuisBoard" style="display:none;">
+        <div class="paper-head" style="justify-content:space-between; background:#d90429; color:white;">
+          <span id="quizScore">Skor: 0 | Nyawa: ❤️❤️❤️</span>
+          <span id="quizTimer">Waktu: 60s</span>
+        </div>
+        <div class="paper" id="quizPaper" style="min-height:220px; display:flex; flex-direction:column; justify-content:center; align-items:center;">
+          <h3 id="quizQuestion" style="font-size:18px; margin-bottom:20px; text-align:center; color:#003049; line-height:1.4;">(Klik Mulai Kuis)</h3>
+          <div id="quizOptions" style="display:grid; grid-template-columns:1fr 1fr; gap:10px; width:100%;">
+            <!-- Buttons dynamically generated -->
+          </div>
+          <div id="quizFeedback" style="display:none; text-align:center; margin-top:15px; width:100%;">
+            <p id="quizFeedbackText" style="font-size:18px; font-weight:bold; margin-bottom:10px;"></p>
+            <button id="btnBedahJawaban" class="btn-go" style="padding:10px 15px; font-size:14px; margin:5px; display:none;">🔍 Lihat Pembahasan</button>
+            <button id="btnNextQuiz" class="btn-go" style="padding:10px 15px; font-size:14px; margin:5px; background:#4361ee; display:none;">Soal Selanjutnya ▶</button>
+            <button id="btnUlangKuis" class="btn-go" style="padding:10px 15px; font-size:14px; margin:5px; background:#f87171; display:none;">↺ Main Lagi</button>
+          </div>
+        </div>
+      </div>
+
     </div>
 
   </div>
 
   <!-- Clear, Unambiguous Step Controls -->
+  <div id="belajarControls">
   <div class="controls">
     <button class="btn-prev" id="btnPrev" disabled>◀ Mundur</button>
     <button class="btn-next" id="btnNext" disabled>Lanjut ▶</button>
@@ -563,6 +626,7 @@ footer { text-align:center; padding: 18px; color: #555; font-weight: 600; font-s
     <input type="range" id="speed" min="1" max="5" value="3">
     <span class="speed-label" id="speedLabel">Biasa</span>
   </div>
+  </div> <!-- /belajarControls -->
 
 </div>
 </main>
@@ -1755,6 +1819,255 @@ document.getElementById('num1').addEventListener('keypress', e => {
 document.getElementById('num2').addEventListener('keypress', e => {
   if(e.key === 'Enter'){ genSteps(true); playClick(); }
 });
+
+// ===== MODE KUIS (OLIMPIADE) =====
+let appMode = 'belajar'; // 'belajar' | 'kuis'
+let quizLevel = 'mudah'; // 'mudah' | 'sedang' | 'sulit'
+let qScore = 0;
+let qLives = 3;
+let qTime = 60;
+let qTimerInt = null;
+let currentQ = null;
+
+const tabBelajar = document.getElementById('tabBelajar');
+const tabKuis = document.getElementById('tabKuis');
+const modeBelajarUI = document.getElementById('modeBelajarUI');
+const modeKuisUI = document.getElementById('modeKuisUI');
+const belajarBoard = document.getElementById('belajarBoard');
+const kuisBoard = document.getElementById('kuisBoard');
+const belajarControls = document.getElementById('belajarControls');
+
+tabBelajar.addEventListener('click', () => setAppMode('belajar'));
+tabKuis.addEventListener('click', () => setAppMode('kuis'));
+
+function setAppMode(mode) {
+  appMode = mode;
+  stopAuto();
+  if (qTimerInt) clearInterval(qTimerInt);
+  
+  if (mode === 'belajar') {
+    tabBelajar.classList.add('active');
+    tabKuis.classList.remove('active');
+    modeBelajarUI.style.display = 'block';
+    belajarBoard.style.display = 'block';
+    belajarControls.style.display = 'block';
+    modeKuisUI.style.display = 'none';
+    kuisBoard.style.display = 'none';
+    
+    document.getElementById('teacherSpeech').textContent = "Kita kembali ke Mode Belajar! Yuk berhitung!";
+    speakText("Kita kembali ke Mode Belajar! Yuk berhitung!");
+  } else {
+    tabBelajar.classList.remove('active');
+    tabKuis.classList.add('active');
+    modeBelajarUI.style.display = 'none';
+    belajarBoard.style.display = 'none';
+    belajarControls.style.display = 'none';
+    modeKuisUI.style.display = 'block';
+    kuisBoard.style.display = 'block';
+    
+    document.getElementById('quizOptions').innerHTML = '';
+    document.getElementById('quizFeedback').style.display = 'none';
+    document.getElementById('quizQuestion').textContent = "(Pilih tingkat kesulitan lalu klik Mulai Kuis)";
+    
+    document.getElementById('teacherSpeech').textContent = "Selamat datang di Mode Kuis Olimpiade! Pilih tingkat kesulitan dan tekan Mulai!";
+    speakText("Selamat datang di Mode Kuis Olimpiade! Pilih tingkat kesulitan dan tekan Mulai!");
+  }
+  playClick();
+}
+
+const lvlBtns = {
+  'mudah': document.getElementById('btnLvlMudah'),
+  'sedang': document.getElementById('btnLvlSedang'),
+  'sulit': document.getElementById('btnLvlSulit')
+};
+
+Object.keys(lvlBtns).forEach(lvl => {
+  lvlBtns[lvl].addEventListener('click', () => {
+    Object.values(lvlBtns).forEach(b => b.classList.remove('active'));
+    lvlBtns[lvl].classList.add('active');
+    quizLevel = lvl;
+    playClick();
+  });
+});
+
+document.getElementById('btnMulaiKuis').addEventListener('click', () => {
+  playClick();
+  qScore = 0;
+  qLives = 3;
+  nextQuiz();
+});
+
+document.getElementById('btnNextQuiz').addEventListener('click', () => {
+  playClick();
+  nextQuiz();
+});
+
+document.getElementById('btnUlangKuis').addEventListener('click', () => {
+  playClick();
+  qScore = 0;
+  qLives = 3;
+  nextQuiz();
+});
+
+document.getElementById('btnBedahJawaban').addEventListener('click', () => {
+  playClick();
+  if(!currentQ) return;
+  setAppMode('belajar');
+  
+  operasi = currentQ.op; 
+  document.querySelectorAll('.tabs .tab').forEach(b => b.classList.remove('active'));
+  document.querySelector(`.tabs .tab[data-op="${operasi}"]`).classList.add('active');
+  const labels = {tambah:'+', kurang:'-', kali:'×', bagi:'÷'};
+  document.getElementById('opLabel').textContent = labels[operasi];
+  document.getElementById('num1').value = currentQ.n1;
+  document.getElementById('num2').value = currentQ.n2;
+  
+  setTimeout(() => {
+    genSteps(true);
+  }, 500);
+});
+
+function rand(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
+
+function generateQ() {
+  let n1, n2, op, ans, text;
+  const ops = ['tambah', 'kurang', 'kali', 'bagi'];
+  op = ops[rand(0, 3)];
+  
+  if (quizLevel === 'mudah') {
+    if (op === 'tambah') { n1 = rand(10, 50); n2 = rand(5, 30); ans = n1 + n2; text = `Budi punya ${n1} kelereng. Diberi kakak ${n2} kelereng lagi. Berapa total kelereng Budi sekarang?`; }
+    else if (op === 'kurang') { n1 = rand(20, 50); n2 = rand(5, n1-1); ans = n1 - n2; text = `Ada ${n1} apel di atas meja. Dimakan oleh adik ${n2} buah. Sisa berapa apelnya?`; }
+    else if (op === 'kali') { n1 = rand(2, 9); n2 = rand(2, 5); ans = n1 * n2; text = `Siti mempunyai ${n1} kotak pensil. Setiap kotak berisi ${n2} pensil. Berapa total pensil Siti?`; }
+    else if (op === 'bagi') { n2 = rand(2, 5); ans = rand(2, 9); n1 = n2 * ans; text = `Ibu memiliki ${n1} permen yang dibagikan kepada ${n2} anak sama rata. Berapa permen yang didapat setiap anak?`; }
+  } else if (quizLevel === 'sedang') {
+    if (op === 'tambah') { n1 = rand(100, 500); n2 = rand(50, 300); ans = n1 + n2; text = `Di desa Suka Maju ada ${n1} penduduk. Kemudian datang transmigran sebanyak ${n2} orang. Berapa total penduduk desa sekarang?`; }
+    else if (op === 'kurang') { n1 = rand(200, 500); n2 = rand(50, n1-10); ans = n1 - n2; text = `Ibu membawa uang Rp ${n1}. Ibu berbelanja sayur menghabiskan Rp ${n2}. Berapa sisa uang belanja Ibu?`; }
+    else if (op === 'kali') { n1 = rand(10, 30); n2 = rand(5, 12); ans = n1 * n2; text = `Seorang petani memanen ${n1} keranjang buah mangga. Setiap keranjang beratnya ${n2} kg. Berapa total berat panennya?`; }
+    else if (op === 'bagi') { n2 = rand(5, 15); ans = rand(10, 30); n1 = n2 * ans; text = `Pak guru mempunyai ${n1} buku tulis. Buku itu dibagikan kepada ${n2} murid sama banyak. Berapa buku yang diterima tiap murid?`; }
+  } else {
+    if (op === 'tambah') { n1 = rand(1500, 5000); n2 = rand(800, 2000); ans = n1 + n2; text = `Toko A berhasil menjual ${n1} kg beras, sedangkan Toko B menjual ${n2} kg beras. Berapa total berat beras yang terjual di kedua toko tersebut?`; }
+    else if (op === 'kurang') { n1 = rand(5000, 9000); n2 = rand(1500, 4000); ans = n1 - n2; text = `Tabungan Andi di bank ada Rp ${n1}. Andi mengambil uang sebesar Rp ${n2} untuk membeli tas sekolah. Berapa sisa tabungan Andi?`; }
+    else if (op === 'kali') { n1 = rand(25, 99); n2 = rand(15, 45); ans = n1 * n2; text = `Ada ${n1} rombongan bus pariwisata. Jika setiap bus diisi oleh ${n2} penumpang, berapa total penumpangnya?`; }
+    else if (op === 'bagi') { n2 = rand(12, 35); ans = rand(20, 80); n1 = n2 * ans; text = `Sebuah pabrik memproduksi ${n1} mainan. Mainan tersebut akan dikemas ke dalam ${n2} kardus sama rata. Berapa isi mainan di setiap kardusnya?`; }
+  }
+  
+  let opts = [ans];
+  while(opts.length < 4) {
+    let wrong = ans + rand(-15, 15);
+    if(wrong !== ans && wrong >= 0 && !opts.includes(wrong)) opts.push(wrong);
+  }
+  opts.sort(() => Math.random() - 0.5);
+  
+  return { n1, n2, op, ans, text, opts };
+}
+
+function updateQuizUI() {
+  document.getElementById('quizScore').textContent = `Skor: ${qScore} | Nyawa: ${'❤️'.repeat(qLives)}`;
+  document.getElementById('quizTimer').textContent = `Waktu: ${qTime}s`;
+}
+
+function nextQuiz() {
+  if (qLives <= 0) {
+    document.getElementById('teacherSpeech').textContent = "Yah, nyawamu habis! Jangan menyerah, ayo latihan lagi!";
+    speakText("Yah, nyawamu habis! Jangan menyerah, ayo latihan lagi!");
+    document.getElementById('quizQuestion').textContent = `Permainan Selesai! Skor Akhir: ${qScore}`;
+    document.getElementById('quizOptions').innerHTML = '';
+    document.getElementById('quizFeedback').style.display = 'block';
+    document.getElementById('quizFeedbackText').textContent = "Kamu Hebat! Mau coba lagi?";
+    document.getElementById('quizFeedbackText').style.color = '#003049';
+    document.getElementById('btnBedahJawaban').style.display = 'none';
+    document.getElementById('btnNextQuiz').style.display = 'none';
+    document.getElementById('btnUlangKuis').style.display = 'inline-block';
+    return;
+  }
+
+  currentQ = generateQ();
+  qTime = quizLevel === 'mudah' ? 45 : (quizLevel === 'sedang' ? 60 : 90);
+  updateQuizUI();
+  
+  document.getElementById('quizFeedback').style.display = 'none';
+  document.getElementById('btnBedahJawaban').style.display = 'none';
+  document.getElementById('btnNextQuiz').style.display = 'none';
+  document.getElementById('btnUlangKuis').style.display = 'none';
+  
+  document.getElementById('quizQuestion').textContent = currentQ.text;
+  document.getElementById('teacherSpeech').textContent = currentQ.text;
+  speakText(currentQ.text);
+  
+  const optsDiv = document.getElementById('quizOptions');
+  optsDiv.innerHTML = '';
+  currentQ.opts.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-option';
+    btn.textContent = opt;
+    btn.onclick = () => handleAnswer(opt, btn);
+    optsDiv.appendChild(btn);
+  });
+  
+  if (qTimerInt) clearInterval(qTimerInt);
+  qTimerInt = setInterval(() => {
+    qTime--;
+    updateQuizUI();
+    if (qTime <= 0) {
+      clearInterval(qTimerInt);
+      handleTimeOut();
+    }
+  }, 1000);
+}
+
+function handleTimeOut() {
+  qLives--;
+  document.getElementById('teacherSpeech').textContent = "Waktu Habis! Ayo kita lihat cara menghitungnya!";
+  speakText("Waktu Habis! Ayo kita lihat cara menghitungnya!");
+  showFeedback(false, `Waktu Habis! Jawabannya adalah ${currentQ.ans}`);
+  disableOptions();
+}
+
+function handleAnswer(selected, btnNode) {
+  clearInterval(qTimerInt);
+  disableOptions();
+  
+  if (selected === currentQ.ans) {
+    btnNode.classList.add('correct');
+    qScore += (quizLevel === 'mudah' ? 10 : (quizLevel === 'sedang' ? 20 : 30));
+    document.getElementById('teacherSpeech').textContent = "Wah, jawabanmu Benar! Pintar sekali!";
+    speakText("Wah, jawabanmu Benar! Pintar sekali!");
+    playSuccess();
+    showFeedback(true, "Jawaban Benar!");
+  } else {
+    btnNode.classList.add('wrong');
+    Array.from(document.getElementById('quizOptions').children).forEach(b => {
+      if(parseInt(b.textContent) === currentQ.ans) b.classList.add('correct');
+    });
+    qLives--;
+    document.getElementById('teacherSpeech').textContent = "Aduh, kurang tepat. Tidak apa-apa, mau lihat cara hitungnya?";
+    speakText("Aduh, kurang tepat. Tidak apa-apa, mau lihat cara hitungnya?");
+    showFeedback(false, "Jawaban Salah!");
+  }
+}
+
+function disableOptions() {
+  Array.from(document.getElementById('quizOptions').children).forEach(b => b.disabled = true);
+}
+
+function showFeedback(isCorrect, text) {
+  document.getElementById('quizFeedback').style.display = 'block';
+  document.getElementById('quizFeedbackText').textContent = text;
+  document.getElementById('quizFeedbackText').style.color = isCorrect ? '#16a34a' : '#dc2626';
+  
+  if (!isCorrect) document.getElementById('btnBedahJawaban').style.display = 'inline-block';
+  else document.getElementById('btnBedahJawaban').style.display = 'none';
+  
+  document.getElementById('btnUlangKuis').style.display = 'none';
+  
+  if (qLives > 0) {
+    document.getElementById('btnNextQuiz').style.display = 'inline-block';
+  } else {
+    document.getElementById('btnNextQuiz').style.display = 'none';
+    setTimeout(() => nextQuiz(), 3500);
+  }
+  updateQuizUI();
+}
 
 // Initial Setup
 genSteps(false);
