@@ -470,6 +470,9 @@ main {
 .btn-auto:hover:not(:disabled){ transform:translateY(-2px); box-shadow:0 7px 0 #05a87e; }
 .btn-auto:active:not(:disabled){ transform:translateY(3px); box-shadow:0 2px 0 #05a87e; }
 .btn-auto.playing{ background:#ff5d8f; color:#fff; box-shadow:0 5px 0 #d90429; }
+.btn-auto.finished{ background:#38b000; color:#fff; box-shadow:0 5px 0 #007200; font-size:14px!important; }
+.btn-auto.finished:hover:not(:disabled){ transform:translateY(-2px); box-shadow:0 7px 0 #007200; }
+.btn-auto.finished:active:not(:disabled){ transform:translateY(3px); box-shadow:0 2px 0 #007200; }
 
 .btn-reset{ background:#ffd166; color:#a37200; box-shadow:0 5px 0 #d9ad49; }
 .btn-reset:hover:not(:disabled){ transform:translateY(-2px); box-shadow:0 7px 0 #d9ad49; }
@@ -1328,15 +1331,15 @@ function handleSpeechFinished() {
     if (operationsTried.size >= 4) unlockSticker('donut_master');
     return;
   }
-  const speed = parseInt(document.getElementById('speed').value);
-  const pauseIntervals = [400, 750, 1100, 1600, 2400];
+  const speedVal = parseInt(document.getElementById('speed')?.value || 3);
+  const pauseIntervals = {1: 1800, 3: 1100, 5: 550};
   if (autoStepTimer) clearTimeout(autoStepTimer);
   autoStepTimer = setTimeout(() => {
     if (!isAutoMode) return;
     stepIdx++;
     renderPaper(true);
     playClick();
-  }, pauseIntervals[speed - 1] || 1100);
+  }, pauseIntervals[speedVal] || 1100);
 }
 
 function speakText(text, explicitLang) {
@@ -1361,6 +1364,12 @@ function speakText(text, explicitLang) {
     utterance.lang = (targetLang === 'en') ? 'en-US' : 'id-ID';
     const voice = getBestVoice(targetLang);
     if (voice) utterance.voice = voice;
+    
+    // Set speech rate based on animal speed preset
+    const speedVal = parseInt(document.getElementById('speed')?.value || 3);
+    const speedRates = {1: 0.85, 3: 1.0, 5: 1.25};
+    utterance.rate = speedRates[speedVal] || 1.0;
+
     utterance.onstart = () => setTeacherTalking(true);
     utterance.onend = () => { setTeacherTalking(false); activeUtterance = null; handleSpeechFinished(); };
     utterance.onerror = () => { setTeacherTalking(false); activeUtterance = null; handleSpeechFinished(); };
@@ -1749,9 +1758,12 @@ function buildBagi(dividend, divisor){
 
 // ===== KIDS-FRIENDLY TOOLS =====
 function stepInput(id, delta) { 
-  unlockAudio(); playPop(); 
+  unlockAudio(); playPop(); setTeacherExpression('normal');
   const inp = document.getElementById(id); 
-  if(inp) inp.value = Math.max(0, (parseFloat(inp.value)||0) + delta); 
+  if(inp) {
+    inp.value = Math.max(0, (parseFloat(inp.value)||0) + delta);
+    genSteps(false);
+  }
 }
 
 function randomizeInputs() {
@@ -1854,12 +1866,15 @@ function updateUI() {
   if (isAutoMode) {
     btnAuto.textContent = t('jeda');
     btnAuto.classList.add('playing');
+    btnAuto.classList.remove('finished');
   } else if (stepIdx >= steps.length - 1 && steps.length > 0) {
     btnAuto.textContent = t('selesai');
     btnAuto.classList.remove('playing');
+    btnAuto.classList.add('finished');
   } else {
     btnAuto.textContent = t('putarOtomatis');
     btnAuto.classList.remove('playing');
+    btnAuto.classList.remove('finished');
   }
   
   document.getElementById('speedText').textContent = t('kecepatan');
@@ -2005,9 +2020,23 @@ function startAutoPlay(){
 }
 
 function toggleAutoPlay(){
-  if(isAutoMode) stopAuto();
-  else if(stepIdx >= steps.length - 1){ resetSim(); startAutoPlay(); }
-  else startAutoPlay();
+  if(isAutoMode) {
+    stopAuto();
+    playClick();
+  } else if(stepIdx >= steps.length - 1 && steps.length > 0){
+    // Tombol "Selesai": rayakan hasil akhir tanpa me-reset ke awal!
+    playSuccessFanfare();
+    triggerStarBurst();
+    setTeacherExpression('happy');
+    unlockSticker('cat_genius');
+    operationsTried.add(operasi);
+    if (operationsTried.size >= 4) unlockSticker('donut_master');
+    const finishSpeech = steps[steps.length - 1]?.txt || t('tambahHasil');
+    speakText(finishSpeech);
+  } else {
+    startAutoPlay();
+    playClick();
+  }
 }
 
 // ===== CONTROLS & LISTENERS =====
