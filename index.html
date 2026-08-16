@@ -36,26 +36,102 @@ body{
 }
 
 /* Background Decor */
+  /* Mode Switch */
   .mode-switch {
-    display: flex; justify-content: center; gap: 10px; margin-bottom: 20px;
-    background: #fdf0d5; padding: 6px; border-radius: 20px;
-    box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
+    display: flex; justify-content: center; gap: 8px; margin-bottom: 18px;
+    background: #fdf0d5; padding: 6px; border-radius: 24px;
+    box-shadow: inset 0 2px 6px rgba(0,0,0,0.06);
   }
   .mode-btn {
-    flex: 1; padding: 10px; font-size: 15px; font-weight: 800; border-radius: 16px;
-    background: transparent; color: #669bbc; box-shadow: none; border: none; transition: 0.3s; cursor: pointer;
+    flex: 1; padding: 12px 16px; font-size: 16px; font-weight: 800; border-radius: 18px;
+    background: transparent; color: #669bbc; box-shadow: none; border: none; transition: all 0.25s ease; cursor: pointer;
+    font-family: 'Fredoka One', cursive; letter-spacing: 0.5px;
   }
+  .mode-btn:hover { color: #003049; }
   .mode-btn.active {
-    background: #003049; color: #fff; box-shadow: 0 4px 10px rgba(0,48,73,0.3);
+    background: #003049; color: #fff; box-shadow: 0 4px 12px rgba(0,48,73,0.3); transform: translateY(-1px);
+  }
+  
+  /* Difficulty selector */
+  .difficulty-row {
+    display: flex; justify-content: center; gap: 8px; margin-bottom: 14px; flex-wrap: wrap;
+  }
+  .diff-btn {
+    padding: 10px 16px; border: none; border-radius: 14px; font-size: 14px; font-weight: 800;
+    font-family: 'Quicksand', sans-serif; cursor: pointer; transition: all 0.2s;
+    background: #f5f5f5; color: #555; box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  }
+  .diff-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+  .diff-btn.active[data-lvl="mudah"] { background: #4ade80; color: #000; box-shadow: 0 4px 10px rgba(74,222,128,0.4); font-weight: 900; }
+  .diff-btn.active[data-lvl="sedang"] { background: #fbbf24; color: #000; box-shadow: 0 4px 10px rgba(251,191,36,0.4); font-weight: 900; }
+  .diff-btn.active[data-lvl="sulit"] { background: #f87171; color: #fff; box-shadow: 0 4px 10px rgba(248,113,113,0.4); font-weight: 900; }
+  
+  /* Timer Bar */
+  .quiz-timer-bar-wrap {
+    width: 100%; height: 7px; background: rgba(0,0,0,0.12); overflow: hidden; border-radius: 2px;
+  }
+  .quiz-timer-bar {
+    height: 100%; width: 100%; background: #4ade80; transition: width 1s linear, background 0.3s ease;
+  }
+  .quiz-timer-bar.warning { background: #fbbf24; }
+  .quiz-timer-bar.danger { background: #ef4444; }
+
+  /* Quiz Options Grid */
+  .quiz-options-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%;
+  }
+  @media (max-width: 600px) {
+    .quiz-options-grid { grid-template-columns: 1fr; }
   }
   .quiz-option {
-    padding: 12px; font-size: 18px; font-weight: bold; font-family: 'Fredoka One', cursive;
-    background: #fdf0d5; border: 3px solid #fdf0d5; border-radius: 12px; color: #003049;
-    cursor: pointer; transition: 0.2s; box-shadow: 0 4px 0 #e5d8c0;
+    display: flex; align-items: center; gap: 12px; padding: 12px 16px;
+    font-size: 18px; font-weight: 800; font-family: 'Fredoka One', cursive;
+    background: #fff; border: 3px solid #fdf0d5; border-radius: 16px; color: #003049;
+    cursor: pointer; transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 4px 0 #e5d8c0, 0 4px 10px rgba(0,0,0,0.03); text-align: left;
   }
-  .quiz-option:hover { transform: translateY(2px); box-shadow: 0 2px 0 #e5d8c0; }
-  .quiz-option.correct { background: #4ade80; border-color: #22c55e; color: #fff; box-shadow: 0 4px 0 #16a34a; }
-  .quiz-option.wrong { background: #f87171; border-color: #ef4444; color: #fff; box-shadow: 0 4px 0 #dc2626; }
+  .quiz-option:hover { transform: translateY(-2px); border-color: #ffd3b6; box-shadow: 0 6px 0 #e5d8c0, 0 6px 14px rgba(0,0,0,0.06); }
+  .quiz-option:active { transform: translateY(2px); box-shadow: 0 2px 0 #e5d8c0; }
+  .quiz-option .opt-badge {
+    width: 30px; height: 30px; border-radius: 10px; display: flex; align-items: center; justify-content: center;
+    background: #ffd3b6; color: #d16b3f; font-size: 15px; font-weight: 900; flex-shrink: 0;
+  }
+  .quiz-option.correct {
+    background: #4ade80 !important; border-color: #22c55e !important; color: #fff !important;
+    box-shadow: 0 4px 0 #16a34a, 0 0 20px rgba(74,222,128,0.6) !important;
+    animation: correctPulse 0.4s ease-out;
+  }
+  .quiz-option.correct .opt-badge { background: #fff; color: #16a34a; }
+  .quiz-option.wrong {
+    background: #f87171 !important; border-color: #ef4444 !important; color: #fff !important;
+    box-shadow: 0 4px 0 #dc2626 !important; animation: wrongShake 0.4s ease-in-out;
+  }
+  .quiz-option.wrong .opt-badge { background: #fff; color: #dc2626; }
+  
+  @keyframes correctPulse {
+    0% { transform: scale(0.95); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+  }
+  @keyframes wrongShake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-6px); }
+    40%, 80% { transform: translateX(6px); }
+  }
+
+  /* Back to Quiz Banner */
+  .back-to-quiz-banner {
+    background: linear-gradient(90deg, #ff758c 0%, #ff7eb3 100%);
+    color: white; padding: 10px 16px; border-radius: 16px; margin-bottom: 12px;
+    display: flex; justify-content: space-between; align-items: center; font-weight: 800; font-size: 14px;
+    box-shadow: 0 4px 12px rgba(255,117,140,0.3); animation: popIn 0.3s ease-out;
+  }
+  .btn-back-quiz {
+    background: white; color: #d90429; border: none; padding: 6px 14px; border-radius: 12px;
+    font-weight: 800; cursor: pointer; font-family: 'Quicksand', sans-serif; font-size: 13px;
+    transition: transform 0.2s; box-shadow: 0 3px 0 rgba(0,0,0,0.1);
+  }
+  .btn-back-quiz:hover { transform: scale(1.05); }
 
   .bg-decor { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; overflow: hidden; }
 .cloud { position: absolute; background: white; border-radius: 50px; opacity: 0.6; filter: blur(2px); animation: cloudMove linear infinite; }
@@ -416,6 +492,7 @@ footer { text-align:center; padding: 18px; color: #555; font-weight: 600; font-s
 </style>
 </head>
 <body>
+<canvas id="confettiCanvas" style="position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:9999;"></canvas>
 
 <div class="bg-decor">
   <div class="cloud cloud1"></div>
@@ -462,11 +539,11 @@ footer { text-align:center; padding: 18px; color: #555; font-weight: 600; font-s
   </div> <!-- /modeBelajarUI -->
 
   <div id="modeKuisUI" style="display:none; text-align:center; padding-bottom:15px;">
-    <p style="font-size:16px; margin-bottom:10px; font-weight:bold; color:#003049;">Pilih Tingkat Kesulitan:</p>
-    <div style="display:flex; justify-content:center; gap:10px; margin-bottom:15px;">
-      <button class="tab active" id="btnLvlMudah" style="background:#4ade80; color:#000;">Mudah</button>
-      <button class="tab" id="btnLvlSedang" style="background:#fbbf24; color:#000;">Sedang</button>
-      <button class="tab" id="btnLvlSulit" style="background:#f87171; color:#000;">Sulit</button>
+    <p id="txtPilihTingkat" style="font-size:16px; margin-bottom:10px; font-weight:bold; color:#003049;">Pilih Tingkat Kesulitan:</p>
+    <div class="difficulty-row">
+      <button class="diff-btn active" id="btnLvlMudah" data-lvl="mudah">🌱 Mudah (SD 1-3)</button>
+      <button class="diff-btn" id="btnLvlSedang" data-lvl="sedang">🌟 Sedang (SD 3-4)</button>
+      <button class="diff-btn" id="btnLvlSulit" data-lvl="sulit">🏆 Sulit (Olimpiade SD)</button>
     </div>
     <button class="btn-go" id="btnMulaiKuis">🎯 Mulai Kuis!</button>
   </div>
@@ -581,6 +658,10 @@ footer { text-align:center; padding: 18px; color: #555; font-weight: 600; font-s
     <div class="blackboard-col">
       
       <div id="belajarBoard">
+        <div id="backToQuizBanner" class="back-to-quiz-banner" style="display:none;">
+          <span>🏆 <strong>Pembahasan Kuis Olimpiade</strong></span>
+          <button id="btnReturnQuiz" class="btn-back-quiz">⬅️ Kembali ke Kuis</button>
+        </div>
         <div class="paper-head">
           <span id="stageTitle">Belajar Menambah</span>
           <span id="stepCount">Tahap 0/0</span>
@@ -589,20 +670,26 @@ footer { text-align:center; padding: 18px; color: #555; font-weight: 600; font-s
       </div>
 
       <div id="kuisBoard" style="display:none;">
-        <div class="paper-head" style="justify-content:space-between; background:#d90429; color:white;">
+        <div class="paper-head" style="justify-content:space-between; background:#d90429; color:white; border-radius:14px 14px 0 0; padding:10px 14px; margin-bottom:0;">
           <span id="quizScore">Skor: 0 | Nyawa: ❤️❤️❤️</span>
           <span id="quizTimer">Waktu: 60s</span>
         </div>
-        <div class="paper" id="quizPaper" style="min-height:220px; display:flex; flex-direction:column; justify-content:center; align-items:center;">
-          <h3 id="quizQuestion" style="font-size:18px; margin-bottom:20px; text-align:center; color:#003049; line-height:1.4;">(Klik Mulai Kuis)</h3>
-          <div id="quizOptions" style="display:grid; grid-template-columns:1fr 1fr; gap:10px; width:100%;">
-            <!-- Buttons dynamically generated -->
+        <div class="quiz-timer-bar-wrap">
+          <div id="quizTimerBar" class="quiz-timer-bar"></div>
+        </div>
+        <div class="paper" id="quizPaper" style="min-height:260px; display:flex; flex-direction:column; justify-content:center; align-items:center; border-radius:0 0 20px 20px;">
+          <div id="quizBadge" style="display:inline-block; font-size:13px; font-weight:800; padding:4px 12px; border-radius:12px; background:#ffd3b6; color:#d16b3f; margin-bottom:10px;">🏆 Soal Cerita Olimpiade</div>
+          <h3 id="quizQuestion" style="font-size:18px; margin-bottom:18px; text-align:center; color:#003049; line-height:1.5; font-family:'Quicksand',sans-serif; font-weight:800;">(Klik Mulai Kuis)</h3>
+          <div id="quizOptions" class="quiz-options-grid">
+            <!-- Buttons dynamically generated with badges A, B, C, D -->
           </div>
           <div id="quizFeedback" style="display:none; text-align:center; margin-top:15px; width:100%;">
-            <p id="quizFeedbackText" style="font-size:18px; font-weight:bold; margin-bottom:10px;"></p>
-            <button id="btnBedahJawaban" class="btn-go" style="padding:10px 15px; font-size:14px; margin:5px; display:none;">🔍 Lihat Pembahasan</button>
-            <button id="btnNextQuiz" class="btn-go" style="padding:10px 15px; font-size:14px; margin:5px; background:#4361ee; display:none;">Soal Selanjutnya ▶</button>
-            <button id="btnUlangKuis" class="btn-go" style="padding:10px 15px; font-size:14px; margin:5px; background:#f87171; display:none;">↺ Main Lagi</button>
+            <p id="quizFeedbackText" style="font-size:19px; font-weight:bold; margin-bottom:12px; font-family:'Fredoka One',cursive;"></p>
+            <div style="display:flex; justify-content:center; gap:8px; flex-wrap:wrap;">
+              <button id="btnBedahJawaban" class="btn-go" style="padding:10px 16px; font-size:14px; margin:4px; display:none; background:#ff8b94; color:white;">🔍 Lihat Pembahasan Cara Hitung</button>
+              <button id="btnNextQuiz" class="btn-go" style="padding:10px 16px; font-size:14px; margin:4px; background:#4361ee; color:white; display:none;">Soal Selanjutnya ▶</button>
+              <button id="btnUlangKuis" class="btn-go" style="padding:10px 16px; font-size:14px; margin:4px; background:#f87171; color:white; display:none;">↺ Main Lagi</button>
+            </div>
           </div>
         </div>
       </div>
@@ -700,7 +787,32 @@ const i18n = {
     bagiSisaKoma: "Sekarang sudah ada {dc} angka di belakang koma.",
     bagiHasil: "Hebaaaat! Hasil akhirnya = {q}. {ket}",
     bagiKetKoma: "(tepat {dc} angka di belakang koma ya!)",
-    bagiKetHabis: "(pas banget nih, tanpa sisa!)"
+    bagiKetHabis: "(pas banget nih, tanpa sisa!)",
+    
+    // Quiz Mode Strings
+    modeBelajar: "🎓 Mode Belajar",
+    modeOlimpiade: "🏆 Mode Olimpiade",
+    pilihTingkat: "Pilih Tingkat Kesulitan:",
+    mudah: "🌱 Mudah (SD 1-3)",
+    sedang: "🌟 Sedang (SD 3-4)",
+    sulit: "🏆 Sulit (Olimpiade SD)",
+    mulaiKuis: "🎯 Mulai Kuis!",
+    skor: "Skor",
+    nyawa: "Nyawa",
+    waktu: "Waktu",
+    kuisPrompt: "(Pilih tingkat kesulitan lalu klik Mulai Kuis)",
+    kuisGreet: "Selamat datang di Mode Kuis Olimpiade! Pilih tingkat kesulitan dan tekan Mulai!",
+    kuisKembaliBelajar: "Kita kembali ke Mode Belajar! Yuk berhitung!",
+    bedahJawabanBtn: "🔍 Lihat Pembahasan Cara Hitung",
+    kembaliKeKuis: "⬅️ Kembali ke Kuis Olimpiade",
+    soalSelanjutnya: "Soal Selanjutnya ▶",
+    mainLagi: "↺ Main Lagi",
+    correctFeedback: "Wah, jawabanmu Benar! Pintar sekali! 🎉",
+    wrongFeedback: "Aduh, kurang tepat. Tidak apa-apa, mau lihat cara hitungnya?",
+    timeOutFeedback: "Waktu Habis! Ayo kita lihat cara menghitungnya!",
+    gameOverFeedback: "Yah, nyawamu habis! Jangan menyerah, ayo latihan lagi!",
+    quizDone: "Permainan Selesai!",
+    skorAkhir: "Skor Akhir"
   },
   en: {
     title: "Math is Fun",
@@ -763,7 +875,32 @@ const i18n = {
     bagiSisaKoma: "Now we have {dc} numbers after the dot.",
     bagiHasil: "Great job! The final result is = {q}. {ket}",
     bagiKetKoma: "(exactly {dc} digits after the dot!)",
-    bagiKetHabis: "(perfect fit, no remainder!)"
+    bagiKetHabis: "(perfect fit, no remainder!)",
+    
+    // Quiz Mode Strings
+    modeBelajar: "🎓 Learning Mode",
+    modeOlimpiade: "🏆 Olympiad Mode",
+    pilihTingkat: "Select Difficulty Level:",
+    mudah: "🌱 Easy (Grades 1-3)",
+    sedang: "🌟 Medium (Grades 3-4)",
+    sulit: "🏆 Hard (Olympiad)",
+    mulaiKuis: "🎯 Start Quiz!",
+    skor: "Score",
+    nyawa: "Lives",
+    waktu: "Time",
+    kuisPrompt: "(Select a difficulty and click Start Quiz)",
+    kuisGreet: "Welcome to Olympiad Quiz Mode! Choose your level and press Start!",
+    kuisKembaliBelajar: "Back to Learning Mode! Let's calculate together!",
+    bedahJawabanBtn: "🔍 View Step-by-Step Solution",
+    kembaliKeKuis: "⬅️ Back to Olympiad Quiz",
+    soalSelanjutnya: "Next Question ▶",
+    mainLagi: "↺ Play Again",
+    correctFeedback: "Awesome! That's correct! You are so smart! 🎉",
+    wrongFeedback: "Oops, not quite right. No worries, want to see how to solve it?",
+    timeOutFeedback: "Time's up! Let's see how to calculate it!",
+    gameOverFeedback: "Oh no, you ran out of lives! Keep practicing, you can do it!",
+    quizDone: "Quiz Finished!",
+    skorAkhir: "Final Score"
   },
   jv: {
     title: "Sinau Ngetung",
@@ -826,7 +963,32 @@ const i18n = {
     bagiSisaKoma: "Saiki wis ono {dc} angka lho nang mburine koma.",
     bagiHasil: "Hebaaaat! Hasile = {q}. {ket}",
     bagiKetKoma: "(pas {dc} angka nang mburine koma yo!)",
-    bagiKetHabis: "(pas tenan iki, ra ono turahane!)"
+    bagiKetHabis: "(pas tenan iki, ra ono turahane!)",
+    
+    // Quiz Mode Strings
+    modeBelajar: "🎓 Mode Sinau",
+    modeOlimpiade: "🏆 Mode Olimpiade",
+    pilihTingkat: "Pilih Tingkat Kangelan:",
+    mudah: "🌱 Gampang (SD 1-3)",
+    sedang: "🌟 Sedheng (SD 3-4)",
+    sulit: "🏆 Angel (Olimpiade SD)",
+    mulaiKuis: "🎯 Mulai Kuis!",
+    skor: "Biji",
+    nyawa: "Nyawa",
+    waktu: "Wektu",
+    kuisPrompt: "(Pilih tingkat kangelan terus pencet Mulai Kuis)",
+    kuisGreet: "Sugeng rawuh ing Mode Kuis Olimpiade! Pilih kangelan terus pencet Mulai!",
+    kuisKembaliBelajar: "Mbalik menyang Mode Sinau! Ayo ngetung bareng!",
+    bedahJawabanBtn: "🔍 Deleng Carane Ngetung",
+    kembaliKeKuis: "⬅️ Mbalik nang Kuis Olimpiade",
+    soalSelanjutnya: "Soal Sabanjure ▶",
+    mainLagi: "↺ Main Maneh",
+    correctFeedback: "Wah bener tenan! Pinter pol! 🎉",
+    wrongFeedback: "Aduh kurang trep. Rapopo, pengin ndeleng carane ngetung?",
+    timeOutFeedback: "Wektune entek! Ayo deleng carane ngetung!",
+    gameOverFeedback: "Yah, nyawamu entek! Aja nyerah, ayo latihan maneh!",
+    quizDone: "Dolanan Wis Rampung!",
+    skorAkhir: "Biji Pungkasan"
   }
 };
 
@@ -1117,6 +1279,119 @@ function playSuccess(){
     gain.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
     osc.start(now); osc.stop(now + 0.4);
   }catch(e){}
+}
+function playSuccessFanfare(){
+  try{
+    if (audioCtx.state === 'suspended') return;
+    const now = audioCtx.currentTime;
+    const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
+    notes.forEach((freq, i) => {
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.connect(gain); gain.connect(audioCtx.destination);
+      osc.type = 'triangle';
+      osc.frequency.value = freq;
+      const start = now + (i * 0.09);
+      gain.gain.setValueAtTime(0.25, start);
+      gain.gain.exponentialRampToValueAtTime(0.01, start + 0.28);
+      osc.start(start);
+      osc.stop(start + 0.28);
+    });
+  }catch(e){}
+}
+function playErrorBoing(){
+  try{
+    if (audioCtx.state === 'suspended') return;
+    const now = audioCtx.currentTime;
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.connect(gain); gain.connect(audioCtx.destination);
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(220, now);
+    osc.frequency.exponentialRampToValueAtTime(110, now + 0.35);
+    gain.gain.setValueAtTime(0.2, now);
+    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
+    osc.start(now); osc.stop(now + 0.35);
+  }catch(e){}
+}
+function playTickSound(){
+  try{
+    if (audioCtx.state === 'suspended') return;
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.connect(gain); gain.connect(audioCtx.destination);
+    osc.frequency.value = 900;
+    gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.04);
+    osc.start(audioCtx.currentTime);
+    osc.stop(audioCtx.currentTime + 0.04);
+  }catch(e){}
+}
+
+// ===== STAR BURST / CONFETTI EFFECT =====
+function triggerStarBurst() {
+  const canvas = document.getElementById('confettiCanvas');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  
+  const particles = [];
+  const colors = ['#ff8b94', '#ffd166', '#06d6a0', '#118ab2', '#ff9f1c', '#a8dadc', '#9b5de5'];
+  const symbols = ['⭐', '✨', '🌟', '🎉', '➕', '✖️', '➗', '🏆'];
+  
+  const cx = window.innerWidth / 2;
+  const cy = window.innerHeight / 2 - 50;
+  
+  for(let i=0; i<50; i++) {
+    const angle = Math.random() * Math.PI * 2;
+    const speed = 4 + Math.random() * 8;
+    particles.push({
+      x: cx,
+      y: cy,
+      vx: Math.cos(angle) * speed,
+      vy: Math.sin(angle) * speed - 2,
+      size: 14 + Math.random() * 16,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      symbol: symbols[Math.floor(Math.random() * symbols.length)],
+      rotation: Math.random() * 360,
+      vRot: (Math.random() - 0.5) * 8,
+      alpha: 1,
+      decay: 0.015 + Math.random() * 0.015
+    });
+  }
+  
+  function renderParticles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    let active = 0;
+    
+    for(const p of particles) {
+      if(p.alpha <= 0) continue;
+      active++;
+      p.x += p.vx;
+      p.y += p.vy;
+      p.vy += 0.22; // gravity
+      p.rotation += p.vRot;
+      p.alpha -= p.decay;
+      
+      ctx.save();
+      ctx.globalAlpha = Math.max(0, p.alpha);
+      ctx.translate(p.x, p.y);
+      ctx.rotate((p.rotation * Math.PI) / 180);
+      ctx.font = `${p.size}px 'Fredoka One', sans-serif`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(p.symbol, 0, 0);
+      ctx.restore();
+    }
+    
+    if(active > 0) {
+      requestAnimationFrame(renderParticles);
+    } else {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+  }
+  renderParticles();
 }
 
 // ===== HELPERS =====
@@ -1591,6 +1866,31 @@ function updateUI() {
   const titles = {tambah:t('stageTambah'), kurang:t('stageKurang'), kali:t('stageKali'), bagi:t('stageBagi')};
   document.getElementById('stageTitle').textContent = titles[operasi] || '';
   
+  // Quiz Mode UI Elements
+  const tabBelajar = document.getElementById('tabBelajar');
+  const tabKuis = document.getElementById('tabKuis');
+  if(tabBelajar) tabBelajar.textContent = t('modeBelajar');
+  if(tabKuis) tabKuis.textContent = t('modeOlimpiade');
+  
+  const txtPilihTingkat = document.getElementById('txtPilihTingkat');
+  if(txtPilihTingkat) txtPilihTingkat.textContent = t('pilihTingkat');
+  const btnMudah = document.getElementById('btnLvlMudah');
+  if(btnMudah) btnMudah.textContent = t('mudah');
+  const btnSedang = document.getElementById('btnLvlSedang');
+  if(btnSedang) btnSedang.textContent = t('sedang');
+  const btnSulit = document.getElementById('btnLvlSulit');
+  if(btnSulit) btnSulit.textContent = t('sulit');
+  const btnMulaiKuis = document.getElementById('btnMulaiKuis');
+  if(btnMulaiKuis) btnMulaiKuis.textContent = t('mulaiKuis');
+  const btnBedah = document.getElementById('btnBedahJawaban');
+  if(btnBedah) btnBedah.textContent = t('bedahJawabanBtn');
+  const btnNextQ = document.getElementById('btnNextQuiz');
+  if(btnNextQ) btnNextQ.textContent = t('soalSelanjutnya');
+  const btnUlangQ = document.getElementById('btnUlangKuis');
+  if(btnUlangQ) btnUlangQ.textContent = t('mainLagi');
+  const btnReturn = document.getElementById('btnReturnQuiz');
+  if(btnReturn) btnReturn.textContent = t('kembaliKeKuis');
+  
   if (steps.length > 0) {
     document.getElementById('stepCount').textContent = t('tahap') + ' ' + (stepIdx+1) + '/' + steps.length;
     document.getElementById('btnPrev').disabled = (stepIdx === 0);
@@ -1820,12 +2120,13 @@ document.getElementById('num2').addEventListener('keypress', e => {
   if(e.key === 'Enter'){ genSteps(true); playClick(); }
 });
 
-// ===== MODE KUIS (OLIMPIADE) =====
+// ===== MODE KUIS (OLIMPIADE SD) =====
 let appMode = 'belajar'; // 'belajar' | 'kuis'
 let quizLevel = 'mudah'; // 'mudah' | 'sedang' | 'sulit'
 let qScore = 0;
 let qLives = 3;
 let qTime = 60;
+let qTotalTime = 60;
 let qTimerInt = null;
 let currentQ = null;
 
@@ -1836,14 +2137,20 @@ const modeKuisUI = document.getElementById('modeKuisUI');
 const belajarBoard = document.getElementById('belajarBoard');
 const kuisBoard = document.getElementById('kuisBoard');
 const belajarControls = document.getElementById('belajarControls');
+const backToQuizBanner = document.getElementById('backToQuizBanner');
+const btnReturnQuiz = document.getElementById('btnReturnQuiz');
 
 tabBelajar.addEventListener('click', () => setAppMode('belajar'));
 tabKuis.addEventListener('click', () => setAppMode('kuis'));
 
-function setAppMode(mode) {
+function setAppMode(mode, isBedah = false) {
   appMode = mode;
   stopAuto();
   if (qTimerInt) clearInterval(qTimerInt);
+  
+  if (!isBedah && backToQuizBanner) {
+    backToQuizBanner.style.display = 'none';
+  }
   
   if (mode === 'belajar') {
     tabBelajar.classList.add('active');
@@ -1854,8 +2161,11 @@ function setAppMode(mode) {
     modeKuisUI.style.display = 'none';
     kuisBoard.style.display = 'none';
     
-    document.getElementById('teacherSpeech').textContent = "Kita kembali ke Mode Belajar! Yuk berhitung!";
-    speakText("Kita kembali ke Mode Belajar! Yuk berhitung!");
+    if (!isBedah) {
+      const msg = t('kuisKembaliBelajar');
+      document.getElementById('teacherSpeech').textContent = msg;
+      speakText(msg);
+    }
   } else {
     tabBelajar.classList.remove('active');
     tabKuis.classList.add('active');
@@ -1867,25 +2177,21 @@ function setAppMode(mode) {
     
     document.getElementById('quizOptions').innerHTML = '';
     document.getElementById('quizFeedback').style.display = 'none';
-    document.getElementById('quizQuestion').textContent = "(Pilih tingkat kesulitan lalu klik Mulai Kuis)";
+    document.getElementById('quizQuestion').textContent = t('kuisPrompt');
     
-    document.getElementById('teacherSpeech').textContent = "Selamat datang di Mode Kuis Olimpiade! Pilih tingkat kesulitan dan tekan Mulai!";
-    speakText("Selamat datang di Mode Kuis Olimpiade! Pilih tingkat kesulitan dan tekan Mulai!");
+    const msg = t('kuisGreet');
+    document.getElementById('teacherSpeech').textContent = msg;
+    speakText(msg);
   }
   playClick();
 }
 
-const lvlBtns = {
-  'mudah': document.getElementById('btnLvlMudah'),
-  'sedang': document.getElementById('btnLvlSedang'),
-  'sulit': document.getElementById('btnLvlSulit')
-};
-
-Object.keys(lvlBtns).forEach(lvl => {
-  lvlBtns[lvl].addEventListener('click', () => {
-    Object.values(lvlBtns).forEach(b => b.classList.remove('active'));
-    lvlBtns[lvl].classList.add('active');
-    quizLevel = lvl;
+// Difficulty Selector Buttons
+document.querySelectorAll('.diff-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.diff-btn').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+    quizLevel = this.dataset.lvl;
     playClick();
   });
 });
@@ -1909,52 +2215,320 @@ document.getElementById('btnUlangKuis').addEventListener('click', () => {
   nextQuiz();
 });
 
+// "Bedah Jawaban" -> switches to Mode Belajar and auto-runs simulation
 document.getElementById('btnBedahJawaban').addEventListener('click', () => {
   playClick();
   if(!currentQ) return;
-  setAppMode('belajar');
+  setAppMode('belajar', true);
   
   operasi = currentQ.op; 
   document.querySelectorAll('.tabs .tab').forEach(b => b.classList.remove('active'));
-  document.querySelector(`.tabs .tab[data-op="${operasi}"]`).classList.add('active');
+  const targetTab = document.querySelector(`.tabs .tab[data-op="${operasi}"]`);
+  if (targetTab) targetTab.classList.add('active');
+  
   const labels = {tambah:'+', kurang:'-', kali:'×', bagi:'÷'};
-  document.getElementById('opLabel').textContent = labels[operasi];
+  document.getElementById('opLabel').textContent = labels[operasi] || '+';
   document.getElementById('num1').value = currentQ.n1;
   document.getElementById('num2').value = currentQ.n2;
   
+  if (backToQuizBanner) {
+    backToQuizBanner.style.display = 'flex';
+  }
+  
   setTimeout(() => {
     genSteps(true);
-  }, 500);
+  }, 400);
 });
+
+// Return back to Quiz from Bedah Jawaban
+if (btnReturnQuiz) {
+  btnReturnQuiz.addEventListener('click', () => {
+    playClick();
+    setAppMode('kuis');
+    if (backToQuizBanner) backToQuizBanner.style.display = 'none';
+    if (qLives > 0) {
+      nextQuiz();
+    }
+  });
+}
 
 function rand(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
 
+// Comprehensive Multilingual Question Generator for Elementary Olympiad
 function generateQ() {
   let n1, n2, op, ans, text;
-  const ops = ['tambah', 'kurang', 'kali', 'bagi'];
-  op = ops[rand(0, 3)];
+  const lang = currentLang || 'id';
   
   if (quizLevel === 'mudah') {
-    if (op === 'tambah') { n1 = rand(10, 50); n2 = rand(5, 30); ans = n1 + n2; text = `Budi punya ${n1} kelereng. Diberi kakak ${n2} kelereng lagi. Berapa total kelereng Budi sekarang?`; }
-    else if (op === 'kurang') { n1 = rand(20, 50); n2 = rand(5, n1-1); ans = n1 - n2; text = `Ada ${n1} apel di atas meja. Dimakan oleh adik ${n2} buah. Sisa berapa apelnya?`; }
-    else if (op === 'kali') { n1 = rand(2, 9); n2 = rand(2, 5); ans = n1 * n2; text = `Siti mempunyai ${n1} kotak pensil. Setiap kotak berisi ${n2} pensil. Berapa total pensil Siti?`; }
-    else if (op === 'bagi') { n2 = rand(2, 5); ans = rand(2, 9); n1 = n2 * ans; text = `Ibu memiliki ${n1} permen yang dibagikan kepada ${n2} anak sama rata. Berapa permen yang didapat setiap anak?`; }
+    const types = ['tambah', 'kurang', 'kali', 'bagi'];
+    op = types[rand(0, types.length - 1)];
+    
+    if (op === 'tambah') {
+      n1 = rand(15, 65);
+      n2 = rand(8, 45);
+      ans = n1 + n2;
+      const tpls = {
+        id: [
+          `Budi memiliki ${n1} butir kelereng. Kakak memberinya ${n2} kelereng lagi. Berapa total kelereng Budi sekarang?`,
+          `Di kebun kakek ada ${n1} ekor ayam dan ${n2} ekor bebek. Berapa total hewan ternak kakek?`,
+          `Chayra membaca ${n1} halaman buku cerita kemarin, dan ${n2} halaman hari ini. Berapa total halaman yang sudah dibaca?`
+        ],
+        en: [
+          `Budi has ${n1} marbles. His brother gives him ${n2} more. How many marbles does Budi have now?`,
+          `There are ${n1} chickens and ${n2} ducks in grandpa's farm. How many animals are there in total?`,
+          `Chayra read ${n1} pages yesterday and ${n2} pages today. How many pages has she read in total?`
+        ],
+        jv: [
+          `Budi nduwe ${n1} kelereng. Dikeki mas'e ${n2} kelereng maneh. Piro gunggunge kelerenge Budi saiki?`,
+          `Ing kandhange simbah ana ${n1} pitik lan ${n2} bebek. Piro kabeh kewan ternake simbah?`,
+          `Chayra maca ${n1} kaca wingi, lan ${n2} kaca dina iki. Piro kabeh kaca sing wis diwaca?`
+        ]
+      };
+      const list = tpls[lang] || tpls['id'];
+      text = list[rand(0, list.length - 1)];
+    } else if (op === 'kurang') {
+      n1 = rand(30, 95);
+      n2 = rand(10, n1 - 5);
+      ans = n1 - n2;
+      const tpls = {
+        id: [
+          `Ibu membuat ${n1} kue bolu lezat. Adik dan temannya memakan ${n2} kue. Berapa sisa kue bolu ibu?`,
+          `Sebuah toko memiliki stok ${n1} pensil warna. Hari ini terjual ${n2} pensil. Berapa sisa pensil di toko?`,
+          `Annira punya ${n1} stiker lucu. Ia menempelkan ${n2} stiker di buku gambar. Berapa stiker yang tersisa?`
+        ],
+        en: [
+          `Mom baked ${n1} cupcakes. Annira and her friends ate ${n2} cupcakes. How many cupcakes are left?`,
+          `A store had ${n1} colored pencils in stock. Today, ${n2} pencils were sold. How many pencils are left?`,
+          `Annira had ${n1} cute stickers. She used ${n2} stickers on her drawing book. How many stickers are left?`
+        ],
+        jv: [
+          `Ibu nggawe ${n1} roti bolu. Dipangan adhi lan kancane ${n2} roti. Piro sisa rotine ibu?`,
+          `Toko buku nduwe ${n1} potlot warna. Dina iki payu ${n2} potlot. Piro sisa potlot nang toko?`,
+          `Annira nduwe ${n1} stiker lucu. Ditempel ${n2} stiker nang bukune. Piro stiker sing isih ono?`
+        ]
+      };
+      const list = tpls[lang] || tpls['id'];
+      text = list[rand(0, list.length - 1)];
+    } else if (op === 'kali') {
+      n1 = rand(3, 9);
+      n2 = rand(3, 9);
+      ans = n1 * n2;
+      const tpls = {
+        id: [
+          `Siti membeli ${n1} kotak donat. Setiap kotak berisi ${n2} donat. Berapa jumlah seluruh donat yang dibeli Siti?`,
+          `Ada ${n1} sarang burung di pohon. Setiap sarang berisi ${n2} butir telur. Berapa total telur burung semuanya?`,
+          `Pak Guru membawa ${n1} pak buku tulis. Setiap pak berisi ${n2} buku. Berapa total buku tulis semuanya?`
+        ],
+        en: [
+          `Siti bought ${n1} boxes of donuts. Each box contains ${n2} donuts. How many donuts did she buy in total?`,
+          `There are ${n1} birds' nests on a tree. Each nest contains ${n2} eggs. How many eggs are there altogether?`,
+          `The teacher brings ${n1} packs of notebooks. Each pack contains ${n2} books. How many notebooks are there in total?`
+        ],
+        jv: [
+          `Siti tuku ${n1} kothak donat. Saben kothak isine ${n2} donat. Piro cacahe kabeh donat sing dituku Siti?`,
+          `Ana ${n1} susuh manuk ing wit. Saben susuh isine ${n2} endhog. Piro gunggunge endhog kabeh?`,
+          `Pak Guru ngasta ${n1} bungkus buku. Saben bungkus isine ${n2} buku. Piro kabeh buku tulis kui?`
+        ]
+      };
+      const list = tpls[lang] || tpls['id'];
+      text = list[rand(0, list.length - 1)];
+    } else {
+      n2 = rand(2, 6);
+      ans = rand(3, 10);
+      n1 = n2 * ans;
+      const tpls = {
+        id: [
+          `Ibu membagikan ${n1} buah apel secara merata kepada ${n2} orang anaknya. Berapa buah apel yang diterima setiap anak?`,
+          `Ada ${n1} permen manis yang akan dimasukkan ke dalam ${n2} toples sama banyak. Berapa isi permen di tiap toples?`,
+          `Kakak menata ${n1} buku komik ke dalam ${n2} rak sama rata. Berapa buku di setiap rak?`
+        ],
+        en: [
+          `Mom distributed ${n1} apples equally among her ${n2} children. How many apples does each child receive?`,
+          `There are ${n1} candies to be put equally into ${n2} jars. How many candies in each jar?`,
+          `Sister arranged ${n1} comic books equally onto ${n2} shelves. How many books are on each shelf?`
+        ],
+        jv: [
+          `Ibu mbagi ${n1} apel rata marang ${n2} anake. Piro apel sing ditampa saben bocah?`,
+          `Ana ${n1} permen sing arep dilebokake ing ${n2} toples podho akehe. Piro isine saben toples?`,
+          `Mbakyu nata ${n1} buku komik ing ${n2} rak podho akehe. Piro buku ing saben rak?`
+        ]
+      };
+      const list = tpls[lang] || tpls['id'];
+      text = list[rand(0, list.length - 1)];
+    }
   } else if (quizLevel === 'sedang') {
-    if (op === 'tambah') { n1 = rand(100, 500); n2 = rand(50, 300); ans = n1 + n2; text = `Di desa Suka Maju ada ${n1} penduduk. Kemudian datang transmigran sebanyak ${n2} orang. Berapa total penduduk desa sekarang?`; }
-    else if (op === 'kurang') { n1 = rand(200, 500); n2 = rand(50, n1-10); ans = n1 - n2; text = `Ibu membawa uang Rp ${n1}. Ibu berbelanja sayur menghabiskan Rp ${n2}. Berapa sisa uang belanja Ibu?`; }
-    else if (op === 'kali') { n1 = rand(10, 30); n2 = rand(5, 12); ans = n1 * n2; text = `Seorang petani memanen ${n1} keranjang buah mangga. Setiap keranjang beratnya ${n2} kg. Berapa total berat panennya?`; }
-    else if (op === 'bagi') { n2 = rand(5, 15); ans = rand(10, 30); n1 = n2 * ans; text = `Pak guru mempunyai ${n1} buku tulis. Buku itu dibagikan kepada ${n2} murid sama banyak. Berapa buku yang diterima tiap murid?`; }
+    const types = ['tambah', 'kurang', 'kali', 'bagi'];
+    op = types[rand(0, types.length - 1)];
+    
+    if (op === 'tambah') {
+      n1 = rand(120, 680);
+      n2 = rand(85, 450);
+      ans = n1 + n2;
+      const tpls = {
+        id: [
+          `Desa Sukamaju memiliki ${n1} warga. Bulan ini datang warga transmigran baru sebanyak ${n2} orang. Berapa jumlah total warga desa sekarang?`,
+          `Perpustakaan kota menerima sumbangan ${n1} buku ensiklopedia dan ${n2} buku cerita fiksi. Berapa total buku yang disumbangkan?`,
+          `Kebun binatang dikunjungi ${n1} anak pada hari Sabtu dan ${n2} anak pada hari Minggu. Berapa total pengunjung anak di akhir pekan?`
+        ],
+        en: [
+          `Sukamaju village had ${n1} residents. This month, ${n2} new residents moved in. What is the total population now?`,
+          `The city library received a donation of ${n1} encyclopedias and ${n2} fiction books. How many books were donated in total?`,
+          `The zoo was visited by ${n1} kids on Saturday and ${n2} kids on Sunday. What was the total weekend kids attendance?`
+        ],
+        jv: [
+          `Desa Sukamaju nduwe ${n1} warga. Sasi iki teka warga anyar ${n2} wong. Piro gunggunge kabeh warga saiki?`,
+          `Perpustakaan kutha nampa sumbangan ${n1} buku ensiklopedia lan ${n2} buku dongeng. Piro kabeh buku sing disumbangke?`,
+          `Kebon binatang ditekani ${n1} bocah ing dina Setu lan ${n2} bocah ing dina Minggu. Piro kabeh pengunjung bocah?`
+        ]
+      };
+      const list = tpls[lang] || tpls['id'];
+      text = list[rand(0, list.length - 1)];
+    } else if (op === 'kurang') {
+      n1 = rand(350, 980);
+      n2 = rand(110, n1 - 50);
+      ans = n1 - n2;
+      const tpls = {
+        id: [
+          `Ibu membawa uang belanja Rp ${n1}000 ke pasar. Setelah membeli sayur dan ikan sebesar Rp ${n2}000, berapa sisa uang belanja Ibu? (Jawab dalam ribuan)`,
+          `Sebuah gudang memiliki stok ${n1} karung beras. Sebanyak ${n2} karung beras telah dikirim ke toko mitra. Berapa karung beras yang masih tersisa di gudang?`,
+          `Tabungan celengan Chayra ada Rp ${n1}00. Chayra mengambil Rp ${n2}00 untuk membeli buku gambar. Berapa sisa tabungan Chayra? (Jawab dalam ratusan)`
+        ],
+        en: [
+          `Mom brought $${n1} for grocery shopping. After spending $${n2} on groceries, how much money does she have left?`,
+          `A warehouse had ${n1} sacks of rice in stock. ${n2} sacks were shipped to partner stores. How many sacks remain in the warehouse?`,
+          `Chayra had saved $${n1}. She took $${n2} to buy drawing supplies. How much savings does Chayra have left?`
+        ],
+        jv: [
+          `Ibu nggawa dhuwit blanja Rp ${n1}000. Kanggo tuku sayur lan iwak Rp ${n2}000, piro sisa dhuwite Ibu? (Wangsulan ewon)`,
+          `Gudang nduwe simpenan ${n1} karung beras. Wis dikirim ${n2} karung menyang toko. Piro karung beras sing isih ono nang gudang?`,
+          `Celengane Chayra ana Rp ${n1}00. Dijupuk Rp ${n2}00 kanggo tuku buku gambar. Piro sisa celengane Chayra?`
+        ]
+      };
+      const list = tpls[lang] || tpls['id'];
+      text = list[rand(0, list.length - 1)];
+    } else if (op === 'kali') {
+      n1 = rand(14, 38);
+      n2 = rand(6, 16);
+      ans = n1 * n2;
+      const tpls = {
+        id: [
+          `Seorang petani memanen ${n1} keranjang buah mangga. Setiap keranjang memiliki berat ${n2} kg. Berapa total berat panen mangga petani tersebut?`,
+          `Sebuah angkutan umum membawa ${n1} penumpang setiap kali jalan. Jika angkutan tersebut bolak-balik sebanyak ${n2} kali, berapa total penumpang yang diangkut?`,
+          `Di aula sekolah terdapat ${n1} baris kursi. Setiap baris terdiri dari ${n2} kursi. Berapa kapasitas total kursi di aula tersebut?`
+        ],
+        en: [
+          `A farmer harvested ${n1} crates of mangoes. Each crate weighs ${n2} kg. What is the total weight of the harvested mangoes?`,
+          `A shuttle bus carries ${n1} passengers per trip. If it makes ${n2} trips today, how many passengers were transported in total?`,
+          `In the school hall, there are ${n1} rows of chairs. Each row has ${n2} chairs. What is the total seating capacity in the hall?`
+        ],
+        jv: [
+          `Petani panen ${n1} kranjang pelem. Saben kranjang bobote ${n2} kg. Piro gunggunge bobot panen pelem kabeh?`,
+          `Angkot nggawa ${n1} penumpang saben mlaku. Yen angkote bolak-balik ping ${n2}, piro kabeh penumpang sing diangkut?`,
+          `Ing aula sekolah ana ${n1} larik kursi. Saben larik ana ${n2} kursi. Piro kabeh kursine?`
+        ]
+      };
+      const list = tpls[lang] || tpls['id'];
+      text = list[rand(0, list.length - 1)];
+    } else {
+      n2 = rand(6, 16);
+      ans = rand(14, 48);
+      n1 = n2 * ans;
+      const tpls = {
+        id: [
+          `Pak Guru memiliki ${n1} lembar kertas gambar yang akan dibagikan kepada ${n2} kelompok siswa sama banyak. Berapa lembar kertas yang didapat tiap kelompok?`,
+          `Sebuah pabrik roti mengemas ${n1} bungkus roti ke dalam ${n2} kardus secara merata. Berapa bungkus roti isi setiap kardus?`,
+          `Pak Tani memiliki ${n1} bibit pohon jati yang akan ditanam di ${n2} petak lahan sama rata. Berapa bibit per petak lahan?`
+        ],
+        en: [
+          `The teacher has ${n1} sheets of drawing paper to be divided equally among ${n2} student groups. How many sheets does each group receive?`,
+          `A bakery packs ${n1} loaves of bread into ${n2} cartons equally. How many loaves are inside each carton?`,
+          `A farmer has ${n1} tree saplings to plant evenly across ${n2} plots of land. How many saplings per plot?`
+        ],
+        jv: [
+          `Pak Guru ngasta ${n1} lembar kertas gambar sing arep dibagekake marang ${n2} kelompok podho akehe. Piro lembar saben kelompok?`,
+          `Pabrik roti ngemas ${n1} bungkus roti ing ${n2} kardus podho akehe. Piro bungkus rotine saben kardus?`,
+          `Pak Tani nduwe ${n1} bibit wit jati sing arep ditandur ing ${n2} petak lahan podho akehe. Piro bibit saben petak?`
+        ]
+      };
+      const list = tpls[lang] || tpls['id'];
+      text = list[rand(0, list.length - 1)];
+    }
   } else {
-    if (op === 'tambah') { n1 = rand(1500, 5000); n2 = rand(800, 2000); ans = n1 + n2; text = `Toko A berhasil menjual ${n1} kg beras, sedangkan Toko B menjual ${n2} kg beras. Berapa total berat beras yang terjual di kedua toko tersebut?`; }
-    else if (op === 'kurang') { n1 = rand(5000, 9000); n2 = rand(1500, 4000); ans = n1 - n2; text = `Tabungan Andi di bank ada Rp ${n1}. Andi mengambil uang sebesar Rp ${n2} untuk membeli tas sekolah. Berapa sisa tabungan Andi?`; }
-    else if (op === 'kali') { n1 = rand(25, 99); n2 = rand(15, 45); ans = n1 * n2; text = `Ada ${n1} rombongan bus pariwisata. Jika setiap bus diisi oleh ${n2} penumpang, berapa total penumpangnya?`; }
-    else if (op === 'bagi') { n2 = rand(12, 35); ans = rand(20, 80); n1 = n2 * ans; text = `Sebuah pabrik memproduksi ${n1} mainan. Mainan tersebut akan dikemas ke dalam ${n2} kardus sama rata. Berapa isi mainan di setiap kardusnya?`; }
+    // Level Sulit: Real Elementary Olympiad Logic Problems!
+    const problemType = rand(1, 5);
+    
+    if (problemType === 1) {
+      const s = rand(2, 8);
+      ans = rand(18, 55);
+      n2 = rand(12, 28);
+      n1 = n2 * ans + s;
+      op = 'bagi';
+      const tpls = {
+        id: `Sebuah gudang memiliki ${n1} buah apel. Apel tersebut dimasukkan ke dalam ${n2} peti sama rata, dan ternyata tersisa ${s} buah apel di luar. Berapa banyak apel di dalam setiap peti?`,
+        en: `A warehouse has ${n1} apples. The apples are packed equally into ${n2} crates, leaving a remainder of ${s} apples unpacked. How many apples are inside each crate?`,
+        jv: `Gudang nduwe ${n1} apel. Apel mau dilebokake ing ${n2} peti podho akehe, lan isih turah ${s} apel ing njaba. Piro cacahe apel ing saben peti?`
+      };
+      text = tpls[lang] || tpls['id'];
+    } else if (problemType === 2) {
+      n1 = rand(25, 75);
+      n2 = rand(3, 6);
+      ans = n1 * (n2 - 1);
+      op = 'kali';
+      const tpls = {
+        id: `Toko Sembako A menjual ${n1} kg beras dalam sehari. Toko B menjual beras ${n2} kali lipat lebih banyak daripada Toko A. Berapa kg SELISIH beras yang dijual Toko B dan Toko A?`,
+        en: `Grocery Store A sells ${n1} kg of rice per day. Store B sells ${n2} times as much rice as Store A. What is the DIFFERENCE in kg between Store B and Store A?`,
+        jv: `Toko Sembako A dodolan ${n1} kg beras sedina. Toko B dodolan beras ${n2} tikel luwih akeh tinimbang Toko A. Piro BEDANE (selisih) beras sing didol Toko B lan Toko A?`
+      };
+      text = tpls[lang] || tpls['id'];
+    } else if (problemType === 3) {
+      const diff = rand(15, 60) * 2;
+      n2 = rand(40, 180);
+      n1 = n2 + diff;
+      ans = diff / 2;
+      op = 'kurang';
+      const tpls = {
+        id: `Tabungan Chayra berjumlah Rp ${n1}000, sedangkan tabungan Annira berjumlah Rp ${n2}000. Berapa ribu rupiah yang harus diberikan Chayra kepada Annira agar tabungan mereka berdua menjadi SAMA BANYAK?`,
+        en: `Chayra has $${n1} in savings, while Annira has $${n2}. How many dollars must Chayra give to Annira so that both of them have the EXACT SAME amount of money?`,
+        jv: `Celengane Chayra ana Rp ${n1}000, dene celengane Annira ana Rp ${n2}000. Piro ewu rupiah sing kudu diwenehake Chayra marang Annira supaya dhuwite dadi PODHO AKEHE?`
+      };
+      text = tpls[lang] || tpls['id'];
+    } else if (problemType === 4) {
+      const perBox = rand(6, 12);
+      ans = rand(15, 40);
+      const totalItems = ans * perBox;
+      n2 = rand(3, 7);
+      n1 = Math.round(totalItems / n2);
+      const finalTotal = n1 * n2;
+      ans = Math.floor(finalTotal / perBox);
+      op = 'bagi';
+      const tpls = {
+        id: `Sebuah pabrik roti memproduksi ${n1} bungkus roti per hari selama ${n2} hari berturut-turut. Seluruh roti dimasukkan ke kardus besar yang masing-masing muat ${perBox} bungkus. Berapa kardus yang terisi penuh?`,
+        en: `A bakery produces ${n1} loaves of bread per day for ${n2} consecutive days. All bread is packed into cartons that hold ${perBox} loaves each. How many cartons are filled completely?`,
+        jv: `Pabrik roti nggawe ${n1} roti sedina suwene ${n2} dina saurutan. Kabeh roti dilebokake kardus gedhe sing amot ${perBox} roti saben kardus. Piro kardus sing kebak?`
+      };
+      text = tpls[lang] || tpls['id'];
+    } else {
+      n2 = rand(15, 36);
+      ans = rand(35, 88);
+      n1 = n2 * ans;
+      op = 'bagi';
+      const tpls = {
+        id: `Sebuah yayasan sosial menerima sumbangan ${n1} paket buku tulis. Paket tersebut dibagikan kepada ${n2} panti asuhan sama rata. Berapa paket buku yang diterima oleh masing-masing panti asuhan?`,
+        en: `A charity foundation received ${n1} notebook care packages. The packages were distributed equally among ${n2} orphanages. How many packages did each orphanage receive?`,
+        jv: `Yayasan sosial nampa sumbangan ${n1} paket buku tulis. Paket mau dibagekake marang ${n2} panti asuhan podho akehe. Piro paket buku sing ditampa saben panti asuhan?`
+      };
+      text = tpls[lang] || tpls['id'];
+    }
   }
   
   let opts = [ans];
   while(opts.length < 4) {
-    let wrong = ans + rand(-15, 15);
-    if(wrong !== ans && wrong >= 0 && !opts.includes(wrong)) opts.push(wrong);
+    let offset = rand(-12, 12);
+    if (offset === 0) offset = rand(1, 10);
+    let wrong = ans + offset;
+    if (wrong >= 0 && !opts.includes(wrong)) {
+      opts.push(wrong);
+    }
   }
   opts.sort(() => Math.random() - 0.5);
   
@@ -1962,19 +2536,35 @@ function generateQ() {
 }
 
 function updateQuizUI() {
-  document.getElementById('quizScore').textContent = `Skor: ${qScore} | Nyawa: ${'❤️'.repeat(qLives)}`;
-  document.getElementById('quizTimer').textContent = `Waktu: ${qTime}s`;
+  document.getElementById('quizScore').textContent = `${t('skor')}: ${qScore} | ${t('nyawa')}: ${'❤️'.repeat(Math.max(0, qLives))}`;
+  document.getElementById('quizTimer').textContent = `${t('waktu')}: ${qTime}s`;
+  
+  const timerBar = document.getElementById('quizTimerBar');
+  if (timerBar && qTotalTime > 0) {
+    const pct = Math.max(0, (qTime / qTotalTime) * 100);
+    timerBar.style.width = pct + '%';
+    if (qTime <= 10) {
+      timerBar.className = 'quiz-timer-bar danger';
+    } else if (qTime <= 20) {
+      timerBar.className = 'quiz-timer-bar warning';
+    } else {
+      timerBar.className = 'quiz-timer-bar';
+    }
+  }
 }
 
 function nextQuiz() {
   if (qLives <= 0) {
-    document.getElementById('teacherSpeech').textContent = "Yah, nyawamu habis! Jangan menyerah, ayo latihan lagi!";
-    speakText("Yah, nyawamu habis! Jangan menyerah, ayo latihan lagi!");
-    document.getElementById('quizQuestion').textContent = `Permainan Selesai! Skor Akhir: ${qScore}`;
+    const gameOverTxt = t('gameOverFeedback');
+    document.getElementById('teacherSpeech').textContent = gameOverTxt;
+    speakText(gameOverTxt);
+    
+    document.getElementById('quizQuestion').textContent = `${t('quizDone')} ${t('skorAkhir')}: ${qScore}`;
     document.getElementById('quizOptions').innerHTML = '';
     document.getElementById('quizFeedback').style.display = 'block';
-    document.getElementById('quizFeedbackText').textContent = "Kamu Hebat! Mau coba lagi?";
+    document.getElementById('quizFeedbackText').textContent = `🏆 ${t('quizDone')} ${t('skorAkhir')}: ${qScore}`;
     document.getElementById('quizFeedbackText').style.color = '#003049';
+    
     document.getElementById('btnBedahJawaban').style.display = 'none';
     document.getElementById('btnNextQuiz').style.display = 'none';
     document.getElementById('btnUlangKuis').style.display = 'inline-block';
@@ -1982,8 +2572,13 @@ function nextQuiz() {
   }
 
   currentQ = generateQ();
-  qTime = quizLevel === 'mudah' ? 45 : (quizLevel === 'sedang' ? 60 : 90);
+  qTotalTime = quizLevel === 'mudah' ? 45 : (quizLevel === 'sedang' ? 60 : 90);
+  qTime = qTotalTime;
   updateQuizUI();
+  
+  const badgeLabels = { mudah: '🌱 SD Kelas 1-3', sedang: '🌟 SD Kelas 3-4', sulit: '🏆 Olimpiade SD' };
+  const badgeEl = document.getElementById('quizBadge');
+  if (badgeEl) badgeEl.textContent = badgeLabels[quizLevel] || '🏆 Soal Cerita Olimpiade';
   
   document.getElementById('quizFeedback').style.display = 'none';
   document.getElementById('btnBedahJawaban').style.display = 'none';
@@ -1996,10 +2591,12 @@ function nextQuiz() {
   
   const optsDiv = document.getElementById('quizOptions');
   optsDiv.innerHTML = '';
-  currentQ.opts.forEach(opt => {
+  const letters = ['A', 'B', 'C', 'D'];
+  currentQ.opts.forEach((opt, idx) => {
     const btn = document.createElement('button');
     btn.className = 'quiz-option';
-    btn.textContent = opt;
+    btn.setAttribute('tabindex', '0');
+    btn.innerHTML = `<span class="opt-badge">${letters[idx]}</span> <span>${opt}</span>`;
     btn.onclick = () => handleAnswer(opt, btn);
     optsDiv.appendChild(btn);
   });
@@ -2008,6 +2605,9 @@ function nextQuiz() {
   qTimerInt = setInterval(() => {
     qTime--;
     updateQuizUI();
+    if (qTime <= 10 && qTime > 0) {
+      playTickSound();
+    }
     if (qTime <= 0) {
       clearInterval(qTimerInt);
       handleTimeOut();
@@ -2017,9 +2617,11 @@ function nextQuiz() {
 
 function handleTimeOut() {
   qLives--;
-  document.getElementById('teacherSpeech').textContent = "Waktu Habis! Ayo kita lihat cara menghitungnya!";
-  speakText("Waktu Habis! Ayo kita lihat cara menghitungnya!");
-  showFeedback(false, `Waktu Habis! Jawabannya adalah ${currentQ.ans}`);
+  playErrorBoing();
+  const timeOutTxt = t('timeOutFeedback');
+  document.getElementById('teacherSpeech').textContent = timeOutTxt;
+  speakText(timeOutTxt);
+  showFeedback(false, `⏰ ${t('timeOutFeedback')} (${currentQ.ans})`);
   disableOptions();
 }
 
@@ -2029,20 +2631,28 @@ function handleAnswer(selected, btnNode) {
   
   if (selected === currentQ.ans) {
     btnNode.classList.add('correct');
-    qScore += (quizLevel === 'mudah' ? 10 : (quizLevel === 'sedang' ? 20 : 30));
-    document.getElementById('teacherSpeech').textContent = "Wah, jawabanmu Benar! Pintar sekali!";
-    speakText("Wah, jawabanmu Benar! Pintar sekali!");
-    playSuccess();
-    showFeedback(true, "Jawaban Benar!");
+    const pts = (quizLevel === 'mudah' ? 10 : (quizLevel === 'sedang' ? 20 : 30));
+    qScore += pts;
+    
+    const correctTxt = t('correctFeedback');
+    document.getElementById('teacherSpeech').textContent = correctTxt;
+    speakText(correctTxt);
+    
+    playSuccessFanfare();
+    triggerStarBurst();
+    showFeedback(true, `✨ ${t('correctFeedback')} (+${pts})`);
   } else {
     btnNode.classList.add('wrong');
     Array.from(document.getElementById('quizOptions').children).forEach(b => {
-      if(parseInt(b.textContent) === currentQ.ans) b.classList.add('correct');
+      if (b.textContent.includes(String(currentQ.ans))) b.classList.add('correct');
     });
     qLives--;
-    document.getElementById('teacherSpeech').textContent = "Aduh, kurang tepat. Tidak apa-apa, mau lihat cara hitungnya?";
-    speakText("Aduh, kurang tepat. Tidak apa-apa, mau lihat cara hitungnya?");
-    showFeedback(false, "Jawaban Salah!");
+    playErrorBoing();
+    
+    const wrongTxt = t('wrongFeedback');
+    document.getElementById('teacherSpeech').textContent = wrongTxt;
+    speakText(wrongTxt);
+    showFeedback(false, `❌ ${t('wrongFeedback')}`);
   }
 }
 
@@ -2068,6 +2678,24 @@ function showFeedback(isCorrect, text) {
   }
   updateQuizUI();
 }
+
+// Keyboard & Remote TV shortcuts (Keys 1-4, A-D)
+window.addEventListener('keydown', (e) => {
+  if (appMode !== 'kuis') return;
+  const key = e.key.toUpperCase();
+  const opts = Array.from(document.getElementById('quizOptions').children);
+  if (!opts.length || opts[0].disabled) return;
+  
+  let targetIdx = -1;
+  if (key === '1' || key === 'A') targetIdx = 0;
+  else if (key === '2' || key === 'B') targetIdx = 1;
+  else if (key === '3' || key === 'C') targetIdx = 2;
+  else if (key === '4' || key === 'D') targetIdx = 3;
+  
+  if (targetIdx >= 0 && targetIdx < opts.length) {
+    opts[targetIdx].click();
+  }
+});
 
 // Initial Setup
 genSteps(false);
