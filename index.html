@@ -205,19 +205,66 @@ h1 .star { color: #ffeb3b; text-shadow: none; font-size: 28px; }
   box-shadow: 0 4px 6px rgba(0,0,0,0.05);
 }
 
-/* Lang Selector */
-.lang-selector { margin-bottom: 10px; display: flex; justify-content: center; gap: 8px; z-index: 20; position: relative; flex-wrap: wrap; }
+/* Lang Selector - Prominent Floating Pill Card */
+.lang-selector {
+  margin-bottom: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  z-index: 50;
+  position: relative;
+  flex-wrap: wrap;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  padding: 6px 16px;
+  border-radius: 30px;
+  border: 2.5px solid #ffaaa5;
+  box-shadow: 0 6px 18px rgba(255, 139, 148, 0.28), 0 2px 0 #ff8b94;
+}
+.lang-title-badge {
+  font-family: 'Fredoka One', cursive;
+  font-size: 13.5px;
+  color: #d1495b;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-right: 2px;
+}
 .lang-btn {
-  background: white; border: 3px solid #ffaaa5; border-radius: 18px; padding: 5px 14px;
-  font-family: 'Quicksand', sans-serif; font-weight: 800; cursor: pointer; transition: all 0.2s;
-  color: #555; font-size:13px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  background: #fffdf5;
+  border: 2px solid #ffccd5;
+  border-radius: 16px;
+  padding: 6px 14px;
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  color: #555;
+  font-size: 13px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
 }
 .lang-btn.active {
-  background: #ff8b94; color: white; border-color: #e6737c;
-  box-shadow: 0 4px 12px rgba(255,139,148,0.4); transform: translateY(-2px);
+  background: linear-gradient(135deg, #ff8b94 0%, #ff6b6b 100%);
+  color: white;
+  border-color: #e63946;
+  box-shadow: 0 4px 12px rgba(230, 57, 70, 0.35), 0 2px 0 #b71c1c;
+  transform: translateY(-2px);
 }
-.lang-btn:hover { transform: translateY(-2px); }
-.lang-btn:active { transform: translateY(1px); }
+.lang-btn:hover {
+  transform: translateY(-2px);
+  border-color: #ff8b94;
+  color: #ff6b6b;
+}
+.lang-btn.active:hover {
+  color: white;
+}
+.lang-btn:active {
+  transform: translateY(1px);
+}
 
 /* Main Container */
 main {
@@ -313,7 +360,7 @@ main {
 .classroom-stage {
   display: flex;
   gap: 16px;
-  align-items: flex-end;
+  align-items: flex-start;
   margin-bottom: 14px;
   width: 100%;
 }
@@ -325,7 +372,10 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
-  position: relative;
+  position: sticky;
+  top: 12px;
+  align-self: flex-start;
+  z-index: 15;
 }
 
 /* Speech Bubble pointing down to Sensei */
@@ -401,8 +451,8 @@ main {
 
 .paper-head{ display:flex; justify-content:space-between; align-items:center; font-size:13.5px; color:#ff8b94; margin-bottom:8px; font-weight:800; text-transform:uppercase; letter-spacing:0.5px; }
 .paper{
-  background: #fffdf5; border:4px solid #ffaaa5; border-radius:20px; padding:16px;
-  min-height:220px; max-height:50vh; overflow-y:auto; overflow-x:auto; margin-bottom:0;
+  background: #fffdf5; border:4px solid #ffaaa5; border-radius:20px; padding:16px 14px 24px;
+  min-height:200px; max-height:none; overflow-x:auto; overflow-y:visible; margin-bottom:0;
   box-shadow: inset 0 5px 15px rgba(0,0,0,0.03);
   position: relative;
   -webkit-overflow-scrolling: touch;
@@ -418,12 +468,12 @@ main {
 .step-sim {
   font-family: 'SF Mono', ui-monospace, 'Cascadia Code', 'Fira Code', monospace;
   font-size: clamp(15px, 3.8vw, 24px); line-height: 1.75; letter-spacing: clamp(1px, 0.5vw, 3px);
-  white-space: pre; color: #2b2d42; font-weight: 800;
+  white-space: pre; color: #2b2d42; font-weight: 800; overflow-x: auto; padding-bottom: 4px;
 }
 .step-txt {
-  font-size: 13.5px; color: #0b525b; font-weight: 700; margin-top: 10px; line-height: 1.5;
+  font-size: 13.5px; color: #0b525b; font-weight: 700; margin-top: 10px; margin-bottom: 4px; line-height: 1.5;
   background: #e0fbfc; padding: 10px 14px; border-radius: 12px;
-  border-left: 5px solid #118ab2; box-shadow: 0 3px 6px rgba(0,0,0,0.04);
+  border-left: 5px solid #118ab2; box-shadow: 0 3px 6px rgba(0,0,0,0.04); word-break: break-word;
 }
 .step-block.current .step-sim { animation: popIn .35s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
 @keyframes popIn { from{opacity:0;transform:scale(0.92) translateY(8px)} to{opacity:1;transform:scale(1) translateY(0)} }
@@ -594,7 +644,9 @@ footer { text-align:center; padding: 16px; color: #555; font-weight: 600; font-s
   h1 .star { font-size: 18px; }
   .kids { font-size: 13px; }
   .sub { font-size: 11.5px; padding: 3px 8px; }
-  .lang-btn { font-size: 12px; padding: 4px 10px; }
+  .lang-selector { padding: 5px 12px; gap: 5px; margin-bottom: 8px; }
+  .lang-title-badge { font-size: 12px; }
+  .lang-btn { font-size: 11.5px; padding: 4px 10px; border-radius: 12px; }
   .board { padding: 12px; border-width: 4px; border-radius: 22px; }
   .tabs { gap: 4px; padding: 4px; margin-bottom: 10px; }
   .tab { font-size: 12px; padding: 8px 2px; border-radius: 12px; }
@@ -610,8 +662,8 @@ footer { text-align:center; padding: 16px; color: #555; font-weight: 600; font-s
   
   .btn-go { font-size: 17px; padding: 12px; border-radius: 16px; margin-bottom: 10px; }
   
-  .classroom-stage { gap: 8px; align-items: flex-end; }
-  .sensei-col { width: 95px; }
+  .classroom-stage { gap: 8px; align-items: flex-start; }
+  .sensei-col { width: 95px; position: sticky; top: 6px; align-self: flex-start; }
   .teacher svg { width: 90px; height: 120px; }
   .speech-bubble {
     font-size: 11.5px; padding: 8px 6px; border-width: 3px; border-radius: 14px;
@@ -620,9 +672,9 @@ footer { text-align:center; padding: 16px; color: #555; font-weight: 600; font-s
   .speech-bubble::after { bottom: -9px; border-width: 9px 7px 0; }
   .speech-bubble::before { bottom: -5px; border-width: 6px 5px 0; }
   
-  .paper { min-height: 180px; max-height: 46vh; padding: 10px 8px; border-width: 3px; border-radius: 16px; }
+  .paper { min-height: 160px; max-height: none; padding: 12px 10px 22px; border-width: 3px; border-radius: 16px; overflow-x: auto; overflow-y: visible; }
   .step-sim { font-size: clamp(13px, 3.6vw, 17px); letter-spacing: 1px; line-height: 1.6; }
-  .step-txt { font-size: 12px; padding: 8px 10px; margin-top: 8px; }
+  .step-txt { font-size: 12px; padding: 8px 10px; margin-top: 8px; margin-bottom: 4px; }
   
   .controls { gap: 4px; margin-top: 8px; }
   .controls button { font-size: 12px; padding: 9px 2px; min-width: calc(50% - 4px); border-radius: 12px; }
@@ -634,7 +686,8 @@ footer { text-align:center; padding: 16px; color: #555; font-weight: 600; font-s
   header { margin: 6px 4px 4px; }
   header h1 { font-size: 18px; margin-bottom: 0; }
   header .kids, header .sub { display: none; }
-  .lang-selector { margin-bottom: 4px; gap: 4px; }
+  .lang-selector { margin-bottom: 4px; gap: 4px; padding: 3px 8px; }
+  .lang-title-badge { font-size: 11px; }
   .lang-btn { padding: 3px 8px; font-size: 11px; }
   .board { padding: 8px 12px; border-radius: 18px; border-width: 4px; }
   .top-action-bar { margin-bottom: 6px; }
@@ -646,10 +699,10 @@ footer { text-align:center; padding: 16px; color: #555; font-weight: 600; font-s
   .input-stepper-wrap input { font-size: 16px; padding: 4px 2px; }
   .btn-step { min-height: 32px; width: 26px; font-size: 15px; }
   .btn-go { padding: 8px; font-size: 15px; margin-bottom: 6px; }
-  .sensei-col { width: 85px; }
+  .sensei-col { width: 85px; position: sticky; top: 4px; align-self: flex-start; }
   .teacher svg { width: 75px; height: 100px; }
   .speech-bubble { font-size: 11px; padding: 5px 6px; margin-bottom: 4px; line-height: 1.25; }
-  .paper { min-height: 120px; max-height: 48vh; padding: 6px; }
+  .paper { min-height: 120px; max-height: none; padding: 6px 8px 16px; overflow-x: auto; overflow-y: visible; }
   .controls { margin-top: 4px; gap: 3px; }
   .controls button { padding: 6px 2px; font-size: 11px; }
   .speed-row { padding: 4px 8px; }
@@ -666,10 +719,11 @@ footer { text-align:center; padding: 16px; color: #555; font-weight: 600; font-s
 </div>
 
 <header>
-  <div class="lang-selector">
-    <button class="lang-btn active" data-lang="id">🇮🇩 Indonesia</button>
-    <button class="lang-btn" data-lang="en">🇬🇧 English</button>
-    <button class="lang-btn" data-lang="jv">ꦗꦮ Jawa</button>
+  <div class="lang-selector" aria-label="Pilihan Bahasa">
+    <span class="lang-title-badge">🌐 <span id="txtLangLabel">Bahasa:</span></span>
+    <button class="lang-btn active" data-lang="id"><span class="flag">🇮🇩</span> Indonesia</button>
+    <button class="lang-btn" data-lang="en"><span class="flag">🇬🇧</span> English</button>
+    <button class="lang-btn" data-lang="jv"><span class="flag">ꦗꦮ</span> Jawa</button>
   </div>
   <h1><span class="star">✨</span> <span id="titleText">Belajar Hitung</span> <span class="star">✨</span><span class="kids">Kakak Chayra & Adik Annira</span></h1>
   <p class="sub" id="subTitle">Matematika jadi mudah dan seru bersama Sensei! 🎈</p>
@@ -968,6 +1022,7 @@ const i18n = {
   id: {
     title: "Belajar Hitung",
     subtitle: "Matematika jadi mudah dan seru bersama Sensei! 🎈",
+    bahasaLabel: "Bahasa:",
     tambah: "➕ Tambah", kurang: "➖ Kurang", kali: "✖️ Kali", bagi: "➗ Bagi",
     
     mulaiHitung: "🚀 Mulai Hitung",
@@ -1061,6 +1116,7 @@ const i18n = {
   en: {
     title: "Math is Fun",
     subtitle: "Math is easy and fun with Sensei! 🎈",
+    bahasaLabel: "Language:",
     tambah: "➕ Add", kurang: "➖ Subtract", kali: "✖️ Multiply", bagi: "➗ Divide",
     
     mulaiHitung: "🚀 Start Calculating",
@@ -1154,6 +1210,7 @@ const i18n = {
   jv: {
     title: "Sinau Ngetung",
     subtitle: "Matematika dadi gampang lan seru bareng Sensei! 🎈",
+    bahasaLabel: "Basa:",
     tambah: "➕ Tambah", kurang: "➖ Suda", kali: "✖️ Ping", bagi: "➗ Poro",
     
     mulaiHitung: "🚀 Ayo Ngetung",
@@ -1938,6 +1995,9 @@ let operasi = 'tambah', steps = [], stepIdx = 0, isAutoMode = false;
 function updateUI() {
   document.getElementById('titleText').textContent = t('title');
   document.getElementById('subTitle').textContent = t('subtitle');
+  
+  const txtLang = document.getElementById('txtLangLabel');
+  if(txtLang) txtLang.textContent = t('bahasaLabel') || 'Bahasa:';
   
   const txtTheme = document.getElementById('txtThemeLabel');
   if(txtTheme) txtTheme.textContent = t('themeLabel');
